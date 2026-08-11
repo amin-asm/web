@@ -8,7 +8,7 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <!-- Seguridad: la web no ejecuta ni un solo script y solo carga recursos propios.
      Si alguien lograra inyectar código, el navegador lo bloquearía igualmente. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'none'; style-src 'self'; img-src 'self' data:; font-src 'self'; form-action 'none'; base-uri 'none'; connect-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; form-action 'none'; base-uri 'none'; connect-src 'none'">
 <meta property="og:title" content="InfinitumTech As — Automatización con IA para tu negocio">
 <meta property="og:description" content="Deja de perder clientes por no llegar a tiempo al teléfono.">
 <meta property="og:type" content="website">
@@ -21,9 +21,34 @@
 </head>
 <body>
 
-<!-- ═══ Fondo animado: rejilla + nodos ═══ -->
+<!-- ═══ Fondo animado: rejilla + red de nodos difuminada + brillos ═══ -->
 <div class="fondo" aria-hidden="true">
   <div class="rejilla"></div>
+
+  <!-- Red de nodos y conexiones, difuminada: evoca un lienzo de automatización -->
+  <svg class="red-nodos" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
+    <g class="red-cables">
+      <path d="M 120 160 C 260 160, 260 300, 400 300"/>
+      <path d="M 400 300 C 540 300, 540 140, 690 140"/>
+      <path d="M 690 140 C 840 140, 840 320, 1010 320"/>
+      <path d="M 180 520 C 330 520, 330 660, 470 660"/>
+      <path d="M 470 660 C 620 660, 620 480, 780 480"/>
+      <path d="M 780 480 C 920 480, 920 700, 1060 700"/>
+      <path d="M 400 300 C 430 400, 440 560, 470 660"/>
+      <path d="M 690 140 C 720 260, 750 380, 780 480"/>
+    </g>
+    <g class="red-puntos">
+      <circle cx="120" cy="160" r="9"/>
+      <circle cx="400" cy="300" r="12"/>
+      <circle cx="690" cy="140" r="10"/>
+      <circle cx="1010" cy="320" r="9"/>
+      <circle cx="180" cy="520" r="9"/>
+      <circle cx="470" cy="660" r="12"/>
+      <circle cx="780" cy="480" r="10"/>
+      <circle cx="1060" cy="700" r="9"/>
+    </g>
+  </svg>
+
   <div class="brillo brillo-1"></div>
   <div class="brillo brillo-2"></div>
 </div>
@@ -59,10 +84,16 @@
     <p class="bajo-boton">Te contesto yo, el mismo día.</p>
   </div>
 
-  <!-- Robot mascota, mismo diseño que los vídeos -->
-  <div class="portada-robot">
-    <div class="robot-halo" aria-hidden="true"></div>
-    <svg class="robot" viewBox="0 0 420 420" role="img" aria-label="Robot mascota de InfinitumTech As">
+  <!-- Hueco que reserva el sitio del robot en la portada -->
+  <div class="portada-hueco" aria-hidden="true"></div>
+</section>
+
+<!-- ═══ Robot guía: fijo en pantalla, te acompaña de apartado en apartado ═══ -->
+<div class="robot-guia" id="robotGuia" aria-hidden="true">
+  <div class="robot-bocadillo" id="robotBocadillo"><span></span></div>
+  <div class="robot-caja">
+    <div class="robot-halo"></div>
+    <svg class="robot" viewBox="0 0 420 420">
       <defs>
         <linearGradient id="visorGrad" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stop-color="#1B4A57"/>
@@ -92,10 +123,10 @@
       </g>
     </svg>
   </div>
-</section>
+</div>
 
 <!-- ═══ 2. El problema ═══ -->
-<section class="seccion problema">
+<section class="seccion problema" data-lado="izquierda" data-dice="El teléfono suena cuando peor te viene.">
   <h2>El teléfono suena <span class="resalte">cuando peor te viene</span>.</h2>
   <div class="problema-grid">
     <article class="tarjeta-dolor">
@@ -115,7 +146,7 @@
 </section>
 
 <!-- ═══ 3. Cómo funciona por dentro (flujo animado) ═══ -->
-<section class="seccion flujo-seccion">
+<section class="seccion flujo-seccion" data-lado="derecha" data-dice="El cliente escribe y, a partir de ahí, todo va solo.">
   <h2>Lo que pasa <span class="resalte">mientras tú trabajas</span></h2>
   <p class="subtitulo-seccion">El cliente escribe. A partir de ahí, todo va solo.</p>
 
@@ -170,7 +201,7 @@
 </section>
 
 <!-- ═══ 4. Servicios ═══ -->
-<section class="seccion" id="servicios">
+<section class="seccion" id="servicios" data-lado="izquierda" data-dice="Esto es lo que te quito de encima.">
   <h2>Qué te <span class="resalte">quito de encima</span></h2>
   <div class="servicios">
 
@@ -228,7 +259,7 @@
 </section>
 
 <!-- ═══ 5. Cómo trabajo ═══ -->
-<section class="seccion" id="proceso">
+<section class="seccion" id="proceso" data-lado="derecha" data-dice="Llave en mano: yo lo monto y yo lo mantengo.">
   <h2>Llave en mano. <span class="resalte">Sin sorpresas.</span></h2>
   <ol class="pasos">
     <li>
@@ -254,7 +285,7 @@
 </section>
 
 <!-- ═══ 6. Quién está detrás ═══ -->
-<section class="seccion sobre-mi" id="sobre-mi">
+<section class="seccion sobre-mi" id="sobre-mi" data-lado="izquierda" data-dice="Yo he estado al otro lado de la barra.">
   <div class="sobre-mi-caja">
     <h2>He estado <span class="resalte">al otro lado de la barra</span>.</h2>
     <p>
@@ -274,7 +305,7 @@
 </section>
 
 <!-- ═══ 7. Cierre ═══ -->
-<section class="seccion cierre" id="contacto">
+<section class="seccion cierre" id="contacto" data-lado="derecha" data-dice="Cuéntame qué te está robando el tiempo.">
   <h2>Cuéntame qué te está <span class="resalte">robando el tiempo</span>.</h2>
   <p class="entradilla">
     Escríbeme por WhatsApp y te contesto yo, no un bot. Si tu caso no tiene arreglo o no
@@ -305,5 +336,6 @@
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.4z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
 </a>
 
+<script src="animaciones.js" defer></script>
 </body>
 </html>

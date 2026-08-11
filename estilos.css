@@ -49,6 +49,36 @@ img, svg, video { max-width: 100%; display: block; }
 }
 @keyframes deriva { to { transform: translate(54px, 54px); } }
 
+/* Red de nodos difuminada: el "lienzo de automatización" de fondo */
+.red-nodos {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  filter: blur(3px);
+  opacity: .5;
+}
+.red-cables path {
+  fill: none;
+  stroke: rgba(76, 201, 240, .55);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 26 300;
+  animation: circular 9s linear infinite;
+}
+.red-cables path:nth-child(2n) { animation-duration: 11s; animation-delay: -3s; }
+.red-cables path:nth-child(3n) { animation-duration: 13s; animation-delay: -6s; stroke: rgba(37, 211, 102, .5); }
+@keyframes circular { from { stroke-dashoffset: 326; } to { stroke-dashoffset: 0; } }
+
+.red-puntos circle {
+  fill: rgba(76, 201, 240, .5);
+  animation: pulso-nodo 4s ease-in-out infinite;
+}
+.red-puntos circle:nth-child(2n) { animation-delay: -1.3s; fill: rgba(37, 211, 102, .45); }
+.red-puntos circle:nth-child(3n) { animation-delay: -2.6s; }
+@keyframes pulso-nodo {
+  0%, 100% { opacity: .35; transform: scale(1); transform-origin: center; }
+  50%      { opacity: .9;  transform: scale(1.35); }
+}
+
 .brillo { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .5; }
 .brillo-1 { width: 46vw; height: 46vw; background: rgba(76, 201, 240, .28); top: -12vw; right: -10vw; animation: latir 12s ease-in-out infinite; }
 .brillo-2 { width: 40vw; height: 40vw; background: rgba(37, 211, 102, .16); bottom: -14vw; left: -12vw; animation: latir 16s ease-in-out infinite reverse; }
@@ -121,13 +151,75 @@ h3 { font-size: 1.16rem; font-weight: 700; }
   padding: 64px 22px 88px;
   display: grid; grid-template-columns: 1.15fr .85fr; gap: 40px; align-items: center;
 }
-.portada-robot { position: relative; display: grid; place-items: center; }
+.portada-hueco { min-height: 300px; }
+
+/* ─── Robot guía: fijo en pantalla, viaja de apartado en apartado ─── */
+.robot-guia {
+  position: fixed;
+  left: 50%; top: 50%;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) translate(33vw, 0) scale(1);
+  transition:
+    transform 1.05s cubic-bezier(.34, 1.2, .4, 1),
+    opacity .6s ease;
+}
+.robot-guia.activo { opacity: 1; }
+
+.robot-caja { position: relative; display: grid; place-items: center; }
 .robot-halo {
   position: absolute; width: 78%; aspect-ratio: 1; border-radius: 50%;
   background: radial-gradient(circle, rgba(76, 201, 240, .3), transparent 68%);
   filter: blur(26px); animation: latir 6s ease-in-out infinite;
 }
-.robot { width: min(360px, 82vw); height: auto; position: relative; }
+.robot { width: 165px; height: auto; position: relative; }
+
+/* En pantallas anchas el contenido se estrecha para dejarle carril al robot */
+@media (min-width: 1180px) {
+  :root { --ancho: 960px; }
+}
+@media (min-width: 900px) and (max-width: 1179px) {
+  :root { --ancho: 820px; }
+}
+
+/* Bocadillo: el robot "dice" de qué va cada apartado */
+.robot-bocadillo {
+  position: absolute;
+  bottom: calc(100% - 30px);
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  width: max-content; max-width: var(--ancho-bocadillo, 190px);
+  padding: 12px 16px;
+  border-radius: 16px 16px 16px 4px;
+  background: rgba(14, 22, 33, .94);
+  border: 1px solid rgba(76, 201, 240, .45);
+  box-shadow: 0 10px 34px rgba(0, 0, 0, .5);
+  color: var(--text);
+  font-size: .95rem; font-weight: 600; line-height: 1.4;
+  opacity: 0;
+  transition: opacity .45s ease, transform .45s ease;
+}
+.robot-bocadillo.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+.robot-bocadillo span::after {
+  content: "";
+  display: inline-block;
+  width: 2px; height: 1em;
+  margin-left: 3px;
+  background: var(--cyan);
+  vertical-align: -2px;
+  animation: cursor .8s steps(2) infinite;
+}
+@keyframes cursor { 50% { opacity: 0; } }
+
+
+/* ─── Apariciones al bajar ─── */
+.aparece {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .7s ease var(--retraso, 0ms), transform .7s cubic-bezier(.22, 1, .36, 1) var(--retraso, 0ms);
+}
+.aparece.visible { opacity: 1; transform: none; }
 .robot-cuerpo { animation: flotar 3.4s ease-in-out infinite; transform-origin: 210px 300px; }
 @keyframes flotar {
   0%, 100% { transform: translateY(0) rotate(-1.4deg); }
@@ -280,6 +372,7 @@ h3 { font-size: 1.16rem; font-weight: 700; }
 /* ─── Responsive ─── */
 @media (max-width: 900px) {
   .portada { grid-template-columns: 1fr; padding-top: 40px; text-align: center; }
+  .portada-hueco { min-height: 300px; }
   .portada-texto { order: 2; }
   .portada-robot { order: 1; }
   .entradilla, .subtitulo-seccion, .remate { margin-left: auto; margin-right: auto; }
@@ -302,4 +395,17 @@ h3 { font-size: 1.16rem; font-weight: 700; }
     transition-duration: .01ms !important;
   }
   html { scroll-behavior: auto; }
+  .robot-guia { position: fixed; top: 62%; opacity: 1; }
+  .robot-bocadillo { display: none; }
+  .aparece { opacity: 1; transform: none; }
+}
+
+/* ─── El robot en móvil: acompañante de esquina, sin bocadillo ───
+   En pantalla pequeña no hay margen libre, así que se queda arriba del
+   contenido como un icono de chat. Se le quita el bocadillo (no cabe) y
+   se reserva hueco al final para que no tape el pie. */
+@media (max-width: 1023px) {
+  .robot-bocadillo { display: none; }
+  .robot-guia { filter: drop-shadow(0 8px 22px rgba(0, 0, 0, .65)); }
+  .pie { padding-bottom: 150px; }
 }
