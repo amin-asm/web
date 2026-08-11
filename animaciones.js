@@ -113,6 +113,14 @@
     var giro = lado === "izquierda" ? 8 : lado === "derecha" ? -8 : 0;
 
     // El bocadillo nunca puede ser más ancho que el carril del robot
+    // Si cambia de lado, se da la vuelta por el camino
+    if (robot.dataset.lado && robot.dataset.lado !== lado) {
+      robot.classList.remove("girando");
+      void robot.offsetWidth;            // reinicia la animación
+      robot.classList.add("girando");
+      setTimeout(function () { robot.classList.remove("girando"); }, 1000);
+    }
+
     robot.style.setProperty("--ancho-bocadillo", Math.round(ANCHO_ROBOT * escala * 1.2) + "px");
     robot.style.transform =
       "translate(-50%, -50%) translate(" + Math.round(x) + "px, " + Math.round(y) + "px) scale(" + escala + ") rotate(" + giro + "deg)";

@@ -130,14 +130,25 @@
   <h2>El teléfono suena <span class="resalte">cuando peor te viene</span>.</h2>
   <div class="problema-grid">
     <article class="tarjeta-dolor">
+      <div class="dolor-icono icono-llamada" aria-hidden="true">
+        <span class="onda"></span><span class="onda o2"></span>
+        <svg viewBox="0 0 24 24"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 6.5 6.5L17 13l4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6.5 3z" fill="currentColor"/></svg>
+      </div>
       <span class="hora">14:30</span>
       <p>Comedor lleno. Entra una llamada para reservar el viernes. Nadie puede cogerla.</p>
     </article>
     <article class="tarjeta-dolor">
+      <div class="dolor-icono icono-mensaje" aria-hidden="true">
+        <span class="globo"></span>
+        <svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z" fill="currentColor"/></svg>
+      </div>
       <span class="hora">23:10</span>
       <p>Te escriben cuando ya has cerrado. Para cuando lo lees, han reservado en otro sitio.</p>
     </article>
     <article class="tarjeta-dolor">
+      <div class="dolor-icono icono-papeles" aria-hidden="true">
+        <span class="papel p1"></span><span class="papel p2"></span><span class="papel p3"></span>
+      </div>
       <span class="hora">Domingo</span>
       <p>Veinte facturas de proveedor en el correo, esperando a que alguien las pase a mano.</p>
     </article>
@@ -206,6 +217,16 @@
   <div class="servicios">
 
     <article class="servicio">
+      <!-- Mockup vivo: la conversación se escribe sola -->
+      <div class="mockup mockup-chat" aria-hidden="true">
+        <div class="chat-barra"><span class="chat-punto"></span> Tu negocio</div>
+        <div class="chat-cuerpo">
+          <div class="burbuja entra b1">¿Tenéis mesa para 4 el viernes a las 9?</div>
+          <div class="burbuja sale b2">¡Claro! Os apunto a las 21:00 😊</div>
+          <div class="burbuja sale b3">¿A nombre de quién la pongo?</div>
+          <div class="escribiendo"><i></i><i></i><i></i></div>
+        </div>
+      </div>
       <div class="servicio-ico" aria-hidden="true">
         <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="8.5" cy="12" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><circle cx="15.5" cy="12" r="1.2" fill="currentColor"/></svg>
       </div>
@@ -223,6 +244,14 @@
     </article>
 
     <article class="servicio">
+      <!-- Mockup vivo: la hoja se rellena sola -->
+      <div class="mockup mockup-hoja" aria-hidden="true">
+        <div class="hoja-cabecera"><span>Proveedor</span><span>Fecha</span><span>Importe</span></div>
+        <div class="hoja-fila f1"><span>Distrib. Sur</span><span>03/08</span><span>412,90 €</span></div>
+        <div class="hoja-fila f2"><span>Bebidas Ruiz</span><span>05/08</span><span>238,15 €</span></div>
+        <div class="hoja-fila f3"><span>Panadería Ana</span><span>07/08</span><span>96,40 €</span></div>
+        <div class="hoja-fila f4"><span>Frutas Lola</span><span>09/08</span><span>154,20 €</span></div>
+      </div>
       <div class="servicio-ico" aria-hidden="true">
         <svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15 3v4h4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 12h6M9 15.5h6M9 19h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       </div>
@@ -240,6 +269,24 @@
     </article>
 
     <article class="servicio">
+      <!-- Mockup vivo: piezas sueltas que se van conectando -->
+      <div class="mockup mockup-piezas" aria-hidden="true">
+        <svg viewBox="0 0 260 130">
+          <g class="piezas-cables">
+            <path d="M 58 40 C 100 40, 100 65, 130 65"/>
+            <path d="M 130 65 C 160 65, 160 40, 202 40"/>
+            <path d="M 58 100 C 100 100, 100 65, 130 65"/>
+            <path d="M 130 65 C 160 65, 160 100, 202 100"/>
+          </g>
+          <g class="piezas-cajas">
+            <rect x="14" y="24" width="44" height="32" rx="9"/>
+            <rect x="14" y="84" width="44" height="32" rx="9"/>
+            <rect x="106" y="49" width="48" height="32" rx="9" class="pieza-centro"/>
+            <rect x="202" y="24" width="44" height="32" rx="9"/>
+            <rect x="202" y="84" width="44" height="32" rx="9"/>
+          </g>
+        </svg>
+      </div>
       <div class="servicio-ico" aria-hidden="true">
         <svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="18" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6 8.5v3a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-3M12 13.5v2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
       </div>
