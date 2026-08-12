@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="tiktok-developers-site-verification" content="bAWgu2qeMTwVCYFpBxi0az0utko0FpaP" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src https://n8n.aminautomation.com; form-action 'none'; base-uri 'none'">
+<title>Panel de publicación — InfinitumTech As</title>
+<link rel="icon" href="/favicon.svg">
+<link rel="stylesheet" href="panel.css">
+</head>
+<body>
+
+<header class="barra">
+  <a class="marca" href="/">
+    <span class="logo">AS</span>
+    <span>InfinitumTech <b>As</b></span>
+  </a>
+  <span class="etiqueta">Panel de publicación</span>
+</header>
+
+<main>
+
+  <!-- ── 1. Conexión de la cuenta ───────────────────────────── -->
+  <section class="tarjeta">
+    <h2><span class="num">1</span> Cuenta de TikTok</h2>
+
+    <div id="estadoCuenta" class="estado cargando">
+      <span class="punto"></span>
+      <span id="textoEstado">Comprobando la conexión…</span>
+    </div>
+
+    <p class="ayuda">
+      Para publicar hace falta autorizar la cuenta una sola vez. Se te llevará a
+      TikTok para que des permiso y volverás aquí automáticamente.
+    </p>
+
+    <a id="botonConectar" class="boton primario" href="https://n8n.aminautomation.com/webhook/tiktok/conectar">
+      Conectar con TikTok
+    </a>
+    <button id="botonDesconectar" class="boton secundario oculto" type="button">
+      Desconectar
+    </button>
+  </section>
+
+  <!-- ── 2. La publicación ──────────────────────────────────── -->
+  <section class="tarjeta">
+    <h2><span class="num">2</span> Vídeo a publicar</h2>
+
+    <label class="campo">
+      <span>Vídeo</span>
+      <select id="video">
+        <option value="">Cargando la cola…</option>
+      </select>
+    </label>
+
+    <label class="campo">
+      <span>Título de la publicación</span>
+      <textarea id="titulo" rows="3" maxlength="2200"
+        placeholder="Escribe aquí el texto que acompañará al vídeo en TikTok"></textarea>
+      <small><span id="contador">0</span> / 2200</small>
+    </label>
+
+    <div class="fila">
+      <label class="campo mitad">
+        <span>Quién puede verlo</span>
+        <select id="privacidad">
+          <option value="SELF_ONLY">Solo yo</option>
+          <option value="MUTUAL_FOLLOW_FRIENDS">Amigos</option>
+          <option value="PUBLIC_TO_EVERYONE">Todo el mundo</option>
+        </select>
+      </label>
+
+      <label class="campo mitad ajustes">
+        <span>Ajustes</span>
+        <label class="marca-check"><input type="checkbox" id="comentarios"> Permitir comentarios</label>
+        <label class="marca-check"><input type="checkbox" id="duetos"> Permitir dúos</label>
+        <label class="marca-check"><input type="checkbox" id="mezclas"> Permitir mezclas</label>
+      </label>
+    </div>
+
+    <p class="ayuda legal">
+      Al publicar aceptas las
+      <a href="https://www.tiktok.com/legal/page/global/music-usage-confirmation/es" target="_blank" rel="noopener">
+        Condiciones de uso de música</a> de TikTok.
+    </p>
+
+    <button id="botonPublicar" class="boton primario" type="button" disabled>
+      Publicar en TikTok
+    </button>
+  </section>
+
+  <!-- ── 3. Resultado ───────────────────────────────────────── -->
+  <section class="tarjeta" id="tarjetaResultado" hidden>
+    <h2><span class="num">3</span> Resultado</h2>
+    <div id="resultado" class="resultado"></div>
+  </section>
+
+</main>
+
+<footer class="pie">
+  Panel interno de InfinitumTech As ·
+  <a href="/legal/privacidad/">Privacidad</a> ·
+  <a href="/legal/condiciones/">Condiciones</a>
+</footer>
+
+<script src="panel.js"></script>
+</body>
+</html>
