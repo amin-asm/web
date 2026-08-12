@@ -1050,16 +1050,30 @@ body{overflow-x:hidden;max-width:100%}
   .cabecera-nav{gap:8px;margin-left:auto;flex:none}
   .btn-cabecera{padding-left:14px;padding-right:14px;font-size:.88rem;white-space:nowrap}
 }
-/* En pantallas muy estrechas el botón se queda solo con el icono */
+/* En pantallas estrechas el que encoge es el BOTÓN, nunca la marca:
+   el nombre de la empresa es lo primero que tiene que leerse. */
 @media (max-width:430px){
-  .marca-texto{display:none}
-  .btn-cabecera{font-size:0;padding:11px 13px;gap:0}
+  .marca-texto{display:inline;font-size:.95rem}
+  .marca-logo{width:34px;height:34px;font-size:.8rem}
+  .btn-cabecera{font-size:0;padding:10px 12px;gap:0}
   .btn-cabecera .ico-wa{width:22px;height:22px}
+  .menu-boton{padding:7px}
 }
 
 /* El chat, a lo ancho de la pantalla menos un margen */
 @media (max-width:520px){
   .chat-panel{width:auto;max-width:calc(100vw - 16px)}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   REVISIÓN 6 — el hueco vacío de la portada en móvil
+   .portada-hueco reserva 300px para el robot, pero el robot va
+   flotando fijo en la pantalla: en móvil ese hueco se colocaba
+   ANTES del texto y dejaba media pantalla en negro.
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width:900px){
+  .portada-hueco{display:none}
+  .portada{padding-top:22px;min-height:auto}
 }
 
 /* ─── Mockup: agenda que se llena sola ─── */
