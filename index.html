@@ -31,36 +31,9 @@
 </head>
 <body>
 
-<!-- ═══ Fondo animado: rejilla + red de nodos difuminada + brillos ═══ -->
-<div class="fondo" aria-hidden="true">
-  <div class="rejilla"></div>
-
-  <!-- Red de nodos y conexiones, difuminada: evoca un lienzo de automatización -->
-  <svg class="red-nodos" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
-    <g class="red-cables">
-      <path d="M 120 160 C 260 160, 260 300, 400 300"/>
-      <path d="M 400 300 C 540 300, 540 140, 690 140"/>
-      <path d="M 690 140 C 840 140, 840 320, 1010 320"/>
-      <path d="M 180 520 C 330 520, 330 660, 470 660"/>
-      <path d="M 470 660 C 620 660, 620 480, 780 480"/>
-      <path d="M 780 480 C 920 480, 920 700, 1060 700"/>
-      <path d="M 400 300 C 430 400, 440 560, 470 660"/>
-      <path d="M 690 140 C 720 260, 750 380, 780 480"/>
-    </g>
-    <g class="red-puntos">
-      <circle cx="120" cy="160" r="9"/>
-      <circle cx="400" cy="300" r="12"/>
-      <circle cx="690" cy="140" r="10"/>
-      <circle cx="1010" cy="320" r="9"/>
-      <circle cx="180" cy="520" r="9"/>
-      <circle cx="470" cy="660" r="12"/>
-      <circle cx="780" cy="480" r="10"/>
-      <circle cx="1060" cy="700" r="9"/>
-    </g>
-  </svg>
-
-  <div class="brillo brillo-1"></div>
-  <div class="brillo brillo-2"></div>
+<!-- ═══ Fondo: nube 3D de aplicaciones (asistente.js) ═══ -->
+<canvas id="nube-apps" aria-hidden="true"></canvas>
+<div class="velo-apps" aria-hidden="true"></div>
 </div>
 
 <!-- ═══ Cabecera ═══ -->
@@ -69,11 +42,23 @@
     <span class="marca-logo" aria-hidden="true">AS</span>
     <span class="marca-texto">InfinitumTech <b>As</b></span>
   </a>
+  <nav class="cabecera-nav">
+    <button class="menu-boton" id="menuBoton" aria-expanded="false" aria-controls="menu" aria-label="Abrir el menú">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="menu" id="menu">
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#proceso">Cómo trabajamos</a></li>
+      <li><a href="#sobre-mi">Quiénes somos</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
   <a class="btn btn-wa btn-cabecera" href="https://wa.me/34632107669?text=Hola%20Amin%2C%20he%20visto%20tu%20web%20y%20quiero%20saber%20m%C3%A1s" target="_blank" rel="noopener noreferrer">
     <svg class="ico-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.4z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
     WhatsApp
   </a>
 </header>
+<div class="progreso" id="progreso" aria-hidden="true"></div>
 
 <main>
 
@@ -81,17 +66,17 @@
 <section class="portada" id="inicio">
   <div class="portada-texto">
     <p class="etiqueta">Sevilla · Automatización con IA</p>
-    <h1>Deja de perder clientes por <span class="resalte">no llegar a tiempo</span> al teléfono.</h1>
+    <h1>El trabajo que haces <span class="resalte">dos veces al día</span> puede hacerlo una máquina.</h1>
     <p class="entradilla">
-      Instalo asistentes de inteligencia artificial que atienden a tus clientes por
-      WhatsApp, gestionan las reservas y ponen orden en tus facturas.
-      <b>Yo lo monto, yo lo mantengo. Tú no tocas nada.</b>
+      Desarrollamos asistentes de IA que atienden por WhatsApp, sistemas que ordenan las facturas
+      solos y automatizaciones a medida para los procesos que repites cada semana.
+      <b>Nosotros lo implantamos y nosotros lo mantenemos. Tu equipo no toca nada.</b>
     </p>
     <a class="btn btn-wa btn-grande" href="https://wa.me/34632107669?text=Hola%20Amin%2C%20he%20visto%20tu%20web%20y%20quiero%20saber%20m%C3%A1s" target="_blank" rel="noopener noreferrer">
       <svg class="ico-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.4z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
-      Escríbeme por WhatsApp
+      Escríbenos por WhatsApp
     </a>
-    <p class="bajo-boton">Te contesto yo, el mismo día.</p>
+    <p class="bajo-boton">Te respondemos el mismo día.</p>
   </div>
 
   <!-- Hueco que reserva el sitio del robot en la portada -->
@@ -136,8 +121,8 @@
 </div>
 
 <!-- ═══ 2. El problema ═══ -->
-<section class="seccion problema" data-lado="izquierda" data-dice="El teléfono suena cuando peor te viene.">
-  <h2>El teléfono suena <span class="resalte">cuando peor te viene</span>.</h2>
+<section class="seccion problema" data-lado="izquierda" data-dice="Todos los días se pierde lo mismo: tiempo y clientes.">
+  <h2>Todos los días pierdes lo mismo: <span class="resalte">tiempo y clientes</span>.</h2>
   <div class="problema-grid">
     <article class="tarjeta-dolor">
       <div class="dolor-icono icono-llamada" aria-hidden="true">
@@ -145,7 +130,7 @@
         <svg viewBox="0 0 24 24"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 6.5 6.5L17 13l4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6.5 3z" fill="currentColor"/></svg>
       </div>
       <span class="hora">14:30</span>
-      <p>Comedor lleno. Entra una llamada para reservar el viernes. Nadie puede cogerla.</p>
+      <p>Tienes el local lleno o estás con un cliente. Suena el teléfono. No lo coges. Ese que llamaba ya está llamando a otro.</p>
     </article>
     <article class="tarjeta-dolor">
       <div class="dolor-icono icono-mensaje" aria-hidden="true">
@@ -153,23 +138,23 @@
         <svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z" fill="currentColor"/></svg>
       </div>
       <span class="hora">23:10</span>
-      <p>Te escriben cuando ya has cerrado. Para cuando lo lees, han reservado en otro sitio.</p>
+      <p>Te escriben a las once de la noche pidiendo cita. Lo lees por la mañana. Para entonces ya han reservado en otro sitio.</p>
     </article>
     <article class="tarjeta-dolor">
       <div class="dolor-icono icono-papeles" aria-hidden="true">
         <span class="papel p1"></span><span class="papel p2"></span><span class="papel p3"></span>
       </div>
       <span class="hora">Domingo</span>
-      <p>Veinte facturas de proveedor en el correo, esperando a que alguien las pase a mano.</p>
+      <p>Tu día libre, metiendo facturas en una hoja de cálculo. Dos horas de tu domingo que no te paga nadie.</p>
     </article>
   </div>
-  <p class="remate">No es que atiendas mal. Es que no puedes estar en dos sitios a la vez.</p>
+  <p class="remate">No es que lo hagas mal. Es que estás haciendo a mano cosas que ya no hace nadie a mano.</p>
 </section>
 
 <!-- ═══ 3. Cómo funciona por dentro (flujo animado) ═══ -->
 <section class="seccion flujo-seccion" data-lado="derecha" data-dice="El cliente escribe y, a partir de ahí, todo va solo.">
-  <h2>Lo que pasa <span class="resalte">mientras tú trabajas</span></h2>
-  <p class="subtitulo-seccion">El cliente escribe. A partir de ahí, todo va solo.</p>
+  <h2>Lo que pasa <span class="resalte">mientras tú estás a lo tuyo</span></h2>
+  <p class="subtitulo-seccion">Un cliente escribe a las 2 de la mañana. Nadie lo lee. Y aun así queda atendido y anotado.</p>
 
   <div class="lienzo">
     <svg viewBox="0 0 900 260" class="flujo" role="img" aria-label="Diagrama: el mensaje del cliente entra, la IA lo entiende, se comprueba la disponibilidad, se anota la reserva y se envía la confirmación">
@@ -222,8 +207,8 @@
 </section>
 
 <!-- ═══ 4. Servicios ═══ -->
-<section class="seccion" id="servicios" data-lado="izquierda" data-dice="Esto es lo que te quito de encima.">
-  <h2>Qué te <span class="resalte">quito de encima</span></h2>
+<section class="seccion" id="servicios" data-lado="izquierda" data-dice="Esto es lo que te quitamos de encima.">
+  <h2>Lo que <span class="resalte">dejas de hacer</span> a partir de mañana</h2>
   <div class="servicios">
 
     <article class="servicio">
@@ -240,16 +225,16 @@
       <div class="servicio-ico" aria-hidden="true">
         <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="8.5" cy="12" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><circle cx="15.5" cy="12" r="1.2" fill="currentColor"/></svg>
       </div>
-      <h3>Asistente de WhatsApp con IA</h3>
+      <h3>Un asistente que atiende por ti</h3>
       <p>
-        Contesta a cualquier hora, en el idioma de tu cliente. Resuelve lo de siempre
-        —horario, dónde estáis, qué hay en carta—, toma las reservas y manda el
-        recordatorio el día antes.
+        Contesta a cualquier hora y en el idioma de quien escriba. Resuelve lo de siempre
+        —horarios, dónde estáis, precios, disponibilidad—, gestiona las reservas o las citas
+        y envía el recordatorio el día antes para reducir las ausencias.
       </p>
       <ul class="lista-check">
         <li>Disponible las 24 horas</li>
         <li>Atiende en varios idiomas</li>
-        <li>Te pasa la conversación cuando hace falta</li>
+        <li>Deriva la conversación a tu equipo cuando hace falta</li>
       </ul>
     </article>
 
@@ -265,11 +250,11 @@
       <div class="servicio-ico" aria-hidden="true">
         <svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15 3v4h4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 12h6M9 15.5h6M9 19h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       </div>
-      <h3>Control de facturas automático</h3>
+      <h3>Se acabó teclear facturas</h3>
       <p>
-        Las facturas de proveedor llegan al correo y se ordenan solas: se lee cada una,
-        se sacan los datos y acaban en tu hoja de cálculo y en tu carpeta, con su nombre
-        y su fecha.
+        Las facturas llegan a tu correo y se procesan solas: se lee cada una, se extraen proveedor,
+        fecha e importe, y acaban en tu hoja de cálculo y en su carpeta, correctamente nombradas.
+        Sin dedicarle ni una hora.
       </p>
       <ul class="lista-check">
         <li>Sin teclear nada a mano</li>
@@ -300,73 +285,123 @@
       <div class="servicio-ico" aria-hidden="true">
         <svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="18" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6 8.5v3a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-3M12 13.5v2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
       </div>
-      <h3>Automatización a medida</h3>
+      <h3>Lo que repitas, se automatiza</h3>
       <p>
-        Si pierdes horas cada semana repitiendo la misma tarea —copiar datos de un sitio
-        a otro, rellenar hojas, mandar los mismos mensajes—, cuéntamelo y te digo si se
-        puede automatizar.
+        Copiar datos de un sistema a otro, rellenar las mismas hojas, enviar los mismos mensajes,
+        pasar pedidos a mano. Si es un proceso semanal y siempre igual, en la mayoría de casos
+        se puede automatizar. Cuéntanoslo y te decimos con franqueza si compensa o no.
       </p>
       <ul class="lista-check">
-        <li>Se estudia tu caso concreto</li>
-        <li>Si no compensa, te lo digo</li>
+        <li>Estudiamos tu caso concreto</li>
+        <li>Si no compensa, te lo decimos</li>
       </ul>
     </article>
 
   </div>
+
+    <article class="servicio">
+      <!-- Mockup vivo: la agenda se va llenando sola -->
+      <div class="mockup mockup-agenda" aria-hidden="true">
+        <div class="agenda-cab"><span>Jueves 14</span><span class="agenda-libre">3 huecos</span></div>
+        <div class="agenda-hora a1"><span class="agenda-h">10:00</span><span class="agenda-quien">Laura P. · corte</span></div>
+        <div class="agenda-hora a2"><span class="agenda-h">11:30</span><span class="agenda-quien">Miguel R. · revisión</span></div>
+        <div class="agenda-hora a3"><span class="agenda-h">13:00</span><span class="agenda-quien">Ana G. · color</span></div>
+        <div class="agenda-hora a4 agenda-nueva"><span class="agenda-h">17:00</span><span class="agenda-quien">Reservando…</span></div>
+      </div>
+      <div class="servicio-ico" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M9 15l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h3>Reservas y citas sin llamadas</h3>
+      <p>
+        La agenda se gestiona sola: el cliente elige hueco, queda anotado en tu calendario
+        y recibe el recordatorio el día antes. Si cancela, el hueco vuelve a quedar libre
+        al momento. Vale para peluquerías, clínicas, centros de estética y talleres.
+      </p>
+      <ul class="lista-check">
+        <li>Se sincroniza con tu calendario</li>
+        <li>Recordatorio automático el día antes</li>
+        <li>Menos ausencias sin avisar</li>
+      </ul>
+    </article>
+
+    <article class="servicio">
+      <!-- Mockup vivo: los contactos entran y se clasifican solos -->
+      <div class="mockup mockup-leads" aria-hidden="true">
+        <div class="lead l1"><span class="lead-punto"></span><span class="lead-txt">Web · presupuesto</span><span class="lead-tag tag-caliente">Caliente</span></div>
+        <div class="lead l2"><span class="lead-punto"></span><span class="lead-txt">Instagram · duda</span><span class="lead-tag tag-tibio">Tibio</span></div>
+        <div class="lead l3"><span class="lead-punto"></span><span class="lead-txt">WhatsApp · precio</span><span class="lead-tag tag-caliente">Caliente</span></div>
+        <div class="lead l4"><span class="lead-punto"></span><span class="lead-txt">Llamada perdida</span><span class="lead-tag tag-tibio">Pendiente</span></div>
+      </div>
+      <div class="servicio-ico" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </div>
+      <h3>Ni un contacto perdido</h3>
+      <p>
+        Escriba por donde escriba —web, redes, WhatsApp o una llamada que no cogisteis—,
+        queda registrado, clasificado y con aviso para que alguien lo atienda. Nadie se
+        queda sin respuesta porque se traspapeló un mensaje.
+      </p>
+      <ul class="lista-check">
+        <li>Recoge de todos los canales a la vez</li>
+        <li>Ordenados por interés real</li>
+        <li>Aviso inmediato de los urgentes</li>
+      </ul>
+    </article>
 </section>
 
 <!-- ═══ 5. Cómo trabajo ═══ -->
-<section class="seccion" id="proceso" data-lado="derecha" data-dice="Llave en mano: yo lo monto y yo lo mantengo.">
+<section class="seccion" id="proceso" data-lado="derecha" data-dice="Llave en mano: lo implantamos y lo mantenemos nosotros.">
   <h2>Llave en mano. <span class="resalte">Sin sorpresas.</span></h2>
   <ol class="pasos">
     <li>
       <span class="paso-num">1</span>
       <h3>Hablamos</h3>
-      <p>Me cuentas cómo trabajas hoy y dónde se te va el tiempo. Sin compromiso.</p>
+      <p>Nos cuentas cómo trabajáis hoy y dónde se va el tiempo. De esa reunión salimos sabiendo si podemos ayudarte o no. Sin coste y sin compromiso.</p>
     </li>
     <li>
       <span class="paso-num">2</span>
       <h3>Te lo monto</h3>
-      <p>Lo construyo, lo pruebo con tus casos reales y te lo enseño funcionando antes de ponerlo en marcha.</p>
+      <p>Lo desarrollamos con tus datos y tus casos reales, y te lo presentamos funcionando antes de que entre en producción. Si no te convence, no se implanta.</p>
     </li>
     <li>
       <span class="paso-num">3</span>
       <h3>Lo mantengo yo</h3>
-      <p>Va alojado en mi infraestructura. Si algo falla, es mi problema, no el tuyo.</p>
+      <p>Queda alojado en nuestra infraestructura y bajo nuestra supervisión. Si algo falla a las tres de la mañana, es problema nuestro, no tuyo.</p>
     </li>
   </ol>
   <p class="remate">
-    Un pago inicial por la instalación y una cuota mensual de mantenimiento. El precio
-    depende de lo que necesites: escríbeme y te lo digo claro, sin letra pequeña.
+    Un pago inicial por la implantación y una cuota mensual de mantenimiento. El importe
+    depende del alcance: escríbenos y te lo detallamos claro, sin letra pequeña.
   </p>
 </section>
 
 <!-- ═══ 6. Quién está detrás ═══ -->
-<section class="seccion sobre-mi" id="sobre-mi" data-lado="izquierda" data-dice="Yo he estado al otro lado de la barra.">
+<section class="seccion sobre-mi" id="sobre-mi" data-lado="izquierda" data-dice="Conocemos el problema desde dentro.">
   <div class="sobre-mi-caja">
-    <h2>He estado <span class="resalte">al otro lado de la barra</span>.</h2>
+    <h2>Conocemos el problema <span class="resalte">desde dentro</span>.</h2>
     <p>
-      Soy Amin. Antes de dedicarme a esto estuve de camarero: cogía las reservas,
-      contestaba el teléfono en pleno servicio y sé perfectamente lo que es que te
-      llamen justo cuando no puedes cogerlo.
+      Detrás de InfinitumTech As está Amin. Antes de dedicarse a esto trabajó de camarero:
+      cogía las reservas y contestaba el teléfono en pleno servicio, así que sabe
+      perfectamente lo que es que te llamen justo cuando no puedes atender.
     </p>
-    <p><b>Por eso no te vendo tecnología. Te quito de encima el trabajo que ya sabes que sobra.</b></p>
+    <p><b>Por eso no vendemos tecnología. Retiramos de tu día a día el trabajo que ya sabes que sobra.</b></p>
     <p>
-      Hablo español y árabe nativos, francés e inglés. Los asistentes que monto atienden
-      a tus clientes en su idioma — y en Sevilla eso se nota.
+      Trabajamos en español, francés e inglés. Los asistentes que desarrollamos
+      atienden a tus clientes en su idioma — y en una ciudad de paso como Sevilla, eso se nota.
     </p>
     <ul class="idiomas">
-      <li>Español</li><li>العربية</li><li>Français</li><li>English</li>
+      <li>Español</li><li>Français</li><li>English</li>
     </ul>
   </div>
 </section>
 
 <!-- ═══ 7. Cierre ═══ -->
-<section class="seccion cierre" id="contacto" data-lado="derecha" data-dice="Cuéntame qué te está robando el tiempo.">
-  <h2>Cuéntame qué te está <span class="resalte">robando el tiempo</span>.</h2>
+<section class="seccion cierre" id="contacto" data-lado="derecha" data-dice="Cuéntanos qué proceso te cuesta más tiempo.">
+  <h2>Cuéntanos qué proceso te está <span class="resalte">costando más tiempo</span>.</h2>
   <p class="entradilla">
-    Escríbeme por WhatsApp y te contesto yo, no un bot. Si tu caso no tiene arreglo o no
-    te compensa, te lo digo y no te hago perder el rato.
+    Escríbenos y te responde una persona, no un bot. En dos mensajes te decimos si ese proceso
+    se puede automatizar y el orden de magnitud del presupuesto. Y si en tu caso no compensa,
+    te lo diremos igual: no te haremos perder la tarde.
   </p>
   <a class="btn btn-wa btn-grande" href="https://wa.me/34632107669?text=Hola%20Amin%2C%20he%20visto%20tu%20web%20y%20quiero%20saber%20m%C3%A1s" target="_blank" rel="noopener noreferrer">
     <svg class="ico-wa" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.4z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
@@ -388,11 +423,42 @@
   <p class="pie-nota">Esta web no usa cookies ni recoge ningún dato tuyo.</p>
 </footer>
 
-<!-- Botón flotante de WhatsApp -->
-<a class="wa-flotante" href="https://wa.me/34632107669?text=Hola%20Amin%2C%20he%20visto%20tu%20web%20y%20quiero%20saber%20m%C3%A1s" target="_blank" rel="noopener noreferrer" aria-label="Escríbeme por WhatsApp">
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.4z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
-</a>
+<button class="chat-lanzador" id="chatAbrir" aria-label="Hablar con el asistente">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2z"/><circle cx="8.4" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="15.6" cy="12" r="1.2"/></svg>
+  Hablar con el asistente
+  <span class="punto" id="chatPunto"></span>
+</button>
+
+<div class="chat-panel" id="chatPanel" hidden role="dialog" aria-label="Conversación con el asistente" aria-modal="false">
+  <div class="chat-cab">
+    <div class="chat-avatar">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2z"/></svg>
+    </div>
+    <div class="chat-quien">
+      <b>InfinitumTech As</b>
+      <span><i class="chat-vivo"></i> Respuesta inmediata · 24/7</span>
+    </div>
+    <button class="chat-cerrar" id="chatCerrar" aria-label="Cerrar la conversación">&times;</button>
+  </div>
+
+  <div class="chat-hilo" id="chatHilo" aria-live="polite"></div>
+  <div class="chat-opciones" id="chatOpciones"></div>
+
+  <form class="chat-pie" id="chatForm">
+    <label class="visualmente-oculto" for="chatTexto">Tu mensaje</label>
+    <input id="chatTexto" type="text" placeholder="Escribe tu mensaje" autocomplete="off">
+    <button class="chat-enviar" type="submit" aria-label="Enviar">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+    </button>
+  </form>
+
+  <a class="chat-saltar" href="https://wa.me/34632107669?text=Hola%20Amin%2C%20vengo%20de%20la%20web" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2z"/></svg>
+    Seguir en nuestro WhatsApp
+  </a>
+</div>
 
 <script src="animaciones.js" defer></script>
+<script src="asistente.js" defer></script>
 </body>
 </html>
