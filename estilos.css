@@ -754,22 +754,7 @@ h3 { font-size: 1.16rem; font-weight: 700; }
   .chat-lanzador{right:14px;bottom:14px}
 }
 
-/* ─── Mandos de la demo (esto NO va en la web real) ─── */
-.mandos{
-  position:fixed;top:0;left:0;right:0;z-index:80;
-  background:rgba(5,7,12,.8);backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line);padding:9px 16px;
-}
-.mandos-fila{max-width:1120px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.mandos b{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:400}
-.mandos button{
-  font:inherit;font-size:.8rem;color:var(--text);background:rgba(14,22,33,.85);
-  border:1px solid var(--line);padding:6px 13px;border-radius:999px;cursor:pointer;
-}
-.mandos button[aria-pressed="true"]{background:rgba(76,201,240,.16);border-color:var(--cyan)}
-.mandos button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
-.cabecera{top:44px !important}
-body{padding-top:44px}
+
 
 /* ═══════════════════════════════════════════════════════════
    REVISIÓN 2 — que fluya y que esté vivo
@@ -1039,6 +1024,44 @@ a.chat-op-wa:hover{background:rgba(37,211,102,.22)}
   text-shadow:0 2px 20px rgba(8,11,18,.98),0 0 50px rgba(8,11,18,.9);
 }
 
+/* ═══════════════════════════════════════════════════════════
+   REVISIÓN 5 — que el móvil se vea igual que el ordenador
+   No se quita nada ni se cambia el diseño: solo se impide que
+   la página se salga por el lado derecho.
+   ═══════════════════════════════════════════════════════════ */
+
+/* El suelo de cada apartado se extendía 50vw a cada lado y eso ensanchaba
+   la página entera en móvil. Ahora ocupa justo el ancho de la pantalla. */
+.seccion::before{
+  left:calc(-50vw + 50%);
+  right:auto;
+  width:100vw;
+  max-width:100vw;
+}
+
+/* Cinturón y tirantes: nada puede ensanchar el documento */
+html{overflow-x:hidden;max-width:100%}
+body{overflow-x:hidden;max-width:100%}
+
+/* La cabecera en móvil: marca + tres rayitas + WhatsApp, sin que nada se corte */
+@media (max-width:900px){
+  .cabecera{gap:10px;padding-left:14px;padding-right:14px}
+  .marca-texto{font-size:1rem}
+  .cabecera-nav{gap:8px;margin-left:auto;flex:none}
+  .btn-cabecera{padding-left:14px;padding-right:14px;font-size:.88rem;white-space:nowrap}
+}
+/* En pantallas muy estrechas el botón se queda solo con el icono */
+@media (max-width:430px){
+  .marca-texto{display:none}
+  .btn-cabecera{font-size:0;padding:11px 13px;gap:0}
+  .btn-cabecera .ico-wa{width:22px;height:22px}
+}
+
+/* El chat, a lo ancho de la pantalla menos un margen */
+@media (max-width:520px){
+  .chat-panel{width:auto;max-width:calc(100vw - 16px)}
+}
+
 /* ─── Mockup: agenda que se llena sola ─── */
 .mockup-agenda{padding:12px 13px;font-size:.76rem}
 .agenda-cab{
@@ -1048,12 +1071,12 @@ a.chat-op-wa:hover{background:rgba(37,211,102,.22)}
 }
 .agenda-libre{color:var(--wa);font-weight:600;font-size:.72rem}
 .agenda-hora{
-  display:flex;gap:10px;align-items:center;padding:6px 0;
+  display:flex;gap:10px;align-items:center;padding:6px 0;min-width:0;
   border-bottom:1px solid rgba(255,255,255,.05);
   opacity:0;animation:fila-ciclo 8s ease-in-out infinite both;
 }
 .agenda-h{color:var(--cyan);font-weight:700;font-variant-numeric:tabular-nums;flex:none}
-.agenda-quien{color:#C6D2E0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.agenda-quien{color:#C6D2E0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1}
 .mockup-agenda .a1{animation-delay:.2s}
 .mockup-agenda .a2{animation-delay:1.1s}
 .mockup-agenda .a3{animation-delay:2s}
@@ -1069,7 +1092,7 @@ a.chat-op-wa:hover{background:rgba(37,211,102,.22)}
 /* ─── Mockup: leads que entran y se clasifican ─── */
 .mockup-leads{padding:12px 13px;font-size:.76rem;display:flex;flex-direction:column;gap:7px}
 .lead{
-  display:flex;gap:9px;align-items:center;
+  display:flex;gap:9px;align-items:center;min-width:0;
   background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
   border-radius:9px;padding:7px 10px;
   opacity:0;animation:fila-ciclo 8s ease-in-out infinite both;
@@ -1082,13 +1105,17 @@ a.chat-op-wa:hover{background:rgba(37,211,102,.22)}
   width:7px;height:7px;border-radius:50%;background:var(--cyan);flex:none;
   animation:late-barra 1.8s ease-in-out infinite;
 }
-.lead-txt{flex:1;color:#C6D2E0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lead-txt{flex:1;min-width:0;color:#C6D2E0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .lead-tag{
   font-size:.66rem;padding:2px 8px;border-radius:999px;flex:none;font-weight:700;
   letter-spacing:.03em;
 }
 .tag-caliente{background:rgba(37,211,102,.16);color:var(--wa)}
 .tag-tibio{background:rgba(255,184,77,.16);color:var(--amber)}
+
+/* ningún mockup puede ensanchar la página */
+.mockup,.mockup-agenda,.mockup-leads{min-width:0;max-width:100%;overflow:hidden}
+.servicio,.tarjeta-dolor,.seccion{min-width:0}
 
 /* con 5 servicios la rejilla necesita respirar */
 @media (min-width:1000px){
