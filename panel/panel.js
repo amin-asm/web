@@ -94,7 +94,7 @@
 
         selVideo.appendChild(new Option("Elige un vídeo…", ""));
         lista.forEach(function (v) {
-          selVideo.appendChild(new Option(v.nombre, v.id));
+          selVideo.appendChild(new Option(v.nombre, v.url));
         });
       })
       .catch(function () {
@@ -114,7 +114,7 @@
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        videoId:     selVideo.value,
+        videoUrl:    selVideo.value,
         titulo:      txtTitulo.value.trim(),
         privacidad:  selPrivacidad.value,
         comentarios: document.getElementById("comentarios").checked,
