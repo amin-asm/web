@@ -46,7 +46,7 @@
   }
 
   function pedir(ruta, opciones) {
-    return fetch(BASE + ruta, Object.assign({ credentials: "include" }, opciones || {}))
+    return fetch(BASE + ruta, opciones || {})
       .then(function (r) {
         if (!r.ok) throw new Error("El sistema respondió " + r.status);
         return r.json();
