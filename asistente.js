@@ -546,3 +546,72 @@ if(!quieto && 'IntersectionObserver' in window){
   });
 }
 })();
+
+/* ═══════════════════════════════════════════════════════════
+   REVISIÓN 7 — en móvil, el robot se coloca donde no hay texto
+   Se prueban varios puntos de la pantalla y se elige el primero
+   que no caiga encima de una letra. Si están todos ocupados, va
+   al que quede más lejos de cualquier texto.
+   ═══════════════════════════════════════════════════════════ */
+(function(){
+'use strict';
+const robot = document.getElementById('robotGuia');
+if(!robot) return;
+if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+const esMovil = () => innerWidth <= 900;
+
+/* Puntos candidatos, en % de la pantalla. Se prueban en este orden:
+   primero los laterales bajos, que es donde suele haber aire. */
+const SITIOS = [
+  [86, 30], [12, 30], [86, 52], [12, 52],
+  [86, 72], [12, 72], [50, 22], [86, 16], [12, 16]
+];
+
+/* ¿Ese punto cae sobre algo escrito? */
+const TEXTO = new Set(['P','H1','H2','H3','H4','LI','A','SPAN','B','I','EM','STRONG','BUTTON','LABEL','TD','TH']);
+function ocupado(px, py){
+  const el = document.elementFromPoint(px, py);
+  if(!el) return false;
+  if(el.closest('.robot-guia')) return false;         // él mismo no cuenta
+  if(el.closest('.chat-lanzador, .chat-panel, .cabecera')) return true;
+  if(TEXTO.has(el.tagName)) return true;
+  // un contenedor cuenta como ocupado solo si ahí mismo hay letra
+  return !!(el.textContent && el.textContent.trim() && el.children.length === 0);
+}
+
+let pedido = false;
+function colocar(){
+  pedido = false;
+  if(!esMovil()){
+    robot.style.removeProperty('--rx');
+    robot.style.removeProperty('--ry');
+    return;
+  }
+  const w = innerWidth, h = innerHeight;
+  let elegido = null;
+
+  for(const [x, y] of SITIOS){
+    const px = w * x / 100, py = h * y / 100;
+    // margen de seguridad: se mira el punto y sus cuatro esquinas
+    if(!ocupado(px, py) && !ocupado(px - 34, py - 34) && !ocupado(px + 34, py + 34)){
+      elegido = [x, y];
+      break;
+    }
+  }
+  if(!elegido) elegido = [88, 26];    // todo ocupado: arriba a la derecha
+
+  robot.style.setProperty('--rx', elegido[0] + '%');
+  robot.style.setProperty('--ry', elegido[1] + '%');
+}
+
+function alScroll(){
+  if(pedido) return;
+  pedido = true;
+  requestAnimationFrame(colocar);
+}
+
+addEventListener('scroll', alScroll, {passive:true});
+addEventListener('resize', alScroll);
+setTimeout(colocar, 400);
+})();
