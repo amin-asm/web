@@ -263,25 +263,27 @@ function escribiendo(on){
    y no hay que preguntarle otra vez lo que acaba de contestar.
    Sin servidor y sin base de datos: viaja dentro del propio enlace. */
 const NUMERO = '34632107669';
-const memoria = [];                  // lo que ha ido diciendo, en orden
+const memoria = [];                  // lo que ha ido marcando, en orden
+let   nombreCliente = '';            // se rellena solo al final, con el nombre
 
 function recordar(texto){
   memoria.push(texto);
   try{ sessionStorage.setItem('ase-chat', JSON.stringify(memoria)); }catch(e){}
 }
 
+/* mensaje formal y ordenado: presentación, resumen numerado, cierre */
 function enlaceWA(){
-  let msg = 'Hola, vengo de la web.';
+  let msg = 'Buenas' + (nombreCliente ? ', soy ' + nombreCliente : '')
+          + '. Le escribo desde la web de InfinitumTech As.';
   if(memoria.length){
-    msg += '\n\nEsto es lo que he ido marcando en el asistente:\n'
-         + memoria.map(m => '· ' + m).join('\n');
+    msg += '\n\nResumen de lo consultado con el asistente:\n'
+         + memoria.map((m, i) => (i+1) + '. ' + m).join('\n');
   }
+  msg += '\n\n¿Podría darme más información, por favor?';
   // wa.me admite un mensaje largo, pero conviene no abusar
   if(msg.length > 900) msg = msg.slice(0, 897) + '...';
   return 'https://wa.me/' + NUMERO + '?text=' + encodeURIComponent(msg);
 }
-
-const WA = 'https://wa.me/' + NUMERO + '?text=' + encodeURIComponent('Hola, vengo de la web.');
 /* Estas opciones sacan de la web: tienen que ser enlaces de verdad.
    Con un botón + setTimeout el navegador bloquea la ventana emergente. */
 const SALIDAS = ['Seguir en WhatsApp', 'Quiero hablar con el equipo', 'Quiero hablar con el equipo'];
@@ -343,8 +345,22 @@ function elegir(op){
   recordar(op);
   /* si ya estábamos esperando el nombre, cualquier botón nuevo no debe
      volver a soltar el guion de cierre desde cero */
-  if(pidiendoNombre){ pidiendoNombre = false; pintarOpciones(['Seguir en WhatsApp']); return; }
+  if(pidiendoNombre){
+    pidiendoNombre = false;
+    pintarOpciones(['Seguir en WhatsApp']);
+    mostrarSalida();
+    return;
+  }
   setTimeout(() => responder(GUION[op] ? op : 'final'), 400);
+}
+
+/* el enlace fijo del pie ("Seguir en mi WhatsApp") va oculto hasta que se
+   llega al nombre — antes de eso no debe ofrecer un atajo de salida */
+function mostrarSalida(){
+  const saltar = document.querySelector('.chat-saltar');
+  if(!saltar) return;
+  saltar.hidden = false;
+  saltar.href = enlaceWA();
 }
 
 let arrancado = false;
@@ -371,17 +387,19 @@ form.addEventListener('submit', e => {
   if(!txt) return;
   campo.value = '';
   burbuja(txt, true);
-  recordar(txt);
   if(pidiendoNombre){
-    /* esto es el nombre que se pidió al cerrar: se agradece y se da
-       la salida de verdad, sin repetir "¿me dejas tu nombre?" otra vez */
+    /* esto es el nombre que se pidió al cerrar: se guarda aparte (no como
+       una marca más) y se da la salida de verdad, sin repetir la pregunta */
+    nombreCliente = txt;
     pidiendoNombre = false;
     setTimeout(() => {
       burbuja('Gracias, ' + txt.split(' ')[0] + '. Ya tengo lo que necesito. 👇', false);
       pintarOpciones(['Seguir en WhatsApp']);
+      mostrarSalida();
     }, 500);
     return;
   }
+  recordar(txt);
   setTimeout(() => responder('final'), 500);
 });
 
