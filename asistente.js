@@ -315,13 +315,19 @@ function pintarOpciones(lista){
 }
 
 /* suelta los mensajes uno a uno, como escribe una persona */
+let pidiendoNombre = false;     // true justo después de que 'final' pregunte el nombre
+
 function responder(paso){
   const g = GUION[paso];
   if(!g) return;
   opciones.innerHTML = '';
   let i = 0;
   (function siguiente(){
-    if(i >= g.dice.length){ pintarOpciones(g.ops); return; }
+    if(i >= g.dice.length){
+      pintarOpciones(g.ops);
+      if(paso === 'final') pidiendoNombre = true;
+      return;
+    }
     escribiendo(true);
     const texto = g.dice[i++];
     setTimeout(() => {
@@ -335,6 +341,9 @@ function responder(paso){
 function elegir(op){
   burbuja(op, true);
   recordar(op);
+  /* si ya estábamos esperando el nombre, cualquier botón nuevo no debe
+     volver a soltar el guion de cierre desde cero */
+  if(pidiendoNombre){ pidiendoNombre = false; pintarOpciones(['Seguir en WhatsApp']); return; }
   setTimeout(() => responder(GUION[op] ? op : 'final'), 400);
 }
 
@@ -363,6 +372,16 @@ form.addEventListener('submit', e => {
   campo.value = '';
   burbuja(txt, true);
   recordar(txt);
+  if(pidiendoNombre){
+    /* esto es el nombre que se pidió al cerrar: se agradece y se da
+       la salida de verdad, sin repetir "¿me dejas tu nombre?" otra vez */
+    pidiendoNombre = false;
+    setTimeout(() => {
+      burbuja('Gracias, ' + txt.split(' ')[0] + '. Ya tengo lo que necesito. 👇', false);
+      pintarOpciones(['Seguir en WhatsApp']);
+    }, 500);
+    return;
+  }
   setTimeout(() => responder('final'), 500);
 });
 
