@@ -175,8 +175,10 @@ const punto   = document.getElementById('chatPunto');
 
 const GUION = {
   inicio:{
-    dice:['¡Hola! 👋 Somos InfinitumTech As.',
-          '¿Qué proceso te está costando más tiempo ahora mismo?'],
+    /* mismo orden que el bot de WhatsApp: primero saludo y pregunta abierta,
+       luego el menú — para que los dos canales suenen al mismo negocio */
+    dice:['¡Hola! 👋 Bienvenido a InfinitumTech As.',
+          '¿En qué podemos ayudarte? Aquí tienes las automatizaciones más habituales:'],
     /* las cinco categorías del catálogo, más la salida directa */
     ops:['Atender WhatsApp y llamadas','Reservas y citas','Contactos que se pierden',
          'Las facturas','Otro proceso','Hablar con una persona']
@@ -226,7 +228,9 @@ const GUION = {
     dice:['Perfecto, apuntado. 📝',
           'Te escribimos hoy mismo por WhatsApp con una estimación para tu caso.',
           '¿Me dejas tu nombre?'],
-    ops:['Seguir en WhatsApp']
+    /* sin opciones aquí a propósito: "Seguir en WhatsApp" solo debe salir
+       DESPUÉS de que responda con su nombre, no a la vez que se lo pedimos */
+    ops:[]
   }
 };
 
