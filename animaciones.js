@@ -21,8 +21,11 @@
 
   /* ─── 1. Aparición de los apartados al entrar en pantalla ─── */
 
+  /* .tarjeta-dolor y .pasos li quedan fuera a propósito: su entrada (opacidad +
+     escala + rebote, sincronizada con la línea conectora) la lleva motion.js
+     con GSAP — si las dos tocaran opacity/transform a la vez, se pelearían. */
   var aparecibles = document.querySelectorAll(
-    ".seccion, .tarjeta-dolor, .servicio, .pasos li, .lienzo, .sobre-mi-caja"
+    ".seccion, .servicio, .pasos, .lienzo, .sobre-mi-caja"
   );
 
   if (!("IntersectionObserver" in window) || menosMovimiento) {

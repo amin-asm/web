@@ -141,7 +141,13 @@
     let { largo } = trazar();
     window.addEventListener('resize', ()=>{ ({ largo } = trazar()); });
 
-    if (typeof ScrollTrigger === 'undefined') return;
+    /* ══ Entrada de las tarjetas: exactamente como en la demo — ocultas,
+       entran con escala + opacidad + rebote al ritmo del scroll, no solo
+       un fundido. Sustituye al "aparece/visible" simple que llevaban antes. */
+    const tarjetas = nodos.map(n => n.closest('.tarjeta-dolor, .pasos li') || n.parentElement);
+    gsap.set(tarjetas, { opacity:0, scale:.9, y:26 });
+
+    if (typeof ScrollTrigger === 'undefined') { gsap.set(tarjetas, {opacity:1, scale:1, y:0}); return; }
     const tl = gsap.timeline({ scrollTrigger:{ trigger:contenedor, start:'top 68%', end:'bottom 55%', scrub:.7 } });
     tl.to(path, { strokeDashoffset:0, duration:3, ease:'none' }, 0)
       .to(paquete, { opacity:1, duration:.1 }, 0)
@@ -149,9 +155,18 @@
       .to(paquete, { opacity:0, duration:.15 }, 2.9);
 
     nodos.forEach((n,i)=>{
-      const tarjeta = n.closest('.tarjeta-dolor, .pasos li') || n.parentElement;
-      tl.call(()=> estallarNodo(n, tarjeta, colorB), null, i*0.9 + 0.05);
+      const tarjeta = tarjetas[i];
+      tl.to(tarjeta, { opacity:1, scale:1, y:0, duration:.5, ease:'back.out(1.7)' }, i*0.9 + 0.05)
+        .call(()=> estallarNodo(n, tarjeta, colorB), null, i*0.9 + 0.35);
     });
+
+    /* ══ Hover: la tarjeta activa gana foco, las demás retroceden ══ */
+    if (window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+      tarjetas.forEach(t=>{
+        t.addEventListener('mouseenter', ()=> tarjetas.forEach(o=> o.classList.toggle('receso', o!==t)));
+        t.addEventListener('mouseleave', ()=> tarjetas.forEach(o=> o.classList.remove('receso')));
+      });
+    }
   }
 
   /* ══════ Estallido al activarse un nodo: mucho más que un brillo suave ══════ */
