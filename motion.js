@@ -149,8 +149,32 @@
       .to(paquete, { opacity:0, duration:.15 }, 2.9);
 
     nodos.forEach((n,i)=>{
-      tl.call(()=> n.classList.add('nodo-encendido'), null, i*0.9 + 0.05);
+      const tarjeta = n.closest('.tarjeta-dolor, .pasos li') || n.parentElement;
+      tl.call(()=> estallarNodo(n, tarjeta, colorB), null, i*0.9 + 0.05);
     });
+  }
+
+  /* ══════ Estallido al activarse un nodo: mucho más que un brillo suave ══════ */
+  function estallarNodo(nodo, tarjeta, color){
+    nodo.classList.add('nodo-encendido');
+    gsap.fromTo(nodo,
+      {scale:1, rotate:0},
+      {scale:1.55, rotate:14, duration:.32, ease:'back.out(3)',
+        onComplete:()=> gsap.to(nodo, {scale:1, rotate:0, duration:.55, ease:'elastic.out(1,0.4)'})});
+    if (tarjeta){
+      gsap.fromTo(tarjeta,
+        {scale:1},
+        {scale:1.045, duration:.28, ease:'power2.out',
+          onComplete:()=> gsap.to(tarjeta, {scale:1, duration:.5, ease:'elastic.out(1,0.45)'})});
+      tarjeta.classList.add('tarjeta-flash');
+      setTimeout(()=> tarjeta.classList.remove('tarjeta-flash'), 700);
+    }
+    const anillo = document.createElement('span');
+    anillo.className = 'anillo-estallido';
+    anillo.style.borderColor = color;
+    nodo.style.position = nodo.style.position || 'relative';
+    nodo.appendChild(anillo);
+    gsap.fromTo(anillo, {scale:.4, opacity:.9}, {scale:2.6, opacity:0, duration:.7, ease:'power2.out', onComplete:()=> anillo.remove()});
   }
 
   crearSistemaConectado('.problema-grid', '.dolor-icono', '#FFB84D', '#4CC9F0');
