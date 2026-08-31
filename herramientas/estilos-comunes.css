@@ -1,0 +1,177 @@
+/* ═══════════════════════════════════════════════════════════
+   Herramientas gratis — InfinitumTech As
+   Mismos tokens que sitio/estilos.css (misma marca). Pensado
+   para pesar poco: sin fondo 3D, sin fuentes externas, sin JS
+   de terceros. Cada herramienta calcula todo en el navegador.
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  --bg: #080B12;
+  --bg-lift: #111927;
+  --card: #0E1621;
+  --line: rgba(255, 255, 255, .12);
+  --text: #EEF3F8;
+  --muted: #8C9BAE;
+  --cyan: #4CC9F0;
+  --wa: #25D366;
+  --amber: #FFB84D;
+  --radio: 18px;
+  --ancho: 1120px;
+  --fuente: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--fuente);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, svg { max-width: 100%; display: block; }
+a { color: var(--cyan); }
+
+/* ─── Fondo ligero: gradiente fijo, cero coste de render ─── */
+.fondo-ligero {
+  position: fixed; inset: 0; z-index: -1;
+  background:
+    radial-gradient(60% 50% at 15% 0%, rgba(76,201,240,.14), transparent 60%),
+    radial-gradient(50% 40% at 100% 100%, rgba(37,211,102,.10), transparent 60%),
+    var(--bg);
+}
+
+.envoltorio { max-width: var(--ancho); margin: 0 auto; padding: 0 24px; }
+
+/* ─── Cabecera ─── */
+.cabecera {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px; max-width: var(--ancho); margin: 0 auto;
+}
+.marca { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-weight: 700; }
+.marca-logo {
+  width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--cyan), var(--wa)); color: #05070B; font-size: .8em; font-weight: 800;
+}
+.volver {
+  color: var(--muted); text-decoration: none; font-size: .92em; display: flex; align-items: center; gap: 6px;
+}
+.volver:hover { color: var(--text); }
+
+/* ─── Hero de cada herramienta ─── */
+.hero-herramienta { padding: 48px 0 20px; text-align: center; }
+.etiqueta-sector {
+  display: inline-block; background: var(--card); border: 1px solid var(--line);
+  color: var(--muted); font-size: .8em; padding: 5px 14px; border-radius: 999px; margin-bottom: 18px;
+}
+.hero-herramienta h1 { font-size: clamp(1.6em, 4vw, 2.5em); margin: 0 0 14px; line-height: 1.25; }
+.hero-herramienta .sub { color: var(--muted); max-width: 640px; margin: 0 auto; font-size: 1.05em; }
+
+/* ─── Tarjeta de la herramienta ─── */
+.panel {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radio);
+  padding: 28px; max-width: 640px; margin: 32px auto 0;
+}
+.campo { margin-bottom: 18px; }
+.campo label { display: block; font-size: .9em; color: var(--muted); margin-bottom: 6px; }
+.campo input, .campo select {
+  width: 100%; background: var(--bg-lift); border: 1px solid var(--line); color: var(--text);
+  padding: 12px 14px; border-radius: 10px; font-size: 1em; font-family: inherit;
+}
+.campo input:focus, .campo select:focus { outline: 2px solid var(--cyan); outline-offset: 1px; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 14px 20px; border-radius: 12px; border: none; cursor: pointer;
+  font-size: 1em; font-weight: 700; font-family: inherit;
+}
+.btn-calcular { background: var(--cyan); color: #05070B; }
+.btn-calcular:hover { filter: brightness(1.08); }
+.btn-wa { background: var(--wa); color: #05170D; text-decoration: none; margin-top: 12px; }
+.btn-wa:hover { filter: brightness(1.08); }
+
+.resultado {
+  margin-top: 22px; padding: 20px; border-radius: 14px; background: var(--bg-lift);
+  border: 1px solid var(--line); display: none;
+}
+.resultado.activo { display: block; }
+.resultado .cifra { font-size: 2.1em; font-weight: 800; color: var(--amber); margin: 0 0 6px; }
+.resultado p { margin: 0 0 4px; color: var(--muted); }
+
+/* ─── Plantillas generadas (herramienta con IA) ─── */
+.plantilla {
+  background: var(--bg-lift); border: 1px solid var(--line); border-radius: 12px;
+  padding: 16px 18px; margin-top: 14px; font-size: .95em; white-space: pre-wrap;
+}
+.copiar { background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 8px;
+  padding: 6px 12px; font-size: .82em; cursor: pointer; margin-top: 8px; }
+.copiar:hover { color: var(--text); border-color: var(--cyan); }
+
+/* ─── Puente hacia el servicio real ─── */
+.puente {
+  max-width: 640px; margin: 28px auto 0; padding: 22px 26px; border-radius: var(--radio);
+  background: var(--bg-lift); border: 1px solid var(--line); text-align: center;
+}
+.puente h2 { font-size: 1.15em; margin: 0 0 6px; }
+.puente p { color: var(--muted); margin: 0 0 16px; font-size: .95em; }
+
+/* ─── FAQ ─── */
+.faq { max-width: 720px; margin: 56px auto 0; }
+.faq h2 { font-size: 1.4em; text-align: center; margin-bottom: 24px; }
+.faq details {
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  padding: 4px 20px; margin-bottom: 10px;
+}
+.faq summary { cursor: pointer; padding: 14px 0; font-weight: 600; }
+.faq details p { color: var(--muted); margin: 0 0 16px; }
+
+/* ─── Hub (index) ─── */
+.rejilla-herramientas {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px;
+  max-width: var(--ancho); margin: 40px auto 0; padding: 0 24px;
+}
+.tarjeta-herr {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radio);
+  padding: 24px; text-decoration: none; color: var(--text); display: flex; flex-direction: column; gap: 10px;
+  transition: border-color .15s, transform .15s;
+}
+.tarjeta-herr:hover { border-color: var(--cyan); transform: translateY(-2px); }
+.tarjeta-herr .sector { color: var(--muted); font-size: .82em; text-transform: uppercase; letter-spacing: .5px; }
+.tarjeta-herr h3 { margin: 0; font-size: 1.15em; line-height: 1.35; }
+.tarjeta-herr .tipo {
+  align-self: flex-start; font-size: .75em; padding: 3px 10px; border-radius: 999px; margin-top: 4px;
+}
+.tarjeta-herr .tipo.sin-ia { background: rgba(76,201,240,.15); color: var(--cyan); }
+.tarjeta-herr .tipo.con-ia { background: rgba(37,211,102,.15); color: var(--wa); }
+.tarjeta-herr .probar { margin-top: auto; color: var(--cyan); font-weight: 700; font-size: .92em; }
+
+/* ─── Router: "¿a qué te dedicas?" arriba del hub ─── */
+.router {
+  max-width: 720px; margin: 0 auto 44px; padding: 24px 28px; border-radius: var(--radio);
+  background: var(--card); border: 1px solid var(--cyan); text-align: center;
+}
+.router h2 { margin: 0 0 4px; font-size: 1.2em; }
+.router p { color: var(--muted); margin: 0 0 18px; font-size: .92em; }
+.router .chips { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; text-align: left; }
+.router .chip {
+  background: var(--bg-lift); border: 1px solid var(--line); color: var(--text);
+  padding: 12px 16px; border-radius: 12px; cursor: pointer; font-size: .92em; text-decoration: none; display: block;
+}
+.router .chip:hover { border-color: var(--cyan); }
+.separador-o {
+  text-align: center; color: var(--muted); font-size: .82em; margin: 0 0 24px;
+  text-transform: uppercase; letter-spacing: .5px;
+}
+
+footer.pie {
+  max-width: var(--ancho); margin: 60px auto 0; padding: 24px; text-align: center;
+  color: var(--muted); font-size: .85em; border-top: 1px solid var(--line);
+}
+footer.pie a { color: var(--muted); }
+
+@media (max-width: 600px) {
+  .panel, .puente { padding: 20px; margin-left: 16px; margin-right: 16px; }
+}

@@ -1135,3 +1135,34 @@ body{overflow-x:hidden;max-width:100%}
 @media (min-width:1000px){
   .servicios{grid-template-columns:repeat(3,1fr)}
 }
+
+/* ═══════════════════════════════════════════════════════════
+   MOTION — hero cinético, botones magnéticos, tarjetas con tilt
+   Aplicado con motion.js (GSAP auto-alojado en lib/, respeta la
+   CSP script-src 'self'). Si el usuario pide menos movimiento,
+   motion.js no hace nada y esto se queda quieto sin romperse.
+   ═══════════════════════════════════════════════════════════ */
+.linea-motion{ display:block; overflow:hidden; }
+.linea-motion span{ display:inline-block; will-change:transform,opacity,filter; }
+.linea-final span{ transform-origin:left center; }
+
+.btn-wa, .servicio, .tarjeta-dolor{ will-change:transform; }
+
+/* Cursor propio (solo ratón fino; en táctil no se inyecta) */
+.cursor-punto, .cursor-anillo{ position:fixed; top:0; left:0; pointer-events:none; z-index:9999; border-radius:50%; transform:translate(-50%,-50%); }
+.cursor-punto{ width:6px; height:6px; background:var(--cyan); }
+.cursor-anillo{ width:32px; height:32px; border:1.5px solid rgba(76,201,240,.5); transition:width .25s,height .25s,border-color .25s,background .25s; }
+.cursor-anillo.activo{ width:52px; height:52px; border-color:var(--cyan); background:rgba(76,201,240,.08); }
+
+/* Ripple del botón al pulsar */
+.btn-wa{ position:relative; overflow:hidden; }
+.btn-ripple{ position:absolute; border-radius:50%; background:rgba(255,255,255,.55); pointer-events:none; }
+
+/* Nodo "encendido" cuando la línea conectora dinámica lo alcanza */
+.dolor-icono.nodo-encendido{ filter:drop-shadow(0 0 8px rgba(76,201,240,.6)); }
+.paso-num.nodo-encendido{ border-color:var(--wa); box-shadow:0 0 0 5px rgba(37,211,102,.12); }
+
+@media (prefers-reduced-motion:reduce){
+  .linea-motion span{ opacity:1 !important; transform:none !important; filter:none !important; }
+  .linea-conexion-din{ display:none; }
+}

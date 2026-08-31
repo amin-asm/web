@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Calculadora gratis: cuánto tiempo pierde tu peluquería o centro de estética anotando citas a mano, confirmando por teléfono y cuadrando huecos.">
+<meta property="og:site_name" content="InfinitumTech As">
+<meta property="og:title" content="¿Cuánto tiempo pierdes cuadrando la agenda a mano? — InfinitumTech As">
+<meta property="og:type" content="website">
+<title>Calculadora: tiempo perdido con la agenda a mano — InfinitumTech As</title>
+<link rel="stylesheet" href="estilos-comunes.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "¿Cómo evito que se me crucen dos citas en la misma hora?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Con una agenda que revise el hueco antes de confirmar, no después. A mano es fácil que dos personas apunten el mismo hueco (una en el cuaderno, otra por WhatsApp) sin darse cuenta hasta que las dos clientas llegan a la vez."}},
+    {"@type": "Question", "name": "¿Qué programa gratis puedo usar para gestionar las citas de mi peluquería?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Google Calendar es gratis y sirve como agenda compartida entre profesionales, pero no confirma solo ni evita huecos duplicados si varias personas anotan a la vez — para eso hace falta que algo automático compruebe la disponibilidad antes de guardar la cita."}},
+    {"@type": "Question", "name": "¿Cómo hago que mis clientas no se olviden de la cita?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Un recordatorio automático el día antes reduce las ausencias sin que nadie del salón tenga que llamar una por una. Es la mejora con más impacto y menos esfuerzo de montar."}},
+    {"@type": "Question", "name": "¿Merece la pena automatizar la agenda si mi peluquería es pequeña?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Depende de las horas que le dediques a cuadrarla a mano cada semana — con la calculadora de esta página lo ves en cifra real antes de decidir. Muchos salones de 1-2 profesionales ya recuperan ese tiempo con algo tan simple como recordatorios automáticos, sin montar un sistema grande."}}
+  ]
+}
+</script>
+</head>
+<body>
+<div class="fondo-ligero" aria-hidden="true"></div>
+
+<header class="cabecera">
+  <a class="marca" href="../index.html">
+    <span class="marca-logo" aria-hidden="true">AS</span>
+    InfinitumTech <b>As</b>
+  </a>
+  <a class="volver" href="index.html">← Otras herramientas</a>
+</header>
+
+<section class="hero-herramienta">
+  <div class="envoltorio">
+    <span class="etiqueta-sector">Peluquerías y centros de estética</span>
+    <h1>¿Cuánto tiempo pierdes cuadrando la agenda a mano?</h1>
+    <p class="sub">Cuenta cuánto tardas anotando, confirmando y reorganizando citas cada semana. El cálculo se hace aquí mismo, en tu navegador.</p>
+  </div>
+</section>
+
+<div class="panel">
+  <div class="campo">
+    <label for="citas">Citas que gestionas a la semana</label>
+    <input type="number" id="citas" placeholder="Ej. 45" min="0">
+  </div>
+  <div class="campo">
+    <label for="minutos">Minutos que tardas de media por cita (anotar + confirmar + posibles cambios)</label>
+    <input type="number" id="minutos" placeholder="Ej. 4" min="0">
+  </div>
+  <div class="campo">
+    <label for="profesionales">Cuántas profesionales comparten esa agenda</label>
+    <input type="number" id="profesionales" placeholder="Ej. 3" min="1" value="1">
+  </div>
+  <button class="btn btn-calcular" onclick="calcular()">Calcular tiempo perdido al mes</button>
+
+  <div class="resultado" id="resultado">
+    <p class="cifra" id="cifraHoras">—</p>
+    <p id="detalle"></p>
+    <a class="btn btn-wa" id="botonWa" href="#" target="_blank" rel="noopener noreferrer">Hablar por WhatsApp sobre esto</a>
+  </div>
+</div>
+
+<div class="puente">
+  <h2>Esto se automatiza con un agente que confirma, avisa y evita huecos duplicados solo.</h2>
+  <p>Sin dejar de usar WhatsApp — el mismo canal que ya usan tus clientas.</p>
+</div>
+
+<section class="faq">
+  <h2>Preguntas frecuentes</h2>
+  <details>
+    <summary>¿Cómo evito que se me crucen dos citas en la misma hora?</summary>
+    <p>Con una agenda que revise el hueco antes de confirmar, no después. A mano es fácil que dos personas apunten el mismo hueco (una en el cuaderno, otra por WhatsApp) sin darse cuenta hasta que las dos clientas llegan a la vez.</p>
+  </details>
+  <details>
+    <summary>¿Qué programa gratis puedo usar para gestionar las citas de mi peluquería?</summary>
+    <p>Google Calendar es gratis y sirve como agenda compartida entre profesionales, pero no confirma solo ni evita huecos duplicados si varias personas anotan a la vez — para eso hace falta que algo automático compruebe la disponibilidad antes de guardar la cita.</p>
+  </details>
+  <details>
+    <summary>¿Cómo hago que mis clientas no se olviden de la cita?</summary>
+    <p>Un recordatorio automático el día antes reduce las ausencias sin que nadie del salón tenga que llamar una por una. Es la mejora con más impacto y menos esfuerzo de montar.</p>
+  </details>
+  <details>
+    <summary>¿Merece la pena automatizar la agenda si mi peluquería es pequeña?</summary>
+    <p>Depende de las horas que le dediques a cuadrarla a mano cada semana — con la calculadora de arriba lo ves en cifra real antes de decidir. Muchos salones de 1-2 profesionales ya recuperan ese tiempo con algo tan simple como recordatorios automáticos, sin montar un sistema grande.</p>
+  </details>
+</section>
+
+<footer class="pie">
+  Esta página no guarda ni envía ningún dato — todo el cálculo ocurre en tu propio navegador.
+  · <a href="index.html">Otras herramientas</a>
+</footer>
+
+<script>
+function calcular(){
+  const citas = parseFloat(document.getElementById('citas').value) || 0;
+  const minutos = parseFloat(document.getElementById('minutos').value) || 0;
+  const profesionales = parseFloat(document.getElementById('profesionales').value) || 1;
+
+  const minutosSemana = citas * minutos;
+  const horasMes = (minutosSemana * 4.33) / 60;
+  const horasMesTotal = horasMes; // ya es tiempo agregado del salón, no se multiplica por profesionales de nuevo
+
+  const cifra = document.getElementById('cifraHoras');
+  const detalle = document.getElementById('detalle');
+  const resultado = document.getElementById('resultado');
+
+  cifra.textContent = horasMesTotal.toFixed(1).replace('.0','') + ' horas al mes';
+  detalle.textContent = `Con ${citas} citas/semana y ${minutos} min por cita, tu salón dedica esto solo a cuadrar la agenda a mano — sin contar el propio servicio.`;
+  resultado.classList.add('activo');
+
+  const msg = encodeURIComponent(`Hola Amin, he calculado que perdemos ~${horasMesTotal.toFixed(1)}h al mes cuadrando la agenda a mano en la peluquería. Quiero saber cómo automatizarlo.`);
+  document.getElementById('botonWa').href = `https://wa.me/34632107669?text=${msg}`;
+}
+</script>
+
+</body>
+</html>

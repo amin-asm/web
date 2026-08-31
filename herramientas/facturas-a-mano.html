@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Calculadora gratis: cuántas horas al mes pierdes copiando a mano las facturas de tus proveedores en una hoja de cálculo o programa de gestión.">
+<meta property="og:site_name" content="InfinitumTech As">
+<meta property="og:title" content="¿Cuántas horas pierdes metiendo facturas a mano? — InfinitumTech As">
+<meta property="og:type" content="website">
+<title>Calculadora: horas perdidas con facturas a mano — InfinitumTech As</title>
+<link rel="stylesheet" href="estilos-comunes.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "¿Cómo automatizo la entrada de facturas de proveedores sin programar?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Con un flujo que lea el correo o carpeta donde llegan las facturas, extraiga los datos (proveedor, importe, fecha, concepto) con IA y los vuelque solo en tu Excel, Google Sheets o programa de gestión — sin que nadie las copie a mano."}},
+    {"@type": "Question", "name": "¿Qué programa gratis hay para digitalizar facturas?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Hay lectores de PDF/OCR sueltos, pero la mayoría solo extraen el texto — no lo organizan ni lo guardan donde tú lo necesitas. Para ahorrar tiempo de verdad hace falta que el proceso entero (leer, extraer, guardar, avisar si falta algo) vaya encadenado."}},
+    {"@type": "Question", "name": "¿Merece la pena automatizar las facturas si recibo pocas al mes?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Depende del tiempo que le dediques — con la calculadora de esta página lo ves en horas reales. Si son menos de 10-15 facturas al mes, puede que compense más revisar el proceso que automatizarlo del todo."}},
+    {"@type": "Question", "name": "¿Es seguro que una IA lea mis facturas y datos de proveedores?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Sí, siempre que el flujo solo mande a la IA los datos necesarios para extraer la información (no credenciales ni datos de más) y todo quede guardado en tus propias herramientas (Sheets, Drive), no en un tercero desconocido."}}
+  ]
+}
+</script>
+</head>
+<body>
+<div class="fondo-ligero" aria-hidden="true"></div>
+
+<header class="cabecera">
+  <a class="marca" href="../index.html">
+    <span class="marca-logo" aria-hidden="true">AS</span>
+    InfinitumTech <b>As</b>
+  </a>
+  <a class="volver" href="index.html">← Otras herramientas</a>
+</header>
+
+<section class="hero-herramienta">
+  <div class="envoltorio">
+    <span class="etiqueta-sector">Cualquier negocio con proveedores</span>
+    <h1>¿Cuántas horas pierdes metiendo facturas a mano?</h1>
+    <p class="sub">Copiar proveedor, importe y fecha uno a uno se come tiempo que no vuelve. Cuéntalo aquí.</p>
+  </div>
+</section>
+
+<div class="panel">
+  <div class="campo">
+    <label for="facturas">Facturas de proveedor que recibes al mes</label>
+    <input type="number" id="facturas" placeholder="Ej. 30" min="0">
+  </div>
+  <div class="campo">
+    <label for="minutos">Minutos que tardas en meter cada una a mano</label>
+    <input type="number" id="minutos" placeholder="Ej. 6" min="0">
+  </div>
+  <button class="btn btn-calcular" onclick="calcular()">Calcular horas perdidas al mes</button>
+
+  <div class="resultado" id="resultado">
+    <p class="cifra" id="cifra">—</p>
+    <p id="detalle"></p>
+    <a class="btn btn-wa" id="botonWa" href="#" target="_blank" rel="noopener noreferrer">Hablar por WhatsApp sobre esto</a>
+  </div>
+</div>
+
+<div class="puente">
+  <h2>Un flujo que lee la factura y la guarda solo en tu hoja de cálculo — sin copiar nada a mano.</h2>
+  <p>Con o sin IA según lo desordenado que llegue el papeleo, decidimos juntos qué encaja.</p>
+</div>
+
+<section class="faq">
+  <h2>Preguntas frecuentes</h2>
+  <details>
+    <summary>¿Cómo automatizo la entrada de facturas de proveedores sin programar?</summary>
+    <p>Con un flujo que lea el correo o carpeta donde llegan las facturas, extraiga los datos (proveedor, importe, fecha, concepto) con IA y los vuelque solo en tu Excel, Google Sheets o programa de gestión — sin que nadie las copie a mano.</p>
+  </details>
+  <details>
+    <summary>¿Qué programa gratis hay para digitalizar facturas?</summary>
+    <p>Hay lectores de PDF/OCR sueltos, pero la mayoría solo extraen el texto — no lo organizan ni lo guardan donde tú lo necesitas. Para ahorrar tiempo de verdad hace falta que el proceso entero (leer, extraer, guardar, avisar si falta algo) vaya encadenado.</p>
+  </details>
+  <details>
+    <summary>¿Merece la pena automatizar las facturas si recibo pocas al mes?</summary>
+    <p>Depende del tiempo que le dediques — con la calculadora de arriba lo ves en horas reales. Si son menos de 10-15 facturas al mes, puede que compense más revisar el proceso que automatizarlo del todo.</p>
+  </details>
+  <details>
+    <summary>¿Es seguro que una IA lea mis facturas y datos de proveedores?</summary>
+    <p>Sí, siempre que el flujo solo mande a la IA los datos necesarios para extraer la información (no credenciales ni datos de más) y todo quede guardado en tus propias herramientas (Sheets, Drive), no en un tercero desconocido.</p>
+  </details>
+</section>
+
+<footer class="pie">
+  Esta página no guarda ni envía ningún dato — todo el cálculo ocurre en tu propio navegador.
+  · <a href="index.html">Otras herramientas</a>
+</footer>
+
+<script>
+function calcular(){
+  const facturas = parseFloat(document.getElementById('facturas').value) || 0;
+  const minutos = parseFloat(document.getElementById('minutos').value) || 0;
+  const horas = (facturas * minutos) / 60;
+
+  document.getElementById('cifra').textContent = horas.toFixed(1).replace('.0','') + ' horas al mes';
+  document.getElementById('detalle').textContent = `${facturas} facturas × ${minutos} min = tiempo que se va solo en copiar datos, sin generar ni un euro de más.`;
+  document.getElementById('resultado').classList.add('activo');
+
+  const msg = encodeURIComponent(`Hola Amin, calculo que perdemos ~${horas.toFixed(1)}h al mes metiendo facturas a mano. Quiero saber cómo automatizarlo.`);
+  document.getElementById('botonWa').href = `https://wa.me/34632107669?text=${msg}`;
+}
+</script>
+
+</body>
+</html>

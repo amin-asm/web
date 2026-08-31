@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Genera gratis plantillas de mensajes de WhatsApp Business listas para tu sector: confirmación de cita, recordatorio, aviso de reserva y respuesta a reseña.">
+<meta property="og:site_name" content="InfinitumTech As">
+<meta property="og:title" content="Plantillas gratis de WhatsApp para tu negocio — InfinitumTech As">
+<meta property="og:type" content="website">
+<title>Generador de plantillas de WhatsApp Business — InfinitumTech As</title>
+<link rel="stylesheet" href="estilos-comunes.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "¿Puedo mandar cualquier mensaje por WhatsApp Business a mis clientes?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Solo dentro de las 24h siguientes a que el cliente te escriba. Fuera de esa ventana, WhatsApp exige usar una plantilla (HSM) aprobada por Meta de antemano — por eso conviene tener ya redactadas las que más vas a usar."}},
+    {"@type": "Question", "name": "¿Qué es una plantilla HSM de WhatsApp Business?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Es un mensaje predefinido que Meta revisa y aprueba antes de que puedas enviarlo fuera de la ventana de 24h — por ejemplo, un recordatorio de cita o una confirmación de reserva."}},
+    {"@type": "Question", "name": "¿Cómo automatizo el envío de recordatorios por WhatsApp?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Con un flujo que revise tu agenda o sistema de citas y mande la plantilla ya aprobada al cliente automáticamente el día antes, sin que nadie tenga que escribirla ni enviarla a mano."}},
+    {"@type": "Question", "name": "¿Las plantillas de esta página sirven para cualquier negocio?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Sirven de punto de partida — elige tu sector y el tipo de mensaje, y ajusta el texto a tu forma de hablar antes de mandarlo. La versión automatizada de verdad genera el mensaje al momento, ya personalizado con los datos reales del cliente."}}
+  ]
+}
+</script>
+</head>
+<body>
+<div class="fondo-ligero" aria-hidden="true"></div>
+
+<header class="cabecera">
+  <a class="marca" href="../index.html">
+    <span class="marca-logo" aria-hidden="true">AS</span>
+    InfinitumTech <b>As</b>
+  </a>
+  <a class="volver" href="index.html">← Otras herramientas</a>
+</header>
+
+<section class="hero-herramienta">
+  <div class="envoltorio">
+    <span class="etiqueta-sector">Cualquier negocio que atiende por WhatsApp</span>
+    <h1>Plantillas listas de WhatsApp Business para tu sector</h1>
+    <p class="sub">Elige tu sector y el tipo de mensaje. Copia el texto y ajústalo a tu forma de hablar.</p>
+  </div>
+</section>
+
+<div class="panel">
+  <div class="campo">
+    <label for="sector">Tu sector</label>
+    <select id="sector">
+      <option value="peluqueria">Peluquería / centro de estética</option>
+      <option value="clinica">Clínica / consulta con cita previa</option>
+      <option value="restaurante">Restaurante / hostelería</option>
+    </select>
+  </div>
+  <div class="campo">
+    <label for="tipo">Tipo de mensaje</label>
+    <select id="tipo">
+      <option value="confirmacion">Confirmación de cita/reserva</option>
+      <option value="recordatorio">Recordatorio el día antes</option>
+      <option value="cancelacion">Aviso de cancelación por parte del negocio</option>
+      <option value="resena">Petición de reseña después de la visita</option>
+    </select>
+  </div>
+  <button class="btn btn-calcular" onclick="generar()">Generar mi plantilla</button>
+
+  <div class="resultado" id="resultado">
+    <p id="etiquetaPlantilla" style="color:var(--muted); margin:0 0 4px; font-size:.85em;">Plantilla generada:</p>
+    <div class="plantilla" id="textoPlantilla">—</div>
+    <button class="copiar" onclick="copiar()">Copiar texto</button>
+    <a class="btn btn-wa" id="botonWa" href="#" target="_blank" rel="noopener noreferrer" style="margin-top:14px;">Quiero que esto se mande solo, sin escribirlo yo</a>
+  </div>
+</div>
+
+<div class="puente">
+  <h2>Esta plantilla es un punto de partida escrito a mano.</h2>
+  <p>La versión automatizada de verdad genera y manda el mensaje sola, ya personalizado con el nombre, la hora y el servicio de cada cliente — sin que nadie la escriba cada vez.</p>
+</div>
+
+<section class="faq">
+  <h2>Preguntas frecuentes</h2>
+  <details>
+    <summary>¿Puedo mandar cualquier mensaje por WhatsApp Business a mis clientes?</summary>
+    <p>Solo dentro de las 24h siguientes a que el cliente te escriba. Fuera de esa ventana, WhatsApp exige usar una plantilla (HSM) aprobada por Meta de antemano — por eso conviene tener ya redactadas las que más vas a usar.</p>
+  </details>
+  <details>
+    <summary>¿Qué es una plantilla HSM de WhatsApp Business?</summary>
+    <p>Es un mensaje predefinido que Meta revisa y aprueba antes de que puedas enviarlo fuera de la ventana de 24h — por ejemplo, un recordatorio de cita o una confirmación de reserva.</p>
+  </details>
+  <details>
+    <summary>¿Cómo automatizo el envío de recordatorios por WhatsApp?</summary>
+    <p>Con un flujo que revise tu agenda o sistema de citas y mande la plantilla ya aprobada al cliente automáticamente el día antes, sin que nadie tenga que escribirla ni enviarla a mano.</p>
+  </details>
+  <details>
+    <summary>¿Las plantillas de esta página sirven para cualquier negocio?</summary>
+    <p>Sirven de punto de partida — elige tu sector y el tipo de mensaje, y ajusta el texto a tu forma de hablar antes de mandarlo. La versión automatizada de verdad genera el mensaje al momento, ya personalizado con los datos reales del cliente.</p>
+  </details>
+</section>
+
+<footer class="pie">
+  Esta página no guarda ni envía ningún dato — todo se genera en tu propio navegador.
+  · <a href="index.html">Otras herramientas</a>
+</footer>
+
+<script>
+const PLANTILLAS = {
+  peluqueria: {
+    confirmacion: 'Hola {{nombre}} 👋 Te confirmamos tu cita en [Nombre del salón] el {{fecha}} a las {{hora}} para {{servicio}}. Si necesitas cambiarla, responde a este mensaje.',
+    recordatorio: 'Hola {{nombre}}, te recordamos tu cita mañana {{fecha}} a las {{hora}} en [Nombre del salón]. ¿Confirmas que vienes? Responde SÍ o NO.',
+    cancelacion: 'Hola {{nombre}}, sentimos avisarte de que tenemos que reprogramar tu cita del {{fecha}} a las {{hora}}. ¿Te viene bien otro día esta semana?',
+    resena: '¡Gracias por venir, {{nombre}}! Si te ha gustado el resultado, nos ayudaría muchísimo que nos dejaras una reseña: [enlace]. 💛'
+  },
+  clinica: {
+    confirmacion: 'Hola {{nombre}}, su cita en [Nombre de la clínica] queda confirmada para el {{fecha}} a las {{hora}}. Si no puede acudir, avísenos con antelación.',
+    recordatorio: 'Hola {{nombre}}, le recordamos su cita mañana {{fecha}} a las {{hora}} en [Nombre de la clínica]. Responda CONFIRMAR o CANCELAR.',
+    cancelacion: 'Hola {{nombre}}, lamentamos informarle de que su cita del {{fecha}} a las {{hora}} debe reprogramarse. ¿Qué día le vendría bien?',
+    resena: 'Gracias por confiar en [Nombre de la clínica], {{nombre}}. Si quiere contarnos qué tal su experiencia, puede dejarnos una reseña aquí: [enlace].'
+  },
+  restaurante: {
+    confirmacion: 'Hola {{nombre}} 👋 Tu mesa en [Nombre del restaurante] queda reservada para el {{fecha}} a las {{hora}}, {{personas}} personas. ¡Te esperamos!',
+    recordatorio: 'Hola {{nombre}}, te recordamos tu reserva mañana {{fecha}} a las {{hora}} en [Nombre del restaurante]. Responde SÍ para confirmar.',
+    cancelacion: 'Hola {{nombre}}, sentimos comunicarte que no podemos mantener tu reserva del {{fecha}} a las {{hora}}. ¿Te reservamos otro día?',
+    resena: '¡Gracias por venir, {{nombre}}! Esperamos que lo hayas disfrutado. Si tienes un momento, nos encantaría leer tu opinión: [enlace] 🍽️'
+  }
+};
+
+function generar(){
+  const sector = document.getElementById('sector').value;
+  const tipo = document.getElementById('tipo').value;
+  const texto = PLANTILLAS[sector][tipo];
+
+  document.getElementById('textoPlantilla').textContent = texto;
+  document.getElementById('resultado').classList.add('activo');
+
+  const msg = encodeURIComponent('Hola Amin, me interesa que estos mensajes se manden solos con un agente. ¿Cómo lo montamos?');
+  document.getElementById('botonWa').href = `https://wa.me/34632107669?text=${msg}`;
+}
+
+function copiar(){
+  const texto = document.getElementById('textoPlantilla').textContent;
+  if (texto === '—') return;
+  navigator.clipboard.writeText(texto).then(() => {
+    const boton = document.querySelector('.copiar');
+    const original = boton.textContent;
+    boton.textContent = '¡Copiado!';
+    setTimeout(() => boton.textContent = original, 1500);
+  }).catch(() => {});
+}
+</script>
+
+</body>
+</html>

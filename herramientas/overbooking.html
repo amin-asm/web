@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Test gratis: descubre si tu forma de anotar reservas en el restaurante te está exponiendo a overbooking, mesas cruzadas o huecos vacíos.">
+<meta property="og:site_name" content="InfinitumTech As">
+<meta property="og:title" content="¿Tu forma de anotar reservas te hace overbooking? — InfinitumTech As">
+<meta property="og:type" content="website">
+<title>Test: riesgo de overbooking en tu restaurante — InfinitumTech As</title>
+<link rel="stylesheet" href="estilos-comunes.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "¿Qué es el overbooking en un restaurante?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Es aceptar más reservas de las que realmente puedes atender a una hora, normalmente porque dos personas anotan reservas en sitios distintos (libreta, teléfono, WhatsApp) sin verse entre ellas."}},
+    {"@type": "Question", "name": "¿Cómo evito hacer overbooking en mi restaurante?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Centralizando las reservas en un único sitio que se actualice al momento, sea quien sea quien la tome — por teléfono, WhatsApp o web — para que nadie ofrezca una mesa que ya está cogida."}},
+    {"@type": "Question", "name": "¿Merece la pena un sistema de reservas si mi restaurante es pequeño?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Si solo llevas la agenda un fin de semana ajetreado, probablemente no. Si recibes reservas todos los días por varios canales a la vez (teléfono, WhatsApp, redes), un sistema centralizado evita errores que cuestan mesas y clientes molestos."}},
+    {"@type": "Question", "name": "¿Cómo gestiono las reservas de mi restaurante por WhatsApp sin liarme?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Con un agente que confirme la reserva automáticamente contra la disponibilidad real, en vez de que una persona del equipo tenga que mirar la libreta cada vez que llega un mensaje."}}
+  ]
+}
+</script>
+</head>
+<body>
+<div class="fondo-ligero" aria-hidden="true"></div>
+
+<header class="cabecera">
+  <a class="marca" href="../index.html">
+    <span class="marca-logo" aria-hidden="true">AS</span>
+    InfinitumTech <b>As</b>
+  </a>
+  <a class="volver" href="index.html">← Otras herramientas</a>
+</header>
+
+<section class="hero-herramienta">
+  <div class="envoltorio">
+    <span class="etiqueta-sector">Restaurantes y hostelería</span>
+    <h1>¿Tu forma de anotar reservas te hace overbooking?</h1>
+    <p class="sub">Cuatro preguntas rápidas. Sin cuenta, sin dejar datos.</p>
+  </div>
+</section>
+
+<div class="panel">
+  <div class="campo">
+    <label for="canales">¿Por cuántos canales distintos te llegan reservas? (teléfono, WhatsApp, redes, en persona...)</label>
+    <input type="number" id="canales" placeholder="Ej. 3" min="1" value="1">
+  </div>
+  <div class="campo">
+    <label for="personas">¿Cuántas personas del equipo pueden anotar una reserva?</label>
+    <input type="number" id="personas" placeholder="Ej. 2" min="1" value="1">
+  </div>
+  <div class="campo">
+    <label for="soporte">¿Dónde apuntáis las reservas hoy?</label>
+    <select id="soporte">
+      <option value="0">Sistema centralizado que todos ven al momento</option>
+      <option value="1">Libreta o cuaderno físico</option>
+      <option value="2">Mezcla de libreta + notas del móvil + memoria</option>
+    </select>
+  </div>
+  <button class="btn btn-calcular" onclick="calcular()">Ver mi riesgo</button>
+
+  <div class="resultado" id="resultado">
+    <p class="cifra" id="cifra">—</p>
+    <p id="detalle"></p>
+    <a class="btn btn-wa" id="botonWa" href="#" target="_blank" rel="noopener noreferrer">Hablar por WhatsApp sobre esto</a>
+  </div>
+</div>
+
+<div class="puente">
+  <h2>Centralizar las reservas en un solo sitio, actualizado al momento, elimina el overbooking de raíz.</h2>
+  <p>Sea cual sea el canal por el que llega la reserva.</p>
+</div>
+
+<section class="faq">
+  <h2>Preguntas frecuentes</h2>
+  <details>
+    <summary>¿Qué es el overbooking en un restaurante?</summary>
+    <p>Es aceptar más reservas de las que realmente puedes atender a una hora, normalmente porque dos personas anotan reservas en sitios distintos (libreta, teléfono, WhatsApp) sin verse entre ellas.</p>
+  </details>
+  <details>
+    <summary>¿Cómo evito hacer overbooking en mi restaurante?</summary>
+    <p>Centralizando las reservas en un único sitio que se actualice al momento, sea quien sea quien la tome — por teléfono, WhatsApp o web — para que nadie ofrezca una mesa que ya está cogida.</p>
+  </details>
+  <details>
+    <summary>¿Merece la pena un sistema de reservas si mi restaurante es pequeño?</summary>
+    <p>Si solo llevas la agenda un fin de semana ajetreado, probablemente no. Si recibes reservas todos los días por varios canales a la vez (teléfono, WhatsApp, redes), un sistema centralizado evita errores que cuestan mesas y clientes molestos.</p>
+  </details>
+  <details>
+    <summary>¿Cómo gestiono las reservas de mi restaurante por WhatsApp sin liarme?</summary>
+    <p>Con un agente que confirme la reserva automáticamente contra la disponibilidad real, en vez de que una persona del equipo tenga que mirar la libreta cada vez que llega un mensaje.</p>
+  </details>
+</section>
+
+<footer class="pie">
+  Esta página no guarda ni envía ningún dato — todo el cálculo ocurre en tu propio navegador.
+  · <a href="index.html">Otras herramientas</a>
+</footer>
+
+<script>
+function calcular(){
+  const canales = parseFloat(document.getElementById('canales').value) || 1;
+  const personas = parseFloat(document.getElementById('personas').value) || 1;
+  const soporte = parseFloat(document.getElementById('soporte').value);
+
+  let puntos = 0;
+  if (canales >= 3) puntos += 2; else if (canales === 2) puntos += 1;
+  if (personas >= 3) puntos += 2; else if (personas === 2) puntos += 1;
+  puntos += soporte * 2;
+
+  let nivel, texto;
+  if (puntos <= 1) { nivel = 'Riesgo bajo'; texto = 'Tu forma de anotar reservas está bastante controlada. El riesgo de overbooking es bajo tal y como lo tienes hoy.'; }
+  else if (puntos <= 4) { nivel = 'Riesgo medio'; texto = 'Con varios canales o varias personas anotando, ya hay margen real para que dos reservas se crucen sin que nadie lo note hasta que llegan los clientes.'; }
+  else { nivel = 'Riesgo alto'; texto = 'Varios canales, varias personas y sin un sistema centralizado: es cuestión de tiempo que dos reservas choquen en la misma mesa y a la misma hora.'; }
+
+  document.getElementById('cifra').textContent = nivel;
+  document.getElementById('detalle').textContent = texto;
+  document.getElementById('resultado').classList.add('activo');
+
+  const msg = encodeURIComponent(`Hola Amin, he hecho el test de overbooking y me sale "${nivel}". Quiero saber cómo centralizar las reservas del restaurante.`);
+  document.getElementById('botonWa').href = `https://wa.me/34632107669?text=${msg}`;
+}
+</script>
+
+</body>
+</html>

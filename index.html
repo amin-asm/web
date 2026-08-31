@@ -27,7 +27,7 @@
 <title>InfinitumTech As — Asistentes de IA por WhatsApp para tu negocio</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://www.aminautomation.com/">
-<link rel="stylesheet" href="estilos.css?v=202608272212">
+<link rel="stylesheet" href="estilos.css?v=202608312231">
 </head>
 <body>
 
@@ -50,6 +50,7 @@
       <li><a href="#servicios">Servicios</a></li>
       <li><a href="#proceso">Cómo trabajamos</a></li>
       <li><a href="#sobre-mi">Quiénes somos</a></li>
+      <li><a href="herramientas/">Herramientas gratis</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
   </nav>
@@ -66,7 +67,11 @@
 <section class="portada" id="inicio">
   <div class="portada-texto">
     <p class="etiqueta">Sevilla · Automatización con IA</p>
-    <h1>El trabajo que haces <span class="resalte">dos veces al día</span> puede hacerlo una máquina.</h1>
+    <h1 id="heroTitulo">
+      <span class="linea-motion"><span>El trabajo que haces</span></span>
+      <span class="linea-motion"><span class="resalte">dos veces al día</span></span>
+      <span class="linea-motion linea-final"><span>puede hacerlo una máquina.</span></span>
+    </h1>
     <p class="entradilla">
       Desarrollamos asistentes de IA que atienden por WhatsApp, sistemas que ordenan las facturas
       solos y automatizaciones a medida para los procesos que repites cada semana.
@@ -298,55 +303,6 @@
     </article>
 
   </div>
-
-    <article class="servicio">
-      <!-- Mockup vivo: la agenda se va llenando sola -->
-      <div class="mockup mockup-agenda" aria-hidden="true">
-        <div class="agenda-cab"><span>Jueves 14</span><span class="agenda-libre">3 huecos</span></div>
-        <div class="agenda-hora a1"><span class="agenda-h">10:00</span><span class="agenda-quien">Laura P. · corte</span></div>
-        <div class="agenda-hora a2"><span class="agenda-h">11:30</span><span class="agenda-quien">Miguel R. · revisión</span></div>
-        <div class="agenda-hora a3"><span class="agenda-h">13:00</span><span class="agenda-quien">Ana G. · color</span></div>
-        <div class="agenda-hora a4 agenda-nueva"><span class="agenda-h">17:00</span><span class="agenda-quien">Reservando…</span></div>
-      </div>
-      <div class="servicio-ico" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M9 15l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <h3>Reservas y citas sin llamadas</h3>
-      <p>
-        La agenda se gestiona sola: el cliente elige hueco, queda anotado en tu calendario
-        y recibe el recordatorio el día antes. Si cancela, el hueco vuelve a quedar libre
-        al momento. Vale para peluquerías, clínicas, centros de estética y talleres.
-      </p>
-      <ul class="lista-check">
-        <li>Se sincroniza con tu calendario</li>
-        <li>Recordatorio automático el día antes</li>
-        <li>Menos ausencias sin avisar</li>
-      </ul>
-    </article>
-
-    <article class="servicio">
-      <!-- Mockup vivo: los contactos entran y se clasifican solos -->
-      <div class="mockup mockup-leads" aria-hidden="true">
-        <div class="lead l1"><span class="lead-punto"></span><span class="lead-txt">Web · presupuesto</span><span class="lead-tag tag-caliente">Caliente</span></div>
-        <div class="lead l2"><span class="lead-punto"></span><span class="lead-txt">Instagram · duda</span><span class="lead-tag tag-tibio">Tibio</span></div>
-        <div class="lead l3"><span class="lead-punto"></span><span class="lead-txt">WhatsApp · precio</span><span class="lead-tag tag-caliente">Caliente</span></div>
-        <div class="lead l4"><span class="lead-punto"></span><span class="lead-txt">Llamada perdida</span><span class="lead-tag tag-tibio">Pendiente</span></div>
-      </div>
-      <div class="servicio-ico" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-      </div>
-      <h3>Ni un contacto perdido</h3>
-      <p>
-        Escriba por donde escriba —web, redes, WhatsApp o una llamada que no cogisteis—,
-        queda registrado, clasificado y con aviso para que alguien lo atienda. Nadie se
-        queda sin respuesta porque se traspapeló un mensaje.
-      </p>
-      <ul class="lista-check">
-        <li>Recoge de todos los canales a la vez</li>
-        <li>Ordenados por interés real</li>
-        <li>Aviso inmediato de los urgentes</li>
-      </ul>
-    </article>
 </section>
 
 <!-- ═══ 5. Cómo trabajo ═══ -->
@@ -458,7 +414,11 @@
   </a>
 </div>
 
-<script src="animaciones.js?v=202608272212" defer></script>
-<script src="asistente.js?v=202608272212" defer></script>
+<script src="animaciones.js?v=202608312231" defer></script>
+<script src="asistente.js?v=202608312231" defer></script>
+<script src="lib/gsap.min.js" defer></script>
+<script src="lib/ScrollTrigger.min.js" defer></script>
+<script src="lib/MotionPathPlugin.min.js" defer></script>
+<script src="motion.js?v=202608312231" defer></script>
 </body>
 </html>

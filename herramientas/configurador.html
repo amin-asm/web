@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Cuestionario gratis: cuéntanos tu proceso y te decimos si tu automatización necesita IA o no, y con qué herramientas encajaría (WhatsApp, Telegram, Sheets, CRM...).">
+<meta property="og:site_name" content="InfinitumTech As">
+<meta property="og:title" content="Configura tu automatización — InfinitumTech As">
+<meta property="og:type" content="website">
+<title>Configura tu automatización — InfinitumTech As</title>
+<link rel="stylesheet" href="estilos-comunes.css">
+<style>
+  .paso { display: none; }
+  .paso.activo { display: block; }
+  .chips { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; }
+  .chip {
+    background: var(--bg-lift); border: 1px solid var(--line); color: var(--text);
+    padding: 12px 16px; border-radius: 12px; cursor: pointer; font-size: .95em; text-align: left;
+  }
+  .chip:hover { border-color: var(--cyan); }
+  .chip.elegido { border-color: var(--cyan); background: rgba(76,201,240,.12); }
+  .chip small { display: block; color: var(--muted); font-size: .85em; margin-top: 3px; }
+  .barra-progreso { height: 4px; background: var(--line); border-radius: 999px; margin-bottom: 28px; overflow: hidden; }
+  .barra-progreso i { display: block; height: 100%; background: var(--cyan); width: 0%; transition: width .25s; }
+  .paso-titulo { font-size: 1.25em; font-weight: 700; margin: 0 0 4px; }
+  .paso-sub { color: var(--muted); font-size: .92em; margin: 0 0 20px; }
+  .num-paso { color: var(--muted); font-size: .82em; margin-bottom: 6px; }
+  .nav-pasos { display: flex; justify-content: space-between; gap: 12px; margin-top: 22px; }
+  .btn-atras {
+    background: none; border: 1px solid var(--line); color: var(--muted);
+    padding: 12px 18px; border-radius: 12px; cursor: pointer; font-family: inherit;
+  }
+  .btn-atras:hover { color: var(--text); }
+  .btn-siguiente { background: var(--cyan); color: #05070B; border: none; padding: 12px 22px; border-radius: 12px; cursor: pointer; font-weight: 700; font-family: inherit; }
+  .btn-siguiente:disabled { opacity: .4; cursor: not-allowed; }
+  .otro-campo { margin-top: 12px; }
+  .otro-campo input {
+    width: 100%; background: var(--bg-lift); border: 1px solid var(--line); color: var(--text);
+    padding: 10px 14px; border-radius: 10px; font-family: inherit;
+  }
+  .diagnostico { text-align: center; }
+  .etiqueta-diagnostico {
+    display: inline-block; padding: 6px 16px; border-radius: 999px; font-size: .85em; font-weight: 700; margin-bottom: 14px;
+  }
+  .etiqueta-diagnostico.con-ia { background: rgba(37,211,102,.15); color: var(--wa); }
+  .etiqueta-diagnostico.sin-ia { background: rgba(76,201,240,.15); color: var(--cyan); }
+  .porque { color: var(--muted); max-width: 520px; margin: 0 auto 22px; font-size: .95em; }
+  .lista-resumen { text-align: left; background: var(--bg-lift); border: 1px solid var(--line); border-radius: 12px; padding: 18px 22px; margin: 0 0 20px; }
+  .lista-resumen div { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: .92em; }
+  .lista-resumen div:last-child { border-bottom: none; }
+  .lista-resumen span:first-child { color: var(--muted); }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "¿Cómo sé si mi negocio necesita un agente con inteligencia artificial o una automatización más simple?",
+     "acceptedAnswer": {"@type": "Answer", "text": "El criterio es la variabilidad de las respuestas que hay que dar. Si el mensaje puede ser siempre el mismo según cada situación, una automatización con reglas fijas es suficiente. Si cada cliente formula la misma necesidad de forma distinta y hace falta interpretar la intención antes de responder, ahí un agente con IA aporta valor real."}},
+    {"@type": "Question", "name": "¿Es más caro automatizar con IA que sin IA?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Por lo general sí. Un agente con IA exige diseñar y probar su comportamiento en distintos escenarios, además del coste por uso del propio modelo. Una automatización sin IA — mover datos entre sistemas, enviar un recordatorio programado — se implementa más rápido y con un coste de mantenimiento menor."}},
+    {"@type": "Question", "name": "¿Puedo automatizar algo aunque no tenga CRM ni Google Sheets?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Sí. Es habitual empezar con algo tan simple como una hoja de cálculo nueva, y en algunos casos ni siquiera hace falta guardar datos si el único objetivo es recibir un aviso. La solución se adapta a las herramientas que ya usa el negocio, no al revés."}},
+    {"@type": "Question", "name": "¿Este cuestionario ya crea la automatización?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. Su función es dejar el caso bien definido para que la propuesta posterior sea precisa desde el primer contacto, sin tener que reconstruir por WhatsApp la información que ya se ha aportado aquí. La implementación la realiza el equipo de InfinitumTech As a partir de estas respuestas, previa confirmación de los detalles técnicos con el cliente."}},
+    {"@type": "Question", "name": "¿Qué pasa después de enviar el diagnóstico por WhatsApp?",
+     "acceptedAnswer": {"@type": "Answer", "text": "El equipo revisa las respuestas y responde el mismo día con una valoración orientativa de alcance y precio. Si el proyecto interesa, se agenda una llamada breve para confirmar los detalles técnicos (accesos, herramientas ya en uso, casos concretos) antes de cerrar la propuesta definitiva."}}
+  ]
+}
+</script>
+</head>
+<body>
+<div class="fondo-ligero" aria-hidden="true"></div>
+
+<header class="cabecera">
+  <a class="marca" href="../index.html">
+    <span class="marca-logo" aria-hidden="true">AS</span>
+    InfinitumTech <b>As</b>
+  </a>
+  <a class="volver" href="index.html">← Otras herramientas</a>
+</header>
+
+<section class="hero-herramienta">
+  <div class="envoltorio">
+    <span class="etiqueta-sector">Cualquier negocio, cualquier proceso</span>
+    <h1>Configura tu automatización</h1>
+    <p class="sub">Siete pasos. Al final te decimos si tu caso necesita IA o no, y por qué — no es una respuesta al azar.</p>
+  </div>
+</section>
+
+<div class="panel">
+  <div class="barra-progreso"><i id="barra"></i></div>
+
+  <!-- Paso 1 — el dolor -->
+  <div class="paso activo" data-paso="1">
+    <p class="num-paso">Paso 1 de 7</p>
+    <h2 class="paso-titulo">¿Qué es lo que más tiempo te quita hoy?</h2>
+    <p class="paso-sub">Elige lo que más se acerque.</p>
+    <div class="chips" data-grupo="dolor">
+      <div class="chip" data-valor="citas">Gestión de citas o reservas</div>
+      <div class="chip" data-valor="atencion">Atender preguntas de clientes repetidas</div>
+      <div class="chip" data-valor="papeleo">Facturas, papeleo o datos que copiar a mano</div>
+      <div class="chip" data-valor="leads">Seguimiento de clientes potenciales</div>
+      <div class="chip" data-valor="stock">Inventario o stock</div>
+      <div class="chip" data-valor="otro">Otra cosa</div>
+    </div>
+    <div class="otro-campo" id="dolorOtroCampo" style="display:none;">
+      <input type="text" id="dolorOtro" placeholder="Cuéntanoslo con tus palabras">
+    </div>
+  </div>
+
+  <!-- Paso 2 — disparador -->
+  <div class="paso" data-paso="2">
+    <p class="num-paso">Paso 2 de 7</p>
+    <h2 class="paso-titulo">¿En qué momento necesitas que actúe, sin que nadie lo active a mano?</h2>
+    <p class="paso-sub">Por ejemplo: en cuanto alguien te escribe, en cuanto llega el papel, o cuando se acerca la fecha.</p>
+    <div class="chips" data-grupo="disparador">
+      <div class="chip" data-valor="whatsapp">Cuando alguien te escribe por WhatsApp</div>
+      <div class="chip" data-valor="formulario">Cuando alguien rellena un formulario o hace una reserva</div>
+      <div class="chip" data-valor="factura">Cuando te llega un email, una factura o un documento</div>
+      <div class="chip" data-valor="fecha">Cuando se acerca una fecha concreta (recordatorio)</div>
+      <div class="chip" data-valor="otro">Otro momento</div>
+    </div>
+  </div>
+
+  <!-- Paso 3 — volumen -->
+  <div class="paso" data-paso="3">
+    <p class="num-paso">Paso 3 de 7</p>
+    <h2 class="paso-titulo">¿Con qué frecuencia pasa esto?</h2>
+    <p class="paso-sub">Da igual si es aproximado.</p>
+    <div class="chips" data-grupo="volumen">
+      <div class="chip" data-valor="bajo">Menos de 10 veces por semana</div>
+      <div class="chip" data-valor="medio">Entre 10 y 50 veces por semana</div>
+      <div class="chip" data-valor="alto">Entre 50 y 200 veces por semana</div>
+      <div class="chip" data-valor="muyalto">Más de 200 veces por semana</div>
+    </div>
+  </div>
+
+  <!-- Paso 4 — avisos -->
+  <div class="paso" data-paso="4">
+    <p class="num-paso">Paso 4 de 7</p>
+    <h2 class="paso-titulo">¿Dónde quieres enterarte tú de lo que pasa?</h2>
+    <div class="chips" data-grupo="avisos">
+      <div class="chip" data-valor="whatsapp">WhatsApp</div>
+      <div class="chip" data-valor="telegram">Telegram</div>
+      <div class="chip" data-valor="email">Email</div>
+      <div class="chip" data-valor="ninguno">No hace falta, solo que se guarde</div>
+    </div>
+  </div>
+
+  <!-- Paso 5 — almacenamiento -->
+  <div class="paso" data-paso="5">
+    <p class="num-paso">Paso 5 de 7</p>
+    <h2 class="paso-titulo">¿Dónde deberían quedar guardados los datos?</h2>
+    <div class="chips" data-grupo="almacenamiento">
+      <div class="chip" data-valor="sheets">Google Sheets</div>
+      <div class="chip" data-valor="excel">Excel, en local</div>
+      <div class="chip" data-valor="crm">Un CRM que ya uso</div>
+      <div class="chip" data-valor="bd">Una base de datos propia</div>
+      <div class="chip" data-valor="no">No hace falta guardar nada</div>
+    </div>
+    <div class="otro-campo" id="crmOtroCampo" style="display:none;">
+      <input type="text" id="crmOtro" placeholder="¿Cuál usas? (ej. HubSpot, Pipedrive...)">
+    </div>
+  </div>
+
+  <!-- Paso 6 — respuesta -->
+  <div class="paso" data-paso="6">
+    <p class="num-paso">Paso 6 de 7</p>
+    <h2 class="paso-titulo">¿Cómo tiene que responder a la gente?</h2>
+    <p class="paso-sub">Esta es la que decide si hace falta IA o no.</p>
+    <div class="chips" data-grupo="respuesta">
+      <div class="chip" data-valor="fijas">Siempre igual, con reglas fijas <small>Ej. "Gracias, en breve te confirmamos"</small></div>
+      <div class="chip" data-valor="entiende">Entendiendo lo que escribe cada uno y respondiendo distinto <small>Ej. dudas variadas de clientes</small></div>
+      <div class="chip" data-valor="noresponde">No tiene que responder a nadie, solo mueve datos</div>
+    </div>
+  </div>
+
+  <!-- Paso 7 — contacto -->
+  <div class="paso" data-paso="7">
+    <p class="num-paso">Paso 7 de 7</p>
+    <h2 class="paso-titulo">¿A quién le mandamos el diagnóstico?</h2>
+    <p class="paso-sub">Así no tienes que volver a escribir nada por WhatsApp — lo mandamos ya completo.</p>
+    <div class="campo">
+      <label for="contactoNegocio">Nombre del negocio</label>
+      <input type="text" id="contactoNegocio" placeholder="Ej. Espacio Bela">
+    </div>
+    <div class="campo">
+      <label for="contactoNombre">Tu nombre</label>
+      <input type="text" id="contactoNombre" placeholder="Ej. Ana">
+    </div>
+    <div class="campo">
+      <label for="contactoTelefono">Teléfono de contacto</label>
+      <input type="tel" id="contactoTelefono" placeholder="Ej. 612 345 678">
+    </div>
+  </div>
+
+  <div class="nav-pasos">
+    <button class="btn-atras" id="btnAtras" onclick="atras()">← Atrás</button>
+    <button class="btn-siguiente" id="btnSiguiente" onclick="siguiente()" disabled>Siguiente →</button>
+  </div>
+</div>
+
+<!-- Resultado -->
+<div class="panel diagnostico" id="panelResultado" style="display:none;">
+  <span class="etiqueta-diagnostico" id="etiquetaDiagnostico">—</span>
+  <h2 class="paso-titulo" id="tituloDiagnostico">—</h2>
+  <p class="porque" id="porqueDiagnostico">—</p>
+
+  <div class="lista-resumen" id="listaResumen"></div>
+
+  <a class="btn btn-wa" id="botonWaFinal" href="#" target="_blank" rel="noopener noreferrer">Mandarnos esto por WhatsApp</a>
+  <p style="color:var(--muted); font-size:.85em; margin:10px 0 0;">Se abre WhatsApp con el mensaje ya escrito — solo tienes que enviarlo. Te contestamos con una propuesta ajustada a tu caso.</p>
+  <button class="btn-atras" style="width:100%; margin-top:14px;" onclick="reiniciar()">Volver a empezar</button>
+</div>
+
+<section class="faq">
+  <h2>Preguntas frecuentes</h2>
+  <details>
+    <summary>¿Cómo sé si mi negocio necesita un agente con inteligencia artificial o una automatización más simple?</summary>
+    <p>El criterio es la variabilidad de las respuestas que hay que dar. Si el mensaje puede ser siempre el mismo según cada situación, una automatización con reglas fijas es suficiente. Si cada cliente formula la misma necesidad de forma distinta y hace falta interpretar la intención antes de responder, ahí un agente con IA aporta valor real.</p>
+  </details>
+  <details>
+    <summary>¿Es más caro automatizar con IA que sin IA?</summary>
+    <p>Por lo general sí. Un agente con IA exige diseñar y probar su comportamiento en distintos escenarios, además del coste por uso del propio modelo. Una automatización sin IA — mover datos entre sistemas, enviar un recordatorio programado — se implementa más rápido y con un coste de mantenimiento menor.</p>
+  </details>
+  <details>
+    <summary>¿Puedo automatizar algo aunque no tenga CRM ni Google Sheets?</summary>
+    <p>Sí. Es habitual empezar con algo tan simple como una hoja de cálculo nueva, y en algunos casos ni siquiera hace falta guardar datos si el único objetivo es recibir un aviso. La solución se adapta a las herramientas que ya usa el negocio, no al revés.</p>
+  </details>
+  <details>
+    <summary>¿Este cuestionario ya crea la automatización?</summary>
+    <p>No. Su función es dejar el caso bien definido para que la propuesta posterior sea precisa desde el primer contacto, sin tener que reconstruir por WhatsApp la información que ya se ha aportado aquí. La implementación la realiza el equipo de InfinitumTech As a partir de estas respuestas, previa confirmación de los detalles técnicos con el cliente.</p>
+  </details>
+  <details>
+    <summary>¿Qué pasa después de enviar el diagnóstico por WhatsApp?</summary>
+    <p>El equipo revisa las respuestas y responde el mismo día con una valoración orientativa de alcance y precio. Si el proyecto interesa, se agenda una llamada breve para confirmar los detalles técnicos (accesos, herramientas ya en uso, casos concretos) antes de cerrar la propuesta definitiva.</p>
+  </details>
+</section>
+
+<footer class="pie">
+  Esta página no guarda ni envía nada hasta que tú mismo pulses "Mandarnos esto por WhatsApp".
+  · <a href="index.html">Otras herramientas</a>
+</footer>
+
+<script>
+const respuestas = { dolor:null, dolorOtro:'', disparador:null, volumen:null, avisos:null, almacenamiento:null, crmOtro:'', respuesta:null };
+let pasoActual = 1;
+const TOTAL_PASOS = 7;
+
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const grupo = chip.parentElement.dataset.grupo;
+    chip.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('elegido'));
+    chip.classList.add('elegido');
+    respuestas[grupo] = chip.dataset.valor;
+
+    document.getElementById('dolorOtroCampo').style.display = (grupo === 'dolor' && chip.dataset.valor === 'otro') ? 'block' : (grupo==='dolor' ? 'none' : document.getElementById('dolorOtroCampo').style.display);
+    document.getElementById('crmOtroCampo').style.display = (grupo === 'almacenamiento' && chip.dataset.valor === 'crm') ? 'block' : (grupo==='almacenamiento' ? 'none' : document.getElementById('crmOtroCampo').style.display);
+
+    document.getElementById('btnSiguiente').disabled = false;
+  });
+});
+
+function actualizarBarra(){
+  document.getElementById('barra').style.width = (pasoActual/TOTAL_PASOS*100) + '%';
+}
+
+function contactoValido(){
+  return document.getElementById('contactoNombre').value.trim() !== ''
+      && document.getElementById('contactoTelefono').value.trim() !== '';
+}
+
+function mostrarPaso(n){
+  document.querySelectorAll('.paso').forEach(p => p.classList.remove('activo'));
+  document.querySelector(`.paso[data-paso="${n}"]`).classList.add('activo');
+  document.getElementById('btnAtras').style.visibility = n === 1 ? 'hidden' : 'visible';
+  if (n === 7){
+    document.getElementById('btnSiguiente').disabled = !contactoValido();
+  } else {
+    const grupoActual = document.querySelector(`.paso[data-paso="${n}"] .chips`).dataset.grupo;
+    document.getElementById('btnSiguiente').disabled = !respuestas[grupoActual];
+  }
+  document.getElementById('btnSiguiente').textContent = n === TOTAL_PASOS ? 'Ver diagnóstico →' : 'Siguiente →';
+  actualizarBarra();
+}
+
+['contactoNombre','contactoTelefono'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => {
+    if (pasoActual === 7) document.getElementById('btnSiguiente').disabled = !contactoValido();
+  });
+});
+
+function siguiente(){
+  respuestas.dolorOtro = document.getElementById('dolorOtro').value;
+  respuestas.crmOtro = document.getElementById('crmOtro').value;
+  if (pasoActual < TOTAL_PASOS){ pasoActual++; mostrarPaso(pasoActual); }
+  else {
+    respuestas.contactoNegocio = document.getElementById('contactoNegocio').value.trim();
+    respuestas.contactoNombre = document.getElementById('contactoNombre').value.trim();
+    respuestas.contactoTelefono = document.getElementById('contactoTelefono').value.trim();
+    calcularDiagnostico();
+  }
+}
+function atras(){
+  if (pasoActual > 1){ pasoActual--; mostrarPaso(pasoActual); }
+}
+function reiniciar(){
+  location.reload();
+}
+
+const ETIQUETAS = {
+  dolor: {citas:'Gestión de citas/reservas', atencion:'Atención a preguntas repetidas', papeleo:'Facturas/papeleo', leads:'Seguimiento de clientes potenciales', stock:'Inventario/stock', otro:'Otro'},
+  disparador: {whatsapp:'Mensaje de WhatsApp', formulario:'Formulario/reserva', factura:'Email/factura/documento', fecha:'Fecha programada', otro:'Otro'},
+  volumen: {bajo:'Menos de 10/semana', medio:'10-50/semana', alto:'50-200/semana', muyalto:'Más de 200/semana'},
+  avisos: {whatsapp:'WhatsApp', telegram:'Telegram', email:'Email', ninguno:'Ninguno, solo guardar'},
+  almacenamiento: {sheets:'Google Sheets', excel:'Excel local', crm:'CRM propio', bd:'Base de datos propia', no:'No hace falta'},
+  respuesta: {fijas:'Reglas fijas', entiende:'Entendiendo cada caso', noresponde:'No responde a nadie'}
+};
+
+function calcularDiagnostico(){
+  let categoria, porque;
+  const vol = respuestas.volumen;
+
+  if (respuestas.respuesta === 'entiende'){
+    categoria = 'con-ia';
+    const escala = (vol === 'alto' || vol === 'muyalto')
+      ? 'Con ese volumen, hace falta un agente completo con memoria de cada conversación, no algo suelto.'
+      : 'Con tu volumen actual, un agente conversacional ligero es suficiente para empezar.';
+    porque = `Cada persona pregunta algo distinto y hace falta entender la intención antes de responder — eso no se puede cubrir con reglas fijas. ${escala}`;
+    document.getElementById('tituloDiagnostico').textContent = 'Agente conversacional con IA';
+  } else if (respuestas.disparador === 'factura'){
+    categoria = 'con-ia';
+    porque = 'Los documentos que te llegan no vienen en un formato fijo — hace falta que algo entienda qué dato es cada cosa (proveedor, importe, fecha) antes de guardarlo. Eso requiere IA de extracción, aunque no haga falta que hable con nadie.';
+    document.getElementById('tituloDiagnostico').textContent = 'Automatización con IA de extracción de datos';
+  } else {
+    categoria = 'sin-ia';
+    porque = 'Todo lo que has descrito sigue reglas fijas y datos estructurados — mover información de un sitio a otro, avisar cuando toca. Automatizarlo sin IA es más rápido de montar y más barato de mantener.';
+    document.getElementById('tituloDiagnostico').textContent = 'Automatización simple, sin IA';
+  }
+
+  const etq = document.getElementById('etiquetaDiagnostico');
+  etq.textContent = categoria === 'con-ia' ? 'Necesita IA' : 'No hace falta IA';
+  etq.className = 'etiqueta-diagnostico ' + categoria;
+  document.getElementById('porqueDiagnostico').textContent = porque;
+
+  const dolorTexto = respuestas.dolor === 'otro' ? (respuestas.dolorOtro || 'Otro (sin detallar)') : ETIQUETAS.dolor[respuestas.dolor];
+  const almacenTexto = respuestas.almacenamiento === 'crm' ? (respuestas.crmOtro || 'CRM (sin especificar)') : ETIQUETAS.almacenamiento[respuestas.almacenamiento];
+
+  const resumen = document.getElementById('listaResumen');
+  resumen.innerHTML = `
+    <div><span>Negocio</span><span>${respuestas.contactoNegocio || 'Sin especificar'}</span></div>
+    <div><span>Nombre</span><span>${respuestas.contactoNombre}</span></div>
+    <div><span>Teléfono</span><span>${respuestas.contactoTelefono}</span></div>
+    <div><span>Dolor principal</span><span>${dolorTexto}</span></div>
+    <div><span>Se dispara con</span><span>${ETIQUETAS.disparador[respuestas.disparador]}</span></div>
+    <div><span>Frecuencia</span><span>${ETIQUETAS.volumen[respuestas.volumen]}</span></div>
+    <div><span>Avisos a</span><span>${ETIQUETAS.avisos[respuestas.avisos]}</span></div>
+    <div><span>Datos en</span><span>${almacenTexto}</span></div>
+    <div><span>Forma de responder</span><span>${ETIQUETAS.respuesta[respuestas.respuesta]}</span></div>
+  `;
+
+  const msg = encodeURIComponent(
+`Nuevo diagnóstico desde la web — InfinitumTech As
+
+· Negocio: ${respuestas.contactoNegocio || 'Sin especificar'}
+· Nombre: ${respuestas.contactoNombre}
+· Teléfono: ${respuestas.contactoTelefono}
+· Dolor principal: ${dolorTexto}
+· Se dispara con: ${ETIQUETAS.disparador[respuestas.disparador]}
+· Frecuencia: ${ETIQUETAS.volumen[respuestas.volumen]}
+· Avisos a: ${ETIQUETAS.avisos[respuestas.avisos]}
+· Datos en: ${almacenTexto}
+· Forma de responder: ${ETIQUETAS.respuesta[respuestas.respuesta]}
+· Diagnóstico: ${document.getElementById('tituloDiagnostico').textContent}
+
+Quedo a la espera de una propuesta ajustada a esto.`
+  );
+  document.getElementById('botonWaFinal').href = `https://wa.me/34632107669?text=${msg}`;
+
+  document.querySelector('.panel:not(#panelResultado)').style.display = 'none';
+  document.getElementById('panelResultado').style.display = 'block';
+}
+
+mostrarPaso(1);
+</script>
+
+</body>
+</html>
