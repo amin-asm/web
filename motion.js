@@ -110,21 +110,29 @@
       <stop offset="0%" stop-color="${colorA}"/><stop offset="100%" stop-color="${colorB}"/>
     </linearGradient></defs>
     <path id="${gradId}-p" fill="none" stroke="url(#${gradId})" stroke-width="2.5" stroke-linecap="round"/>
+    <g id="${gradId}-ticks" stroke="${colorA}" stroke-width="2" opacity=".55"></g>
     <circle id="${gradId}-c" r="5" fill="${colorB}" opacity="0" style="filter:drop-shadow(0 0 6px ${colorB})"/>`;
 
     if (getComputedStyle(contenedor).position === 'static') contenedor.style.position = 'relative';
     contenedor.prepend(svg);
     const path = svg.querySelector('path');
     const paquete = svg.querySelector('circle');
+    const ticks = svg.querySelector('g');
 
     function trazar(){
       const cRect = contenedor.getBoundingClientRect();
+      /* Ancla por ENCIMA de cada nodo, no en su centro: los nodos están dentro
+         de tarjetas con fondo opaco, así que una línea a su altura queda tapada
+         y solo se ve en los huecos entre tarjetas. Por encima, siempre visible.
+         Una marca vertical corta (tick) baja de la línea hasta rozar cada
+         tarjeta, para que se lea como "conectado a ella", no flotando suelto. */
       const puntos = nodos.map(n=>{
         const r = n.getBoundingClientRect();
-        return { x:r.left - cRect.left + r.width/2, y:r.top - cRect.top + r.height/2 };
+        return { x:r.left - cRect.left + r.width/2, yLinea:r.top - cRect.top - 18, yTarjeta:r.top - cRect.top - 4 };
       });
-      const d = puntos.map((p,i)=> (i===0?'M':'L') + p.x + ',' + p.y).join(' ');
+      const d = puntos.map((p,i)=> (i===0?'M':'L') + p.x + ',' + p.yLinea).join(' ');
       path.setAttribute('d', d);
+      ticks.innerHTML = puntos.map(p=> `<line x1="${p.x}" y1="${p.yLinea}" x2="${p.x}" y2="${p.yTarjeta}"/><circle cx="${p.x}" cy="${p.yLinea}" r="3" fill="${colorA}"/>`).join('');
       const largo = path.getTotalLength();
       path.style.strokeDasharray = largo;
       path.style.strokeDashoffset = largo;
