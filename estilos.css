@@ -310,7 +310,7 @@ h3 { font-size: 1.16rem; font-weight: 700; }
 /* Lista vertical conectada por una línea que se rellena con el scroll
    (igual que proyectos/web/motion-demo/demo-final.html), en vez de la
    rejilla de 3 columnas de antes. */
-.pasos { list-style: none; margin: 34px 0 0; padding: 0; max-width: 640px; position: relative; counter-reset: p; }
+.pasos { list-style: none; margin: 34px 0 0; padding: 0; position: relative; counter-reset: p; }
 .pasos li {
   display: grid; grid-template-columns: 56px 1fr; gap: 22px;
   padding-bottom: 40px; position: relative;
