@@ -193,5 +193,45 @@
   }
 
   crearSistemaConectado('.problema-grid', '.dolor-icono', '#FFB84D', '#4CC9F0');
-  crearSistemaConectado('.pasos', '.paso-num', '#4CC9F0', '#25D366');
+
+  /* ══════ "Llave en mano": lista vertical con línea de progreso ══════
+     Distinta de crearSistemaConectado (esa es para rejillas horizontales).
+     Aquí es una línea recta que se rellena de arriba abajo con el scroll,
+     igual que motion-demo/demo-final.html. */
+  function crearPasosVerticales(listaSel){
+    const lista = document.querySelector(listaSel);
+    if (!lista) return;
+    const items = Array.from(lista.querySelectorAll('li'));
+    if (!items.length) return;
+
+    const linea = document.createElement('div');
+    linea.className = 'linea-progreso-pasos';
+    linea.innerHTML = '<i></i>';
+    lista.prepend(linea);
+    const relleno = linea.querySelector('i');
+
+    gsap.set(items, { opacity:0, x:-20 });
+    if (typeof ScrollTrigger === 'undefined'){ gsap.set(items, {opacity:1, x:0}); return; }
+
+    const tl = gsap.timeline({ scrollTrigger:{ trigger:lista, start:'top 68%', end:'bottom 60%', scrub:.7 } });
+    tl.to(relleno, { height:'100%', duration:3, ease:'none' }, 0);
+    items.forEach((li,i)=>{
+      const num = li.querySelector('.paso-num');
+      tl.to(li, { opacity:1, x:0, duration:.5, ease:'back.out(1.7)' }, i*0.9 + 0.05)
+        .call(()=>{
+          li.classList.add('paso-activo');
+          items.forEach((o,j)=>{ if(j<i) o.classList.replace('paso-activo','paso-completado'); });
+          if(i===items.length-1) li.classList.add('paso-completado');
+          estallarNodo(num, li, '#25D366');
+        }, null, i*0.9 + 0.35);
+    });
+
+    if (window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+      items.forEach(li=>{
+        li.addEventListener('mouseenter', ()=> items.forEach(o=> o.classList.toggle('receso', o!==li)));
+        li.addEventListener('mouseleave', ()=> items.forEach(o=> o.classList.remove('receso')));
+      });
+    }
+  }
+  crearPasosVerticales('.pasos');
 })();

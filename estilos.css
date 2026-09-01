@@ -307,19 +307,42 @@ h3 { font-size: 1.16rem; font-weight: 700; }
 }
 
 /* ─── Pasos ─── */
-.pasos { list-style: none; margin: 34px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; counter-reset: p; }
+/* Lista vertical conectada por una línea que se rellena con el scroll
+   (igual que proyectos/web/motion-demo/demo-final.html), en vez de la
+   rejilla de 3 columnas de antes. */
+.pasos { list-style: none; margin: 34px 0 0; padding: 0; max-width: 640px; position: relative; counter-reset: p; }
 .pasos li {
-  background: var(--card); border: 1px solid var(--line); border-radius: var(--radio);
-  padding: 30px 26px; position: relative;
+  display: grid; grid-template-columns: 56px 1fr; gap: 22px;
+  padding-bottom: 40px; position: relative;
 }
+.pasos li:last-child { padding-bottom: 0; }
 .paso-num {
   display: grid; place-items: center;
-  width: 40px; height: 40px; margin-bottom: 16px;
-  border-radius: 50%;
-  background: rgba(76, 201, 240, .13); border: 1px solid rgba(76, 201, 240, .45);
-  color: var(--cyan); font-weight: 800;
+  width: 56px; height: 56px;
+  border-radius: 50%; z-index: 2;
+  background: var(--card); border: 2px solid var(--line);
+  color: var(--muted); font-weight: 800; font-size: 1.1em;
+  transition: border-color .3s, color .3s, box-shadow .3s;
 }
+.pasos li.paso-activo .paso-num { border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 0 5px rgba(76,201,240,.12); }
+.pasos li.paso-completado .paso-num { border-color: var(--wa); color: var(--wa); box-shadow: 0 0 0 5px rgba(37,211,102,.1); }
+.pasos li > div {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px 24px;
+  transition: transform .35s ease, border-color .3s, box-shadow .3s;
+}
+.pasos li:hover > div { border-color: rgba(76,201,240,.5); transform: translateX(6px); box-shadow: 0 16px 40px -18px rgba(76,201,240,.35); }
 .pasos p { color: #C6D2E0; margin: 0; }
+.pasos h3 { margin: 0 0 6px; }
+.linea-progreso-pasos {
+  position: absolute; left: 27px; top: 20px; bottom: 20px; width: 3px;
+  background: var(--line); border-radius: 3px; overflow: hidden; z-index: 1;
+}
+.linea-progreso-pasos i { display: block; width: 100%; height: 0; background: linear-gradient(180deg, var(--amber), var(--cyan), var(--wa)); }
+@media (max-width: 600px) {
+  .pasos li { grid-template-columns: 44px 1fr; gap: 14px; }
+  .paso-num { width: 44px; height: 44px; font-size: 1em; }
+  .linea-progreso-pasos { left: 21px; }
+}
 
 /* ─── Sobre mí ─── */
 .sobre-mi-caja {
