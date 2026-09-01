@@ -25,12 +25,10 @@
       .to(heroSpans[2], {opacity:1, y:0, scale:1.05, filter:'blur(0px)', duration:1.1, ease:'back.out(1.6)'}, '-=.4')
       .to(heroSpans[2], {scale:1, duration:.45}, '-=.15');
 
-    if (typeof ScrollTrigger !== 'undefined'){
-      gsap.to('#heroTitulo', {
-        y:-30, opacity:.55, ease:'none',
-        scrollTrigger:{trigger:'.portada', start:'top top', end:'+=60%', scrub:.6}
-      });
-    }
+    /* Quitado: un segundo gsap.to sobre #heroTitulo (fade+parallax al hacer
+       scroll) que peleaba con esta misma entrada por opacity/y en el mismo
+       elemento — al bajar y volver a subir se quedaba "congelado" a medias.
+       La entrada de arriba es la única que toca #heroTitulo/sus spans. */
   }
 
   /* ══════ Botones magnéticos (WhatsApp) ══════ */
