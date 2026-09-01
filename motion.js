@@ -45,15 +45,40 @@
     });
   }
 
-  /* ══════ Tarjetas: tilt 3D ligero al cursor ══════ */
+  /* ══════ .servicio: tilt 3D ligero al cursor ══════ */
   if (finoPointer){
-    document.querySelectorAll('.servicio, .tarjeta-dolor').forEach(card=>{
+    document.querySelectorAll('.servicio').forEach(card=>{
       card.addEventListener('mousemove', e=>{
         const r = card.getBoundingClientRect();
         const px = (e.clientX - r.left)/r.width - .5, py = (e.clientY - r.top)/r.height - .5;
         gsap.to(card, {rotateX:-py*6, rotateY:px*8, y:-3, transformPerspective:700, duration:.35, ease:'power2.out'});
       });
       card.addEventListener('mouseleave', ()=> gsap.to(card, {rotateX:0, rotateY:0, y:0, duration:.5, ease:'power2.out'}));
+    });
+  }
+
+  /* ══════ .tarjeta-dolor: réplica exacta de motion-demo/demo-final.html ══════
+     foco + receso en las demás + brillo que sigue al cursor + tilt más marcado
+     + salida elástica. El div .glow se inyecta aquí porque el HTML real no lo
+     traía (solo existe en la demo). */
+  if (finoPointer){
+    const tarjetasDolor = Array.from(document.querySelectorAll('.tarjeta-dolor'));
+    tarjetasDolor.forEach(card=>{
+      if (!card.querySelector('.glow')){
+        const glow = document.createElement('div'); glow.className = 'glow';
+        card.prepend(glow);
+      }
+      card.addEventListener('mouseenter', ()=>{ card.classList.add('foco'); tarjetasDolor.forEach(o=>{ if(o!==card) o.classList.add('receso'); }); });
+      card.addEventListener('mousemove', e=>{
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX-r.left)/r.width, py = (e.clientY-r.top)/r.height;
+        card.style.setProperty('--mx', (px*100)+'%'); card.style.setProperty('--my', (py*100)+'%');
+        gsap.to(card, {rotateX:-(py-.5)*7, rotateY:(px-.5)*9, y:-6, scale:1.03, transformPerspective:700, duration:.4, ease:'power3.out'});
+      });
+      card.addEventListener('mouseleave', ()=>{
+        card.classList.remove('foco'); tarjetasDolor.forEach(o=> o.classList.remove('receso'));
+        gsap.to(card, {rotateX:0, rotateY:0, y:0, scale:1, duration:.7, ease:'elastic.out(1,0.65)'});
+      });
     });
   }
   /* Nota: la aparición al hacer scroll de .servicio/.tarjeta-dolor/.pasos li
@@ -159,14 +184,8 @@
       tl.to(tarjeta, { opacity:1, scale:1, y:0, duration:.5, ease:'back.out(1.7)' }, i*0.9 + 0.05)
         .call(()=> estallarNodo(n, tarjeta, colorB), null, i*0.9 + 0.35);
     });
-
-    /* ══ Hover: la tarjeta activa gana foco, las demás retroceden ══ */
-    if (window.matchMedia('(hover:hover) and (pointer:fine)').matches){
-      tarjetas.forEach(t=>{
-        t.addEventListener('mouseenter', ()=> tarjetas.forEach(o=> o.classList.toggle('receso', o!==t)));
-        t.addEventListener('mouseleave', ()=> tarjetas.forEach(o=> o.classList.remove('receso')));
-      });
-    }
+    /* El hover (foco/receso/glow) de estas tarjetas ya lo lleva el bloque
+       ".tarjeta-dolor: réplica exacta" más abajo — no se duplica aquí. */
   }
 
   /* ══════ Estallido al activarse un nodo: mucho más que un brillo suave ══════ */

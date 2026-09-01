@@ -240,10 +240,10 @@ h3 { font-size: 1.16rem; font-weight: 700; }
 .problema-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 34px; }
 .tarjeta-dolor {
   background: var(--card); border: 1px solid var(--line); border-radius: var(--radio);
-  padding: 26px 24px;
-  transition: transform .22s ease, border-color .22s ease;
+  padding: 26px 24px; position: relative; overflow: hidden; transform-style: preserve-3d;
+  transition: border-color .22s ease;
 }
-.tarjeta-dolor:hover { transform: translateY(-5px); border-color: rgba(76, 201, 240, .45); }
+/* El hover (tilt 3D, glow) lo lleva motion.js con GSAP — sin transform aquí, para no pelear */
 .hora {
   display: inline-block; margin-bottom: 12px;
   color: var(--amber); font-weight: 800; font-size: .92rem;
@@ -1186,9 +1186,15 @@ body{overflow-x:hidden;max-width:100%}
 .paso-num.nodo-encendido{ border-color:var(--wa); box-shadow:0 0 0 6px rgba(37,211,102,.2); }
 .anillo-estallido{ position:absolute; inset:0; margin:auto; width:44px; height:44px; border-radius:50%;
   border:2.5px solid; pointer-events:none; }
-.tarjeta-dolor.receso, .pasos li.receso{
-  opacity:.45; filter:blur(1px) saturate(.65); transition:opacity .3s, filter .3s;
-}
+/* Réplica exacta de motion-demo/demo-final.html */
+.tarjeta-dolor .glow{ position:absolute; inset:-1px; border-radius:var(--radio); pointer-events:none;
+  background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%), rgba(76,201,240,.18), transparent 62%);
+  opacity:0; transition:opacity .3s; }
+.tarjeta-dolor:hover .glow, .tarjeta-dolor.foco .glow{ opacity:1; }
+.tarjeta-dolor.foco{ border-color:rgba(76,201,240,.55); box-shadow:0 26px 60px -20px rgba(76,201,240,.4); }
+.tarjeta-dolor.receso{ opacity:.4; filter:blur(1.5px) saturate(.65); transform:scale(.95) translateY(0); transition:opacity .3s, filter .3s, transform .3s; }
+.pasos li.receso > div{ opacity:.55; filter:saturate(.7); transition:opacity .3s, filter .3s; }
+
 .tarjeta-dolor.tarjeta-flash, .pasos li.tarjeta-flash{
   border-color:var(--cyan) !important;
   box-shadow:0 0 0 2px rgba(76,201,240,.5), 0 24px 60px -18px rgba(76,201,240,.55) !important;
