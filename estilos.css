@@ -313,7 +313,7 @@ h3 { font-size: 1.16rem; font-weight: 700; }
 .pasos { list-style: none; margin: 34px 0 0; padding: 0; position: relative; counter-reset: p; }
 .pasos li {
   display: grid; grid-template-columns: 56px 1fr; gap: 22px;
-  padding-bottom: 40px; position: relative;
+  padding-bottom: 40px; position: relative; z-index: 2;
 }
 .pasos li:last-child { padding-bottom: 0; }
 .paso-num {
