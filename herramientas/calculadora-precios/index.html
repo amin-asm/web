@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de precios de automatización — InfinitumTech As</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; form-action 'none'; base-uri 'none'; connect-src 'none'">
+<link rel="canonical" href="https://www.aminautomation.com/herramientas/calculadora-precios/">
+<meta property="og:site_name" content="InfinitumTech As">
+<meta property="og:title" content="Calculadora de precios de automatización">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.aminautomation.com/herramientas/calculadora-precios/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<meta name="description" content="Calcula cuánto cobrar por una automatización según lo que pierde tu cliente: que no pierdas tú y que no pierda él.">
+<link rel="stylesheet" href="calc.css?v=202609280748">
+</head>
+<body data-view="mia">
+<header class="top">
+  <a class="logo" href="../../" title="Volver a la web"><svg class="marca" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#071018" stroke="#4CC9F0" stroke-width="4"/><text x="32" y="41" text-anchor="middle" font-family="system-ui,sans-serif" font-size="24" font-weight="800" fill="#4CC9F0">AS</text></svg><span>Calculadora de precios<small>por InfinitumTech As</small></span></a>
+  <div class="seg" role="tablist" aria-label="Vista">
+    <button id="vMia" class="on" role="tab">🔒 Vista mía</button>
+    <button id="vCli" role="tab">👤 Vista cliente</button>
+  </div>
+  <div class="tools">
+    <button class="btn" id="bTheme" title="Cambiar tema">◐</button>
+    <button class="btn solo-mia" id="bReset">Reiniciar</button>
+    <button class="btn solo-mia" id="bSave">Guardar</button>
+    <button class="btn primary" id="bDoc">🧾 Presupuesto</button>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="steps solo-mia">
+    <div class="lbl">Pasos</div>
+    <a href="#p0"><span class="dot" data-d="0"></span>El cliente</a>
+    <a href="#p1"><span class="dot" data-d="1"></span>1 · Lo que pierde</a>
+    <a href="#p2"><span class="dot" data-d="2"></span>2 · Lo que te cuesta</a>
+    <a href="#p3"><span class="dot" data-d="3"></span>3 · Paquetes</a>
+    <a href="#p4"><span class="dot" data-d="4"></span>4 · Cómo se paga</a>
+    <a href="#p5"><span class="dot" data-d="5"></span>5 · Lo que gana él</a>
+    <a href="#p6"><span class="dot" data-d="6"></span>6 · Nadie pierde</a>
+    <a href="#p7"><span class="dot" data-d="7"></span>7 · Para la cita</a>
+    <a href="#escenarios"><span class="dot" data-d="8"></span>Escenarios</a>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <h1 class="solo-mia">Que no pierdas <span>tú</span>, y que no pierda <span>él</span></h1>
+      <h1 class="solo-cliente"><span id="hCli">Tu negocio</span>: lo que se te escapa cada mes</h1>
+      <p class="solo-mia">El techo lo pone lo que el cliente pierde hoy. El suelo, lo que te cuesta a ti. El precio vive entre los dos y se comprueba solo. Regla: <b>estimar siempre a la baja</b>.</p>
+      <p class="solo-cliente">Calculado a la baja con tus propios números. Cambia cualquier cifra y verás cómo se mueve.</p>
+      <div class="big">
+        <div><small>Se escapa al mes</small><b id="hPierde">—</b></div>
+        <div><small>Al año</small><b id="hAno">—</b></div>
+        <div><small>Recuperas la inversión en</small><b id="hPay">—</b></div>
+      </div>
+    </div>
+
+    <!-- FICHA -->
+    <section class="card solo-mia" id="p0">
+      <h2><span class="n">Ficha</span>El cliente</h2>
+      <p class="sub">El sector carga las fugas típicas, las preguntas para la cita y los datos públicos con su fuente.</p>
+      <div class="grid2">
+        <div class="row"><label>Nombre del cliente</label><div class="inp"><input id="cliente" type="text" placeholder="Ej.: Clínica Dental Nervión"></div></div>
+        <div class="row"><label>Sector</label><div class="inp"><select id="sector"></select></div></div>
+        <div class="row"><label>Empleados</label><div class="inp"><select id="empleados"></select></div></div>
+        <div class="row"><label>Locales</label><div class="inp"><select id="locales"></select></div></div>
+        <div class="row"><label>¿Quién hace hoy la tarea?</label><div class="inp"><select id="quien"></select></div></div>
+        <div class="row"><label>¿Cómo llegó?</label><div class="inp"><select id="origen"></select></div></div>
+        <div class="row" id="rowCom"><label>Comisión del colaborador<small>Sobre la implantación</small></label><div class="inp"><select id="comPct"></select></div></div>
+        <div class="row" id="rowTope"><label>Tope de comisión<small>0 = sin tope</small></label><div class="inp"><input id="comTope" type="number" min="0" step="50"><span class="u mon">€</span></div></div>
+        <div class="row"><label>País e impuesto</label><div class="inp"><select id="pais"></select></div></div>
+      </div>
+      <h3 class="mini">Prueba de la puerta</h3>
+      <div class="grid2">
+        <div class="row"><label>Tiempo de respuesta medido<small>Le escribiste como cliente</small></label><div class="inp"><select id="respuesta"></select></div></div>
+        <div class="row"><label>Reseñas quejándose de no contestar</label><div class="inp"><select id="resenas"></select></div></div>
+      </div>
+      <div class="hint info" id="sectorInfo"></div>
+    </section>
+
+    <!-- 1 FUGAS -->
+    <section class="card" id="p1">
+      <h2><span class="n">Paso 1</span>Lo que se pierde hoy</h2>
+      <p class="sub solo-mia">Cada fuga es dinero que se escapa al mes. Lo que no se sabe queda a 0 y marcado: <b>se pregunta, no se inventa</b>. Un mismo euro nunca en dos fugas.</p>
+      <p class="sub solo-cliente">Cada línea es dinero que hoy se va. Rellena con tus números reales.</p>
+      <div id="fugas"></div>
+      <div class="actions solo-mia" style="margin-top:0">
+        <button class="btn ghost sm" data-add="horas">+ Horas de trabajo</button>
+        <button class="btn ghost sm" data-add="ventas">+ Ventas que se escapan</button>
+        <button class="btn ghost sm" data-add="plantones">+ Plantones</button>
+        <button class="btn ghost sm" data-add="gasto">+ Gasto que desaparece</button>
+        <button class="btn sm" id="bEjemplo" style="margin-left:auto">✨ Ver ejemplo</button>
+      </div>
+      <div class="row solo-mia" style="margin-top:10px"><label>Prudencia<small>Lo que el cliente jura suele ser más de lo real</small></label>
+        <div class="inp"><select id="prudencia"><option value="1">100% — dato medido</option><option value="0.8">80% — estimación realista</option><option value="0.6">60% — dato de oídas</option></select></div></div>
+      <div class="result multi">
+        <div class="line solo-mia"><span class="k">Pierde al mes (bruto)</span><span class="v" id="oBruto">—</span></div>
+        <div class="line"><span class="k">Se escapa al mes <span class="f solo-mia">bruto × prudencia</span></span><span class="v big" id="oValor">—</span></div>
+        <div class="line"><span class="k">Coste de no hacer nada <span class="f">12 meses</span></span><span class="v" id="oNada">—</span></div>
+      </div>
+    </section>
+
+    <!-- 2 COSTE -->
+    <section class="card solo-mia" id="p2">
+      <h2><span class="n">Paso 2</span>Lo que te cuesta a ti</h2>
+      <p class="sub">Tu suelo: por debajo trabajas gratis. El cliente nunca ve esta parte.</p>
+      <div class="grid2">
+        <div class="row"><label>Tu hora<small>Lo mínimo que tiene que valer tu hora</small></label><div class="inp"><select id="hora"></select></div></div>
+        <div class="row"><label>Experiencia con este proyecto</label><div class="inp"><select id="mult"><option value="2">Primera vez — ×2 horas</option><option value="1.5">Ya hice alguno — ×1,5</option><option value="1">Lo tengo dominado — ×1</option></select></div></div>
+        <div class="row"><label>Horas de diagnóstico<small>Visita y recoger datos</small></label><div class="inp"><select id="hDiag"></select></div></div>
+        <div class="row"><label>Horas de construcción<small>Con pruebas y entrega</small></label><div class="inp"><select id="hCons"></select></div></div>
+        <div class="row"><label>Horas por cada fuga extra</label><div class="inp"><select id="hFuga"></select></div></div>
+        <div class="row"><label>Colchón de imprevistos</label><div class="inp"><select id="colchon"></select></div></div>
+        <div class="row"><label>Soporte al mes</label><div class="inp"><select id="hSop"></select></div></div>
+        <div class="row"><label>Evolución al mes<small>Solo paquete Completo</small></label><div class="inp"><select id="hEvol"></select></div></div>
+        <div class="row"><label>Tu margen</label><div class="inp"><select id="margen"></select></div></div>
+      </div>
+
+      <h3 class="mini">Herramientas y servicios al mes</h3>
+      <div class="row"><label>Cómo lo calculas</label><div class="inp"><select id="costeModo"><option value="fijo">Fijo — una cifra</option><option value="personalizado">Personalizado — por partes</option></select></div></div>
+      <div id="modoFijo"><div class="row"><label>Coste al mes<small>Todo junto: plataforma, servidor, IA, número…</small></label><div class="inp"><input id="costeFijo" type="number" min="0" step="5"><span class="u mon">€/mes</span></div></div></div>
+      <div id="modoPers">
+        <div class="grid2">
+          <div class="row"><label>Plataforma de mensajería<small>WhatsApp API u otra</small></label><div class="inp"><input id="canal" type="number" min="0" step="5"><span class="u mon">€/mes</span></div></div>
+          <div class="row"><label>Servidor / alojamiento</label><div class="inp"><input id="servidor" type="number" min="0" step="5"><span class="u mon">€/mes</span></div></div>
+          <div class="row"><label>Otros fijos<small>Número, dominio, licencias</small></label><div class="inp"><input id="otros" type="number" min="0" step="5"><span class="u mon">€/mes</span></div></div>
+          <div class="row"><label>Conversaciones al mes</label><div class="inp"><select id="convMes"></select></div></div>
+          <div class="row"><label>Modelo de IA</label><div class="inp"><select id="iaModelo"></select></div></div>
+          <div class="row"><label>Tamaño de cada conversación</label><div class="inp"><select id="tamano"></select></div></div>
+          <div class="row" id="rowPIn"><label>Precio entrada<small>$ por millón de tokens</small></label><div class="inp"><input id="iaPIn" type="number" min="0" step="0.05"><span class="u">$/M</span></div></div>
+          <div class="row" id="rowPOut"><label>Precio salida<small>$ por millón de tokens</small></label><div class="inp"><input id="iaPOut" type="number" min="0" step="0.05"><span class="u">$/M</span></div></div>
+          <div class="row" id="rowTokIn"><label>Tokens de entrada</label><div class="inp"><input id="tokIn" type="number" min="0" step="1000"></div></div>
+          <div class="row" id="rowTokOut"><label>Tokens de salida</label><div class="inp"><input id="tokOut" type="number" min="0" step="100"></div></div>
+          <div class="row"><label>Cambio: 1 $ =</label><div class="inp"><input id="cambio" type="number" min="0" step="0.01"><span class="u mon">€</span></div></div>
+          <div class="row"><label>Recordatorios al mes<small>Vacío = uno por cada cita de plantones</small></label><div class="inp"><input id="recordMes" type="number" min="0" step="50" placeholder="auto"></div></div>
+          <div class="row"><label>Precio por recordatorio<small>Plantilla de WhatsApp, España ≈ 0,0166 €</small></label><div class="inp"><input id="costePlantilla" type="number" min="0" step="0.001"><span class="u mon">€</span></div></div>
+        </div>
+        <div class="result multi">
+          <div class="line"><span class="k">IA por conversación</span><span class="v" id="oConv">—</span></div>
+          <div class="line"><span class="k">Total al mes <span class="f" id="fTec"></span></span><span class="v big" id="oTec">—</span></div>
+          <div class="line"><span class="k">Si el volumen se triplica</span><span class="v" id="oTec3">—</span></div>
+        </div>
+        <div class="hint" id="iaFuentes"></div>
+      </div>
+      <div class="scroll"><table style="margin-top:14px">
+        <thead><tr><th></th><th class="n">Básico</th><th class="n">Profesional</th><th class="n">Completo</th></tr></thead>
+        <tbody id="tSuelo"></tbody>
+      </table></div>
+      <div class="actions"><button class="btn sm" id="bMisValores">⭐ Guardar como mis valores</button><span style="color:var(--dim);font-size:12.5px;align-self:center">Tus costes y horas se quedan como punto de partida al reiniciar.</span></div>
+    </section>
+
+    <!-- 3 PAQUETES -->
+    <section class="card" id="p3">
+      <h2><span class="n">Paso 3</span>La propuesta</h2>
+      <p class="sub solo-mia">Precio pensado para que el cliente recupere unas 7 veces lo que paga, sin bajar de tu suelo ni del mínimo. Pulsa uno para elegirlo; si escribes otro precio, queda como manual.</p>
+      <p class="sub solo-cliente">Tres opciones. Precios sin impuestos; el total con impuestos está abajo.</p>
+      <div class="grid2 solo-mia">
+        <div class="row"><label>Precio de mercado<small>Lo que se paga en tu zona</small></label><div class="inp"><input id="mercado" type="number" min="0" step="50"><span class="u mon">€</span></div></div>
+        <div class="row"><label>Implantación mínima</label><div class="inp"><select id="implMin"></select></div></div>
+        <div class="row"><label>ROI mínimo del cliente<small>5x = zona sólida</small></label><div class="inp"><select id="roiMin"><option value="2">2x — mínimo</option><option value="3">3x — gana claramente</option><option value="4">4x</option><option value="5">5x — sólida</option></select></div></div>
+      </div>
+      <div class="pkgs" id="pkgs" style="margin-top:16px"></div>
+      <div class="bar solo-mia" id="bar">
+        <div class="zone" id="barZone"></div><div class="pin" id="barPin"></div>
+        <div class="mk" id="mkSuelo"></div><div class="mk" id="mkTecho"></div><div class="mk b" id="mkTotal"></div>
+      </div>
+    </section>
+
+    <!-- 4 PAGO -->
+    <section class="card" id="p4">
+      <h2><span class="n">Paso 4</span>Cómo se paga</h2>
+      <div class="grid2">
+        <div class="row"><label>Plan de pagos</label><div class="inp"><select id="plan"></select></div></div>
+        <div class="row"><label>Medio de pago</label><div class="inp"><select id="medio"></select></div></div>
+        <div class="row" id="rowDesc"><label>Descuento por pago único</label><div class="inp"><select id="descUnico"></select></div></div>
+        <div class="row solo-mia"><label>Comisión del medio<small id="medioNota"></small></label><div class="inp"><input id="feePct" type="number" min="0" step="0.1" style="width:80px"><span class="u">% +</span><input id="feeFijo" type="number" min="0" step="0.05" style="width:80px"><span class="u mon">€</span></div></div>
+        <div class="row solo-mia"><label>Diagnóstico<small>0 = gratis</small></label><div class="inp"><select id="diagnostico"></select></div></div>
+        <div class="row solo-mia" id="rowIrpf"><label><span class="switch"><input type="checkbox" id="irpf"> Retención de IRPF</span><small>Solo facturas a empresas y profesionales. Confírmalo con tu gestoría</small></label><div class="inp"><select id="irpfPct"><option value="15">15% general</option><option value="7">7% nuevos autónomos</option></select></div></div>
+      </div>
+      <div class="scroll"><table style="margin-top:12px">
+        <thead><tr><th>Pago</th><th class="n">Base</th><th class="n" id="thImp">IVA</th><th class="n irpfc">IRPF</th><th class="n">A pagar</th><th class="solo-mia">Cómo</th></tr></thead>
+        <tbody id="tCobro"></tbody>
+      </table></div>
+      <div class="twocol" style="margin-top:14px">
+        <div class="box"><h4>Total primer año</h4><div class="big" id="oTotImp">—</div><small id="oTotBase"></small></div>
+        <div class="box solo-mia"><h4>Te queda</h4><div class="big" id="oNeto">—</div><small id="oNetoTxt"></small></div>
+        <div class="box solo-cliente"><h4>Cada mes, después</h4><div class="big" id="oCuotaCli">—</div><small>impuestos incluidos</small></div>
+      </div>
+      <div class="result multi solo-mia">
+        <div class="line"><span class="k">Tu beneficio <span class="f" id="fBenef"></span></span><span class="v" id="oBenef">—</span></div>
+        <div class="line"><span class="k">Tu hora real</span><span class="v" id="oHoraReal">—</span></div>
+      </div>
+      <div class="hint solo-mia" id="medioFuentes"></div>
+    </section>
+
+    <!-- 5 GANA -->
+    <section class="card" id="p5">
+      <h2><span class="n">Paso 5</span>Lo que gana</h2>
+      <div class="result"><span class="k">Retorno el primer año <span class="f">lo que recupera ÷ lo que paga</span></span>
+        <span style="display:flex;align-items:center;gap:12px"><span class="v" id="oRoi">—</span><span id="oZona"></span></span></div>
+      <div class="scen3 solo-mia">
+        <div class="box"><h4>Malo</h4><div class="big" id="eMalo">—</div><small>Solo se nota la mitad</small></div>
+        <div class="box"><h4>Normal</h4><div class="big" id="eNormal">—</div><small>Con tu prudencia</small></div>
+        <div class="box"><h4>Bueno</h4><div class="big" id="eBueno">—</div><small>Lo que dice el cliente</small></div>
+      </div>
+      <div class="result multi">
+        <div class="line"><span class="k">Recupera la inversión en</span><span class="v" id="oPayback">—</span></div>
+        <div class="line"><span class="k">Le queda limpio el primer año</span><span class="v" id="oNetoCli">—</span></div>
+        <div class="line"><span class="k">Contratar a alguien a media jornada <span class="f" id="fMedia"></span></span><span class="v" id="oMedia">—</span></div>
+        <div class="line"><span class="k">La cuota</span><span class="v" id="oCuotaCmp">—</span></div>
+      </div>
+      <div class="hint solo-mia" id="hGarantia"></div>
+      <table style="margin-top:12px" class="solo-mia">
+        <thead><tr><th>Zona</th><th>ROI</th><th>Qué significa</th></tr></thead>
+        <tbody id="zonas">
+          <tr data-z="fuga"><td>Fuga</td><td class="mono" id="zFuga"></td><td>No le compensa lo suficiente: se irá. Baja precio o (mejor) sube valor.</td></tr>
+          <tr data-z="justa"><td>Justa</td><td class="mono" id="zJusta"></td><td>Gana, pero tiene que notarlo: enséñale cada mes lo que ha recuperado.</td></tr>
+          <tr data-z="solida"><td>Sólida</td><td class="mono">5–10x</td><td>Renueva, paga puntual y te recomienda.</td></tr>
+          <tr data-z="fan"><td>Fan</td><td class="mono">&gt;10x</td><td>Te trae referidos. Hay margen para subir precio.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 6 NADIE PIERDE -->
+    <section class="card solo-mia" id="p6">
+      <h2><span class="n">Paso 6</span>Nadie pierde</h2>
+      <p class="sub">Se comprueban solas con tus números.</p>
+      <h3 class="mini">Tú no pierdes</h3><div class="checks" id="cTu"></div>
+      <h3 class="mini">Él no pierde</h3><div class="checks" id="cEl"></div>
+      <h3 class="mini">Mercado</h3><div class="checks" id="cMer"></div>
+      <div class="verdict" id="verdict"></div>
+    </section>
+
+    <!-- 7 CITA -->
+    <section class="card solo-mia" id="p7">
+      <h2><span class="n">Paso 7</span>Para la cita</h2>
+      <p class="sub">Preguntas que sacan los números sin alargar la charla.</p>
+      <ol id="preguntas" style="margin:6px 0 0;padding-left:20px;color:var(--muted)"></ol>
+    </section>
+
+    <!-- ESCENARIOS -->
+    <section class="card solo-mia" id="escenarios">
+      <h2><span class="n">Comparar</span>Escenarios guardados</h2>
+      <p class="sub">Se guardan en este navegador.</p>
+      <div class="scroll"><table>
+        <thead><tr><th>Escenario</th><th>Paquete</th><th class="n">Pierde/mes</th><th class="n">Implant.</th><th class="n">Cuota</th><th class="n">Año 1 total</th><th>ROI</th><th>Veredicto</th><th></th></tr></thead>
+        <tbody id="scenBody"></tbody>
+      </table></div>
+      <div class="actions"><button class="btn sm" id="bCsv">Exportar CSV</button></div>
+    </section>
+  </main>
+
+  <aside class="sum">
+    <div class="sumcard solo-mia" id="sVerdict"></div>
+    <div class="sumcard">
+      <h3>Retorno · primer año</h3>
+      <div class="roiBig"><span class="big" id="sRoi">—</span><span id="sZona"></span></div>
+      <div class="gauge"><div class="needle" id="sNeedle"></div></div>
+      <div class="gscale"><span>0x</span><span>5x</span><span>10x</span><span>15x+</span></div>
+    </div>
+    <div class="sumcard">
+      <h3>Resumen · <span id="sPkg"></span></h3>
+      <div class="kv"><span>Se escapa al mes</span><span id="sValor">—</span></div>
+      <div class="kv"><span>Implantación</span><span id="sImpl">—</span></div>
+      <div class="kv"><span>Cuota</span><span id="sCuota">—</span></div>
+      <div class="kv"><span>Primer año, con impuestos</span><span id="sTotal">—</span></div>
+      <div class="kv"><span>Recupera en</span><span id="sPay">—</span></div>
+      <div class="kv solo-cliente"><span>Le queda limpio</span><span id="sNetoCli">—</span></div>
+      <div class="kv solo-mia"><span>Te queda</span><span id="sNeto">—</span></div>
+      <div class="kv solo-mia"><span>Tu margen real</span><span id="sMargen">—</span></div>
+      <div class="kv solo-mia"><span>vs. mercado</span><span id="sMer">—</span></div>
+    </div>
+  </aside>
+</div>
+<footer>Precios de IA y medios de pago de <span id="fFecha"></span>: revísalos de vez en cuando.<br><button class="btn sm ghost" id="bBorrar" style="margin-top:10px">🗑 Borrar mis datos de este navegador</button></footer>
+
+<!-- PRESUPUESTO -->
+<div id="docWrap" class="hide">
+  <div class="bar2">
+    <button class="btn primary" id="bPrint">🖨️ Imprimir o guardar PDF</button>
+    <button class="btn" id="bDocClose">Cerrar</button>
+  </div>
+  <details id="docEdit" open class="solo-mia"><summary style="cursor:pointer;padding:10px 0;font-weight:600">Datos del presupuesto (no se imprimen)</summary>
+    <div class="g">
+      <div><label>Tu nombre o empresa</label><input type="text" data-em="nombre"></div>
+      <div><label>NIF</label><input type="text" data-em="nif"></div>
+      <div><label>Email</label><input type="email" data-em="email"></div>
+      <div><label>Teléfono</label><input type="tel" data-em="tel"></div>
+      <div><label>Web</label><input type="text" data-em="web"></div>
+      <div><label>IBAN (opcional)</label><input type="text" data-em="iban"></div>
+      <div><label>NIF del cliente</label><input type="text" data-pr="clienteNif"></div>
+      <div><label>Contacto del cliente</label><input type="text" data-pr="clienteContacto"></div>
+      <div><label>Válido durante</label><select data-pr="validez"><option value="15">15 días</option><option value="30">30 días</option><option value="60">60 días</option></select></div>
+      <div><label>Permanencia</label><select data-pr="permanencia"><option value="0">Sin permanencia</option><option value="6">6 meses</option><option value="12">12 meses</option><option value="24">24 meses</option></select></div>
+      <div><label>Garantía</label><select data-pr="garantia"><option value="0">Sin garantía</option><option value="30">30 días</option><option value="60">60 días</option><option value="90">90 días</option></select></div>
+      <div><label>Soporte</label><select data-pr="soporte"><option>Lunes a viernes, respuesta en 24 h laborables</option><option>Lunes a sábado, respuesta en 12 h</option><option>Todos los días, respuesta en 4 h</option></select></div>
+      <div><label>Plazo de entrega</label><select data-pr="plazo"><option value="">Sin indicar</option><option>1 semana</option><option>2 semanas</option><option>2–3 semanas</option><option>3–4 semanas</option><option>4–6 semanas</option><option>6–8 semanas</option></select></div>
+      <div><label>Nº de presupuesto</label><input type="text" data-pr="numero"></div>
+    </div>
+  </details>
+  <div class="doc" id="doc"></div>
+</div>
+<div class="toast" id="toast"></div>
+<p class="pie-web">Gratis y sin registro. No se envía ningún dato: el cálculo y lo que guardes se quedan en tu navegador.
+  · <a href="../../">InfinitumTech As</a> · <a href="../../legal/aviso-legal/">Aviso legal</a> · <a href="../../legal/privacidad/">Privacidad</a></p>
+
+<script src="datos.js?v=202609280748"></script>
+<script src="sectores.js?v=202609280748"></script>
+<script src="core.js?v=202609280748"></script>
+<script src="calc.js?v=202609280748"></script>
+</body>
+</html>

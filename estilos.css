@@ -955,6 +955,10 @@ h3 { font-size: 1.16rem; font-weight: 700; }
 .menu a:hover,.menu a.aqui{color:var(--text)}
 .menu a:hover::after,.menu a.aqui::after{transform:scaleX(1)}
 .menu a:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:3px}
+/* Sexto enlace (Calculadora de precios, 25/09/2026): no cabe en una línea entre
+   la hamburguesa y 1280px; ahí se oculta y sigue a mano desde Herramientas gratis. */
+.menu a{white-space:nowrap}
+@media (min-width:901px) and (max-width:1279px){ .menu .menu-extra{display:none} }
 
 .menu-boton{
   display:none;background:none;border:0;cursor:pointer;padding:9px;

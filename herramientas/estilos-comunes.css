@@ -175,3 +175,7 @@ footer.pie a { color: var(--muted); }
 @media (max-width: 600px) {
   .panel, .puente { padding: 20px; margin-left: 16px; margin-right: 16px; }
 }
+
+/* Bloque aparte al final del índice (calculadora de precios, 25/09/2026) */
+.separador-o.bloque { margin: 56px 0 0; }
+.rejilla-herramientas.una { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); margin-top: 24px; }
