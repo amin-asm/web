@@ -95,6 +95,10 @@
   ul.ok li::before { content:"✓"; position:absolute; left:0; top:8px; width:22px; height:22px; border-radius:50%; background:var(--ok); color:#fff; font-size:13px; font-weight:800; display:flex; align-items:center; justify-content:center; }
   ul.no li::before { content:"–"; background:var(--muted); }
 
+  .fila-in { display:flex; align-items:center; gap:14px; }
+  .fila-in input[type=range] { flex:1; min-width:0; }
+  .fila-in input[type=number] { width:104px; flex:none; text-align:right; font-weight:700; }
+
   /* envío */
   .envio h3 { margin:0 0 6px; font-size:20px; }
   textarea { width:100%; padding:12px; font:inherit; font-size:16px; border:1px solid var(--line); border-radius:12px; background:var(--bg); color:var(--ink); resize:vertical; margin:6px 0 14px; }
@@ -173,28 +177,40 @@
   <!-- CALCULADORA -->
   <section id="calculadora">
     <h2>Calcúlelo con sus propios números</h2>
-    <p class="sub">Los valores iniciales son <b>solo un ejemplo</b>. Cámbielos por los de Helident: lo que importa es el resultado con sus datos, no nuestra opinión.</p>
+    <p class="sub">Empieza todo en cero. <b>Mueva la barra o escriba el número</b>: las dos formas valen. Ponga los datos de Helident: lo que importa es el resultado con sus números, no nuestra opinión.</p>
     <div class="calc">
       <div class="card">
         <div class="campo">
-          <label for="c1">Personas que contactan fuera de horario al mes <span class="val" id="v1"></span>
+          <label for="n1">Personas que contactan fuera de horario al mes
             <span class="ayuda">Llamadas sin contestar, mensajes fuera de horario, formularios…</span></label>
-          <input type="range" id="c1" min="0" max="100" step="1" value="20">
+          <div class="fila-in">
+            <input type="range" id="c1" min="0" max="100" step="1" value="0" aria-label="Barra: personas al mes">
+            <input type="number" id="n1" min="0" max="100" step="1" value="0" inputmode="numeric">
+          </div>
         </div>
         <div class="campo">
-          <label for="c2">De cada 10, ¿cuántas acabarían siendo pacientes? <span class="val" id="v2"></span>
+          <label for="n2">De cada 10, ¿cuántas acabarían siendo pacientes?
             <span class="ayuda">Piense que la primera visita es gratuita: no todas llegan a tratamiento.</span></label>
-          <input type="range" id="c2" min="0" max="10" step="1" value="3">
+          <div class="fila-in">
+            <input type="range" id="c2" min="0" max="10" step="1" value="0" aria-label="Barra: pacientes de cada 10">
+            <input type="number" id="n2" min="0" max="10" step="1" value="0" inputmode="numeric">
+          </div>
         </div>
         <div class="campo">
-          <label for="c3">Lo que vale un paciente nuevo para la clínica (€)
+          <label for="n3">Lo que vale un paciente nuevo para la clínica (€)
             <span class="ayuda">Importe medio de lo que acaba gastando. Ponga el que usted conozca.</span></label>
-          <input type="number" id="c3" min="0" step="10" value="300" inputmode="numeric">
+          <div class="fila-in">
+            <input type="range" id="c3" min="0" max="3000" step="10" value="0" aria-label="Barra: valor de un paciente">
+            <input type="number" id="n3" min="0" max="100000" step="10" value="0" inputmode="numeric">
+          </div>
         </div>
         <div class="campo">
-          <label for="c4">Si recuperamos este porcentaje del problema <span class="val" id="v4"></span>
+          <label for="n4">Si recuperamos este porcentaje del problema (%)
             <span class="ayuda">Es una hipótesis, no una promesa. Pruebe con una cifra prudente.</span></label>
-          <input type="range" id="c4" min="10" max="100" step="5" value="50">
+          <div class="fila-in">
+            <input type="range" id="c4" min="0" max="100" step="5" value="0" aria-label="Barra: porcentaje a recuperar">
+            <input type="number" id="n4" min="0" max="100" step="5" value="0" inputmode="numeric">
+          </div>
         </div>
       </div>
 
@@ -307,12 +323,15 @@
   const $ = id => document.getElementById(id);
   const eur = n => new Intl.NumberFormat('es-ES', { maximumFractionDigits: 0, useGrouping: 'always' }).format(Math.round(n)) + ' €';
   const MANT_ANUAL = 200 * 12;
+  // Lee una casilla numérica y la deja dentro de su rango (vacío o raro = 0).
+  function valorDe(id) {
+    const c = $(id), min = +c.min || 0, max = +c.max || Infinity;
+    const v = parseFloat(String(c.value).replace(',', '.'));
+    return Number.isFinite(v) ? Math.min(max, Math.max(min, v)) : 0;
+  }
   function calcular() {
-    const personas = +$('c1').value, de10 = +$('c2').value;
-    const valor = Math.max(0, +$('c3').value || 0), rec = +$('c4').value / 100;
-    $('v1').textContent = personas;
-    $('v2').textContent = de10 + ' de 10';
-    $('v4').textContent = Math.round(rec * 100) + ' %';
+    const personas = valorDe('n1'), de10 = valorDe('n2');
+    const valor = valorDe('n3'), rec = valorDe('n4') / 100;
 
     const pacientes = personas * de10 / 10;
     const mes = pacientes * valor;
@@ -326,7 +345,7 @@
     $('r2').textContent = eur(mes);
     $('r3').textContent = eur(anual);
     $('r4').textContent = eur(impl);
-    $('r5').textContent = eur(coste1);
+    $('r5').textContent = anual > 0 ? eur(coste1) : '0 €';
 
     const r6 = $('r6'), r7 = $('r7'), r8 = $('r8');
     if (anual <= 0) {
@@ -345,7 +364,14 @@
       r8.innerHTML = 'Se paga solo a partir de recuperar un <b>' + Math.ceil(equilibrio * 100) + ' %</b> del problema. Desde el segundo año, solo paga el mantenimiento (' + eur(MANT_ANUAL) + ').';
     }
   }
-  ['c1','c2','c3','c4'].forEach(id => $(id).addEventListener('input', calcular));
+  // Barra y casilla van sincronizadas; la casilla manda (puede pasar del máximo de la barra).
+  const campos = [1, 2, 3, 4];
+  campos.forEach(i => {
+    const barra = $('c' + i), caja = $('n' + i);
+    barra.addEventListener('input', () => { caja.value = barra.value; calcular(); });
+    caja.addEventListener('input', () => { barra.value = caja.value === '' ? 0 : caja.value; calcular(); });
+    caja.addEventListener('blur', () => { const v = valorDe('n' + i); caja.value = v; barra.value = v; calcular(); });
+  });
   calcular();
 
   // ---- Envío de los números al equipo ----
@@ -356,11 +382,11 @@
 
   btn.addEventListener('click', async () => {
     if (btn.disabled) return;
-    const personas = +$('c1').value, valor = +$('c3').value;
-    if (!(valor >= 0) || $('c3').value === '') { aviso('ko', 'Falta el valor de un paciente nuevo. Ponga una cifra aproximada y vuelva a pulsar.'); return; }
+    const p = valorDe('n1'), d = valorDe('n2'), v = valorDe('n3'), r = valorDe('n4');
+    if (!(p > 0 && d > 0 && v > 0 && r > 0)) { aviso('ko', 'Antes de enviar, rellene los cuatro datos con un número mayor que cero. Así lo que le calculamos tiene sentido.'); return; }
     btn.disabled = true; btn.textContent = 'Enviando…';
     const datos = new URLSearchParams({
-      personas: $('c1').value, de10: $('c2').value, valor: $('c3').value, rec: $('c4').value,
+      personas: p, de10: d, valor: v, rec: r,
       comentario: $('coment').value.slice(0, 500), web: $('extra').value
     });
     const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 15000);
