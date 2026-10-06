@@ -159,7 +159,7 @@
     </div>
     <div class="cifras">
       <div class="cifra"><b>68 h</b><small>seguidas sin atender cada fin de semana</small></div>
-      <div class="cifra"><b>20 %</b><small>del problema anual: lo único que se paga por la puesta en marcha</small></div>
+      <div class="cifra"><b>20 %</b><small>del problema anual: cuota inicial, una sola vez</small></div>
       <div class="cifra"><b>0 €</b><small>el análisis previo</small></div>
     </div>
   </div>
@@ -213,8 +213,8 @@
         <div class="lin"><span><b>Problema anual</b></span><span class="grande" id="r3">0 €</span></div>
 
         <h3 style="margin-top:18px">Lo que le costaría resolverlo</h3>
-        <div class="lin"><span>Puesta en marcha (20 % del problema anual)</span><b id="r4">0 €</b></div>
-        <div class="lin"><span>Mantenimiento (200 €/mes × 12)</span><b>2.400 €</b></div>
+        <div class="lin"><span>Cuota inicial, pago único (20 % del problema anual)</span><b id="r4">0 €</b></div>
+        <div class="lin"><span>Mantenimiento del primer año (200 € cada mes)</span><b>2.400 €</b></div>
         <div class="lin"><span><b>Total del primer año</b></span><b id="r5">0 €</b></div>
 
         <div class="aviso" id="r8"></div>
@@ -238,9 +238,10 @@
     <p class="sub">Sin tarifa de catálogo. El precio sale de <b>su</b> problema, no de nuestras horas.</p>
     <div class="precio">
       <div class="card pbox">
-        <h3>Puesta en marcha</h3>
+        <h3>Cuota inicial</h3>
         <div class="num">20 % <small>del problema anual</small></div>
         <ul class="ok">
+          <li><b>Se paga una sola vez.</b> No se repite cada año.</li>
           <li>La cifra del problema la fijamos <b>juntos y por escrito</b>, con los datos reales del análisis, antes de empezar.</li>
           <li>Pago en dos partes: <b>la mitad al empezar</b> y la otra mitad cuando ya lo ha visto funcionando.</li>
           <li>Garantía de <b>90 días</b>: si falla algo de lo entregado, lo arreglamos sin coste.</li>
@@ -248,7 +249,7 @@
       </div>
       <div class="card pbox">
         <h3>Mantenimiento</h3>
-        <div class="num">200 € <small>al mes</small></div>
+        <div class="num">200 € <small>cada mes</small></div>
         <ul class="ok">
           <li>Alojamiento y conexión de WhatsApp.</li>
           <li>Consumo de inteligencia artificial.</li>
@@ -259,7 +260,7 @@
         <ul class="ok no">
           <li>Funciones nuevas o integraciones con otros programas: se presupuestan aparte y por escrito.</li>
         </ul>
-        <p class="nota">La cuota empieza a contar desde el segundo pago.</p>
+        <p class="nota">El mantenimiento se cobra cada mes, empezando cuando se hace el segundo pago de la cuota inicial.</p>
       </div>
     </div>
   </section>
@@ -279,7 +280,7 @@
   <!-- DUDAS -->
   <section>
     <h2>Preguntas que suelen surgir</h2>
-    <details><summary>Ahora mismo andamos justos de presupuesto</summary><p>Lo entendemos, y por eso el planteamiento es este: el análisis no cuesta nada, y la puesta en marcha es una parte (20 %) de lo que hoy pierde, en dos pagos. Si los números no le compensan, se lo decimos nosotros y lo dejamos ahí.</p></details>
+    <details><summary>Ahora mismo andamos justos de presupuesto</summary><p>Lo entendemos, y por eso el planteamiento es este: el análisis no cuesta nada, y la cuota inicial es una parte (20 %) de lo que hoy pierde, que se paga una sola vez y en dos pagos, más un mantenimiento de 200 € cada mes. Si los números no le compensan, se lo decimos nosotros y lo dejamos ahí.</p></details>
     <details><summary>¿Por qué el análisis es gratuito?</summary><p>Porque preferimos que decida con datos y no con promesas. Tiene un valor real y se lo dejamos sin coste: si después trabajamos juntos, será porque los números lo justifican.</p></details>
     <details><summary>¿Esto sustituye a mi recepción?</summary><p>No. Cubre lo que hoy nadie atiende (noches, fines de semana, momentos de mucha carga) y pasa a su equipo todo lo que necesita una persona.</p></details>
     <details><summary>¿Y si no recuperamos lo calculado?</summary><p>La calculadora le muestra desde qué porcentaje del problema compensa. Además, la garantía de 90 días cubre cualquier fallo de lo entregado. No prometemos cifras: le enseñamos las cuentas para que decida con calma.</p></details>
@@ -343,7 +344,7 @@
     if (equilibrio > 1) {
       r8.innerHTML = '<b>Con estos números no compensaría</b> ni recuperando todo el problema. Si fuese así, se lo diríamos y no le propondríamos nada.';
     } else {
-      r8.innerHTML = 'Se paga solo a partir de recuperar un <b>' + Math.ceil(equilibrio * 100) + ' %</b> del problema. Desde el segundo año, solo paga el mantenimiento (' + eur(MANT_ANUAL) + ').';
+      r8.innerHTML = 'Se paga solo a partir de recuperar un <b>' + Math.ceil(equilibrio * 100) + ' %</b> del problema. La cuota inicial se paga una sola vez: a partir del segundo año solo paga el mantenimiento (200 € al mes, ' + eur(MANT_ANUAL) + ' al año).';
     }
   }
   // Barra y casilla van sincronizadas; la casilla manda (puede pasar del máximo de la barra).
