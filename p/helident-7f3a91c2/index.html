@@ -181,10 +181,10 @@
     <div class="calc">
       <div class="card">
         <div class="campo">
-          <label for="n1">Personas que contactan fuera de horario al mes
+          <label for="n1">Personas que contactan fuera de horario a la semana
             <span class="ayuda">Llamadas sin contestar, mensajes fuera de horario, formularios…</span></label>
           <div class="fila-in">
-            <input type="range" id="c1" min="0" max="100" step="1" value="0" aria-label="Barra: personas al mes">
+            <input type="range" id="c1" min="0" max="50" step="1" value="0" aria-label="Barra: personas a la semana">
             <input type="number" id="n1" min="0" max="100" step="1" value="0" inputmode="numeric">
           </div>
         </div>
@@ -204,14 +204,6 @@
             <input type="number" id="n3" min="0" max="100000" step="10" value="0" inputmode="numeric">
           </div>
         </div>
-        <div class="campo">
-          <label for="n4">Si recuperamos este porcentaje del problema (%)
-            <span class="ayuda">Es una hipótesis, no una promesa. Pruebe con una cifra prudente.</span></label>
-          <div class="fila-in">
-            <input type="range" id="c4" min="0" max="100" step="5" value="0" aria-label="Barra: porcentaje a recuperar">
-            <input type="number" id="n4" min="0" max="100" step="5" value="0" inputmode="numeric">
-          </div>
-        </div>
       </div>
 
       <div class="res" aria-live="polite">
@@ -225,11 +217,6 @@
         <div class="lin"><span>Mantenimiento (200 €/mes × 12)</span><b>2.400 €</b></div>
         <div class="lin"><span><b>Total del primer año</b></span><b id="r5">0 €</b></div>
 
-        <div class="neto">
-          <div class="t">Con esa hipótesis, el primer año usted…</div>
-          <div class="n" id="r6">—</div>
-          <div class="t" id="r7"></div>
-        </div>
         <div class="aviso" id="r8"></div>
         <p class="nota">Cálculo orientativo con los datos que usted introduce. El análisis sin coste sirve para sustituir estas estimaciones por los números reales de Helident. Importes sin IVA.</p>
       </div>
@@ -330,16 +317,16 @@
     return Number.isFinite(v) ? Math.min(max, Math.max(min, v)) : 0;
   }
   function calcular() {
-    const personas = valorDe('n1'), de10 = valorDe('n2');
-    const valor = valorDe('n3'), rec = valorDe('n4') / 100;
+    const personasSemana = valorDe('n1'), de10 = valorDe('n2');
+    const valor = valorDe('n3');
 
-    const pacientes = personas * de10 / 10;
-    const mes = pacientes * valor;
-    const anual = mes * 12;
+    // Se parte de personas por SEMANA: 52 semanas al año, 52/12 semanas al mes.
+    const pacientesAnual = personasSemana * 52 * de10 / 10;
+    const pacientes = pacientesAnual / 12;      // al mes
+    const anual = pacientesAnual * valor;
+    const mes = anual / 12;
     const impl = anual * 0.20;
     const coste1 = impl + MANT_ANUAL;
-    const recuperado = anual * rec;
-    const neto = recuperado - coste1;
 
     $('r1').textContent = pacientes.toLocaleString('es-ES', { maximumFractionDigits: 1 });
     $('r2').textContent = eur(mes);
@@ -347,16 +334,11 @@
     $('r4').textContent = eur(impl);
     $('r5').textContent = anual > 0 ? eur(coste1) : '0 €';
 
-    const r6 = $('r6'), r7 = $('r7'), r8 = $('r8');
+    const r8 = $('r8');
     if (anual <= 0) {
-      r6.textContent = '—'; r6.className = 'n'; r7.textContent = 'Introduzca sus datos para ver el resultado.'; r8.textContent = '';
+      r8.textContent = 'Introduzca sus datos para ver el resultado.';
       return;
     }
-    r6.textContent = (neto >= 0 ? 'Gana ' : 'Pierde ') + eur(Math.abs(neto));
-    r6.className = 'n ' + (neto >= 0 ? 'pos' : 'neg');
-    const veces = recuperado / coste1;
-    r7.textContent = 'Recupera ' + eur(recuperado) + ' y paga ' + eur(coste1) + ' (' + veces.toLocaleString('es-ES', { maximumFractionDigits: 1 }) + ' veces lo que invierte).';
-
     const equilibrio = 0.20 + MANT_ANUAL / anual;
     if (equilibrio > 1) {
       r8.innerHTML = '<b>Con estos números no compensaría</b> ni recuperando todo el problema. Si fuese así, se lo diríamos y no le propondríamos nada.';
@@ -365,7 +347,7 @@
     }
   }
   // Barra y casilla van sincronizadas; la casilla manda (puede pasar del máximo de la barra).
-  const campos = [1, 2, 3, 4];
+  const campos = [1, 2, 3];
   campos.forEach(i => {
     const barra = $('c' + i), caja = $('n' + i);
     barra.addEventListener('input', () => { caja.value = barra.value; calcular(); });
@@ -382,11 +364,11 @@
 
   btn.addEventListener('click', async () => {
     if (btn.disabled) return;
-    const p = valorDe('n1'), d = valorDe('n2'), v = valorDe('n3'), r = valorDe('n4');
-    if (!(p > 0 && d > 0 && v > 0 && r > 0)) { aviso('ko', 'Antes de enviar, rellene los cuatro datos con un número mayor que cero. Así lo que le calculamos tiene sentido.'); return; }
+    const p = valorDe('n1'), d = valorDe('n2'), v = valorDe('n3');
+    if (!(p > 0 && d > 0 && v > 0)) { aviso('ko', 'Antes de enviar, rellene los tres datos con un número mayor que cero. Así lo que le calculamos tiene sentido.'); return; }
     btn.disabled = true; btn.textContent = 'Enviando…';
     const datos = new URLSearchParams({
-      personas: p, de10: d, valor: v, rec: r,
+      personas_semana: p, de10: d, valor: v,
       comentario: $('coment').value.slice(0, 500), web: $('extra').value
     });
     const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 15000);
