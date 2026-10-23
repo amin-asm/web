@@ -10,74 +10,223 @@
 <title>Demos · Amine Tibichte</title>
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <style>
-  :root { --bg:#080B12; --card:#0E1621; --line:rgba(255,255,255,.12); --text:#EEF3F8; --muted:#8C9BAE; --cyan:#4CC9F0; }
+  :root {
+    --bg:#080B12; --panel:#0F131B; --panel-2:#141924; --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.14);
+    --text:#EEF3F8; --muted:#8C9BAE; --dim:#5E6B7C;
+    --wa:#25D366; --cyan:#4CC9F0; --amber:#FFB84D;
+    --r:18px;
+  }
   * { box-sizing:border-box; }
-  body { margin:0; background:var(--bg); color:var(--text); font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; }
-  main { max-width:960px; margin:0 auto; padding:40px 16px 56px; }
-  h1 { font-size:clamp(1.6rem,4vw,2.2rem); margin:0 0 6px; }
-  .sub { color:var(--muted); margin:0 0 32px; }
-  .demo + .demo { margin-top:24px; }
-  .demo { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:20px; }
-  .demo h2 { font-size:1.2rem; margin:0 0 4px; }
-  .demo p { color:var(--muted); margin:0 0 16px; }
-  video { width:100%; height:auto; display:block; border-radius:12px; background:#000; }
-  ol { color:var(--muted); margin:16px 0 0; padding-left:20px; }
-  footer { margin-top:32px; color:var(--muted); font-size:.9rem; }
-  a { color:var(--cyan); }
+  html { scroll-behavior:smooth; }
+  body {
+    margin:0; min-height:100vh; color:var(--text); background-color:var(--bg);
+    font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    background-image:
+      radial-gradient(900px 500px at 85% -10%, rgba(37,211,102,.09), transparent 60%),
+      radial-gradient(700px 500px at -10% 30%, rgba(76,201,240,.06), transparent 60%),
+      radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size:auto, auto, 26px 26px;
+    background-attachment:fixed;
+  }
+  a { color:inherit; text-decoration:none; }
+  .wrap { max-width:1160px; margin:0 auto; padding:0 16px; }
+
+  header { border-bottom:1px solid var(--line); background:rgba(8,11,18,.75); backdrop-filter:blur(10px); position:sticky; top:0; z-index:5; }
+  header .wrap { display:flex; align-items:center; justify-content:space-between; height:64px; gap:12px; }
+  .marca { display:flex; align-items:center; gap:10px; font-weight:700; line-height:1.2; }
+  .marca .logo { flex:none; width:34px; height:34px; border-radius:50%; border:2px solid var(--cyan); display:grid; place-items:center; font-size:.8rem; color:var(--cyan); }
+  .marca small { display:block; font-weight:500; color:var(--muted); font-size:.78rem; }
+  .volver { font-size:.9rem; color:var(--muted); border:1px solid var(--line-2); padding:8px 14px; border-radius:999px; white-space:nowrap; transition:.2s; }
+  .volver:hover { color:var(--text); border-color:var(--wa); }
+
+  .intro { padding:48px 0 28px; }
+  .eyebrow { display:inline-flex; align-items:center; gap:8px; font-size:.75rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--wa); border:1px solid rgba(37,211,102,.35); padding:6px 12px; border-radius:999px; }
+  .eyebrow::before { content:""; width:7px; height:7px; border-radius:50%; background:var(--wa); box-shadow:0 0 0 4px rgba(37,211,102,.18); }
+  h1 { font-size:clamp(1.8rem,4.6vw,3rem); line-height:1.1; margin:18px 0 10px; letter-spacing:-.02em; }
+  h1 span { background:linear-gradient(90deg,var(--wa),var(--cyan)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .intro p { color:var(--muted); max-width:620px; margin:0; }
+
+  .selector { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:22px; }
+  .tab { display:flex; flex-direction:column; gap:6px; padding:16px 18px; border-radius:var(--r); background:var(--panel); border:1px solid var(--line); transition:border-color .2s, transform .2s; }
+  .tab:hover { border-color:var(--line-2); transform:translateY(-2px); }
+  .tab .num { font-size:.75rem; font-weight:700; color:var(--dim); letter-spacing:.1em; }
+  .tab .tt { font-weight:700; line-height:1.25; }
+  .tab .meta { font-size:.8rem; color:var(--muted); display:flex; gap:8px; align-items:center; }
+  .tab .meta i { width:4px; height:4px; border-radius:50%; background:var(--dim); }
+
+  /* Solo se ve un proyecto: el del enlace (#...) o, si no hay, el primero */
+  .demo { display:none; grid-template-columns:minmax(0,1.65fr) minmax(0,1fr); gap:18px; scroll-margin-top:84px; animation:entra .45s ease both; }
+  @keyframes entra { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+  .demo:target { display:grid; }
+  main:not(:has(.demo:target)) #reservas { display:grid; }
+
+  main:has(#reservas:target) .tab[href="#reservas"],
+  main:has(#power-platform:target) .tab[href="#power-platform"],
+  main:has(#facturas:target) .tab[href="#facturas"],
+  main:not(:has(.demo:target)) .tab[href="#reservas"] {
+    border-color:rgba(37,211,102,.6); background:linear-gradient(180deg,rgba(37,211,102,.08),var(--panel));
+    box-shadow:0 10px 30px rgba(37,211,102,.12);
+  }
+  main:has(#reservas:target) .tab[href="#reservas"] .num,
+  main:has(#power-platform:target) .tab[href="#power-platform"] .num,
+  main:has(#facturas:target) .tab[href="#facturas"] .num,
+  main:not(:has(.demo:target)) .tab[href="#reservas"] .num { color:var(--wa); }
+
+  .ventana { background:var(--panel); border:1px solid var(--line); border-radius:var(--r); overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,.45); align-self:start; }
+  .barra { display:flex; align-items:center; gap:7px; padding:11px 14px; border-bottom:1px solid var(--line); font-size:.78rem; color:var(--muted); }
+  .barra b { flex:none; width:10px; height:10px; border-radius:50%; }
+  .barra b:nth-child(1){ background:#FF5F57; } .barra b:nth-child(2){ background:#FEBC2E; } .barra b:nth-child(3){ background:#28C840; }
+  .barra span { margin-left:8px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  video { display:block; width:100%; height:auto; background:#000; }
+
+  .info { background:var(--panel); border:1px solid var(--line); border-radius:var(--r); padding:22px; display:flex; flex-direction:column; gap:18px; }
+  .estado { align-self:flex-start; font-size:.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:5px 10px; border-radius:999px; }
+  .estado.prod { color:var(--wa); background:rgba(37,211,102,.12); }
+  .estado.form { color:var(--cyan); background:rgba(76,201,240,.12); }
+  .estado.proto { color:var(--amber); background:rgba(255,184,77,.12); }
+  .info h2 { margin:0; font-size:1.35rem; line-height:1.25; }
+  .info .lead { margin:0; color:var(--muted); font-size:.95rem; }
+  .info h3 { margin:0 0 10px; font-size:.75rem; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); }
+
+  .pasos { list-style:none; margin:0; padding:0; counter-reset:p; }
+  .pasos li { position:relative; padding:0 0 14px 38px; font-size:.92rem; color:#C9D3DF; counter-increment:p; }
+  .pasos li::before { content:counter(p); position:absolute; left:0; top:-1px; width:24px; height:24px; border-radius:8px; display:grid; place-items:center; font-size:.75rem; font-weight:700; color:var(--wa); background:rgba(37,211,102,.1); border:1px solid rgba(37,211,102,.3); }
+  .pasos li:not(:last-child)::after { content:""; position:absolute; left:11.5px; top:26px; bottom:2px; width:1px; background:var(--line-2); }
+  .pasos li:last-child { padding-bottom:0; }
+
+  .chips { display:flex; flex-wrap:wrap; gap:6px; }
+  .chips span { font-size:.78rem; padding:5px 10px; border-radius:8px; background:var(--panel-2); border:1px solid var(--line); color:#C9D3DF; }
+
+  footer { margin:44px 0 36px; padding-top:22px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:10px 24px; justify-content:space-between; color:var(--muted); font-size:.88rem; }
+  footer a:hover { color:var(--wa); }
+
+  @media (max-width:860px) {
+    .demo { grid-template-columns:1fr; }
+    .selector { grid-template-columns:1fr; gap:8px; }
+    .tab { flex-direction:row; align-items:center; gap:12px; padding:12px 14px; }
+    .tab .tt { flex:1; font-size:.95rem; }
+    .tab .meta { display:none; }
+    .intro { padding:32px 0 20px; }
+    .marca small { display:none; }
+  }
+  @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .demo { animation:none; } .tab { transition:none; } }
 </style>
 </head>
 <body>
-<main>
-  <h1>Demos de proyectos</h1>
-  <p class="sub">Amine Tibichte Bhaida · Consultor de automatización e IA</p>
+<header>
+  <div class="wrap">
+    <a class="marca" href="https://www.aminautomation.com/">
+      <span class="logo">AT</span>
+      <span>Amine Tibichte Bhaida<small>Consultor de automatización e IA</small></span>
+    </a>
+    <a class="volver" href="https://www.aminautomation.com/">Ir a la web ↗</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="intro">
+    <span class="eyebrow">Portfolio · Grabaciones reales</span>
+    <h1>Automatizaciones <span>funcionando</span>, en vídeo</h1>
+    <p>Elige un proyecto. Cada vídeo es una grabación de pantalla real, sin animaciones, recortada para que dure alrededor de un minuto o menos.</p>
+  </section>
+
+  <nav class="selector" aria-label="Proyectos">
+    <a class="tab" href="#reservas">
+      <span class="num">01</span><span class="tt">Agente de reservas por WhatsApp</span>
+      <span class="meta">WhatsApp · IA <i></i> 40 s</span>
+    </a>
+    <a class="tab" href="#power-platform">
+      <span class="num">02</span><span class="tt">Procesos con Power Platform</span>
+      <span class="meta">Microsoft 365 <i></i> 1 min</span>
+    </a>
+    <a class="tab" href="#facturas">
+      <span class="num">03</span><span class="tt">Control de facturas con IA</span>
+      <span class="meta">n8n · IA <i></i> 30 s</span>
+    </a>
+  </nav>
 
   <section class="demo" id="reservas">
-    <h2>Agente de reservas por WhatsApp con IA</h2>
-    <p>Grabación real de una demo para una peluquería, con el nombre del negocio tapado. 40 segundos.</p>
-    <video controls playsinline preload="metadata" poster="reservas-whatsapp.jpg">
-      <source src="reservas-whatsapp.mp4" type="video/mp4">
-    </video>
-    <ol>
-      <li>El cliente escribe por WhatsApp y la IA le pregunta servicio, profesional y nombre</li>
-      <li>Comprueba el hueco real en el calendario de cada profesional y confirma la cita</li>
-      <li>La cita aparece sola en Google Calendar y en el panel de la hoja de cálculo</li>
-      <li>Apunta notas del cliente (alergias, preferencias) para la profesional</li>
-    </ol>
+    <div class="ventana">
+      <div class="barra"><b></b><b></b><b></b><span>Agente de reservas · WhatsApp + Google Calendar + Sheets</span></div>
+      <video controls playsinline preload="metadata" poster="reservas-whatsapp.jpg"><source src="reservas-whatsapp.mp4" type="video/mp4"></video>
+    </div>
+    <div class="info">
+      <span class="estado prod">Demo para clientes</span>
+      <h2>Agente de reservas por WhatsApp con IA</h2>
+      <p class="lead">Demo para una peluquería, con el nombre del negocio tapado. El cliente escribe como lo haría a una persona.</p>
+      <div>
+        <h3>Cómo funciona</h3>
+        <ol class="pasos">
+          <li>El cliente pide cita y la IA le pregunta servicio, profesional y nombre</li>
+          <li>Comprueba el hueco real en el calendario de cada profesional</li>
+          <li>La cita se apunta sola en Google Calendar y en el panel de la hoja</li>
+          <li>Guarda notas del cliente, como alergias, para la profesional</li>
+        </ol>
+      </div>
+      <div>
+        <h3>Herramientas</h3>
+        <div class="chips"><span>n8n</span><span>WhatsApp Business API</span><span>OpenAI</span><span>Google Calendar</span><span>Google Sheets</span></div>
+      </div>
+    </div>
   </section>
 
   <section class="demo" id="power-platform">
-    <h2>Automatización de procesos con Power Platform</h2>
-    <p>Siete procesos de una empresa simulada en Microsoft 365, con datos ficticios. 1 minuto.</p>
-    <video controls playsinline preload="metadata" poster="power-platform.jpg">
-      <source src="power-platform.mp4" type="video/mp4">
-    </video>
-    <ol>
-      <li>Facturas por correo leídas con IA y guardadas en Excel, con aviso en Teams</li>
-      <li>Solicitudes de clientes por formulario, con confirmación automática</li>
-      <li>Altas de clientes en SharePoint, con tareas en Planner sin festivos</li>
-      <li>App de gastos en Power Apps, con aprobación en Teams</li>
-      <li>Informe semanal automático a gerencia</li>
-      <li>Panel de Power BI que se actualiza cada mañana</li>
-      <li>Copilot analizando las facturas en Excel</li>
-    </ol>
+    <div class="ventana">
+      <div class="barra"><b></b><b></b><b></b><span>Power Platform · empresa simulada en Microsoft 365</span></div>
+      <video controls playsinline preload="metadata" poster="power-platform.jpg"><source src="power-platform.mp4" type="video/mp4"></video>
+    </div>
+    <div class="info">
+      <span class="estado form">Formación · 2026</span>
+      <h2>Automatización de procesos con Power Platform</h2>
+      <p class="lead">Siete procesos de una empresa simulada, con datos ficticios.</p>
+      <div>
+        <h3>Cómo funciona</h3>
+        <ol class="pasos">
+          <li>Facturas por correo leídas con IA, guardadas en Excel y avisadas en Teams</li>
+          <li>Solicitudes por formulario con confirmación automática</li>
+          <li>Altas de clientes en SharePoint con tareas en Planner sin festivos</li>
+          <li>App de gastos en Power Apps con aprobación en Teams</li>
+          <li>Informe semanal a gerencia y panel de Power BI</li>
+          <li>Copilot analizando las facturas en Excel</li>
+        </ol>
+      </div>
+      <div>
+        <h3>Herramientas</h3>
+        <div class="chips"><span>Power Automate</span><span>Power Apps</span><span>Power BI</span><span>SharePoint</span><span>Dataverse</span><span>Teams</span><span>AI Builder</span><span>Copilot</span></div>
+      </div>
+    </div>
   </section>
 
   <section class="demo" id="facturas">
-    <h2>Control de facturas con IA</h2>
-    <p>Hecho con n8n. Las facturas de proveedor llegan por correo y se procesan solas. 30 segundos.</p>
-    <video controls playsinline preload="metadata" poster="facturas-ia.jpg">
-      <source src="facturas-ia.mp4" type="video/mp4">
-    </video>
-    <ol>
-      <li>Llega la factura del proveedor por correo</li>
-      <li>n8n la recoge y la IA lee el PDF</li>
-      <li>Proveedor, base, IVA y total se apuntan solos en la hoja de cálculo</li>
-      <li>Aviso por Telegram si el proveedor es nuevo</li>
-      <li>El PDF se archiva en Drive, en la carpeta del mes</li>
-    </ol>
+    <div class="ventana">
+      <div class="barra"><b></b><b></b><b></b><span>Control de facturas · Gmail + n8n + Sheets + Drive</span></div>
+      <video controls playsinline preload="metadata" poster="facturas-ia.jpg"><source src="facturas-ia.mp4" type="video/mp4"></video>
+    </div>
+    <div class="info">
+      <span class="estado proto">Prototipo</span>
+      <h2>Control de facturas con IA</h2>
+      <p class="lead">Las facturas de proveedor llegan por correo y se procesan solas. Facturas de prueba con datos ficticios.</p>
+      <div>
+        <h3>Cómo funciona</h3>
+        <ol class="pasos">
+          <li>Llega la factura del proveedor por correo</li>
+          <li>n8n la recoge y la IA lee el PDF</li>
+          <li>Proveedor, base, IVA y total se apuntan solos en la hoja</li>
+          <li>Aviso por Telegram si el proveedor es nuevo</li>
+          <li>El PDF se archiva en Drive, en la carpeta del mes</li>
+        </ol>
+      </div>
+      <div>
+        <h3>Herramientas</h3>
+        <div class="chips"><span>n8n</span><span>OpenAI</span><span>Gmail</span><span>Google Sheets</span><span>Google Drive</span><span>Telegram</span></div>
+      </div>
+    </div>
   </section>
 
-  <footer><a href="https://www.aminautomation.com/">www.aminautomation.com</a></footer>
+  <footer>
+    <span>Amine Tibichte Bhaida · Sevilla</span>
+    <a href="https://www.aminautomation.com/">www.aminautomation.com</a>
+  </footer>
 </main>
 </body>
 </html>
