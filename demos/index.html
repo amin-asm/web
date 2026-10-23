@@ -16,6 +16,7 @@
   main { max-width:960px; margin:0 auto; padding:40px 16px 56px; }
   h1 { font-size:clamp(1.6rem,4vw,2.2rem); margin:0 0 6px; }
   .sub { color:var(--muted); margin:0 0 32px; }
+  .demo + .demo { margin-top:24px; }
   .demo { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:20px; }
   .demo h2 { font-size:1.2rem; margin:0 0 4px; }
   .demo p { color:var(--muted); margin:0 0 16px; }
@@ -30,7 +31,7 @@
   <h1>Demos de proyectos</h1>
   <p class="sub">Amine Tibichte Bhaida · Consultor de automatización e IA</p>
 
-  <section class="demo">
+  <section class="demo" id="power-platform">
     <h2>Automatización de procesos con Power Platform</h2>
     <p>Siete procesos de una empresa simulada en Microsoft 365, con datos ficticios. 1 minuto.</p>
     <video controls playsinline preload="metadata" poster="power-platform.jpg">
@@ -44,6 +45,21 @@
       <li>Informe semanal automático a gerencia</li>
       <li>Panel de Power BI que se actualiza cada mañana</li>
       <li>Copilot analizando las facturas en Excel</li>
+    </ol>
+  </section>
+
+  <section class="demo" id="facturas">
+    <h2>Control de facturas con IA</h2>
+    <p>Hecho con n8n. Las facturas de proveedor llegan por correo y se procesan solas. 30 segundos.</p>
+    <video controls playsinline preload="metadata" poster="facturas-ia.jpg">
+      <source src="facturas-ia.mp4" type="video/mp4">
+    </video>
+    <ol>
+      <li>Llega la factura del proveedor por correo</li>
+      <li>n8n la recoge y la IA lee el PDF</li>
+      <li>Proveedor, base, IVA y total se apuntan solos en la hoja de cálculo</li>
+      <li>Aviso por Telegram si el proveedor es nuevo</li>
+      <li>El PDF se archiva en Drive, en la carpeta del mes</li>
     </ol>
   </section>
 
